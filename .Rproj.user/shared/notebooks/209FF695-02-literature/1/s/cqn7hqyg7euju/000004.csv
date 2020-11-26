@@ -1,0 +1,4 @@
+"0","knitr::kable("
+"0","out$ts %>% "
+"0","  filter(out$ts$time == max(out$ts$time)) %>% "
+"0","  select(-time) )"

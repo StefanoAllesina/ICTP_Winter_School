@@ -1,0 +1,25 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1606422135097.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3357172713",
+    "id" : "58F91E4D",
+    "lastKnownWriteTime" : 1606423161,
+    "last_content_update" : 1606423161651,
+    "path" : "~/GH/ICTP_Winter_School/02-literature.Rmd",
+    "project_path" : "02-literature.Rmd",
+    "properties" : {
+        "cursorPosition" : "75,2",
+        "scrollLine" : "63"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 6,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}

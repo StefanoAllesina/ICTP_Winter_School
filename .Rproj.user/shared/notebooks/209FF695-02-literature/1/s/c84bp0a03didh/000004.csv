@@ -1,0 +1,5 @@
+"0","# add binomial distribution"
+"0","tbinom <- data.frame(ncoexisting = 0:n, "
+"0","                 expectation = nsim * dbinom(0:n, n, 0.5))"
+"0","pl <- pl + geom_point(data = tbinom, aes(x = ncoexisting, y = expectation))"
+"0","show(pl)"

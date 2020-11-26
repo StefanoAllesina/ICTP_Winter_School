@@ -1,0 +1,4 @@
+"0","x0[3] <- 10"
+"0","x0[5] <- 10"
+"0","out <- GLV_dynamics(z0 = x0, A = A, r = r, maxtime = 25, bytime = 0.1)"
+"0","show(plot_dynamics(out))"

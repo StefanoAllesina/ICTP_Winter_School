@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Lecture 1 Introduction | Assembly of ecological communities: some theoretical explorations</title>
+  <meta name="description" content="Lecture notes prepared for the ICTP Winter School on Quantitative Systems Biology: Quantitative Approaches in Ecosystem Ecology." />
+  <meta name="generator" content="bookdown 0.18 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Lecture 1 Introduction | Assembly of ecological communities: some theoretical explorations" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Lecture notes prepared for the ICTP Winter School on Quantitative Systems Biology: Quantitative Approaches in Ecosystem Ecology." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Lecture 1 Introduction | Assembly of ecological communities: some theoretical explorations" />
+  
+  <meta name="twitter:description" content="Lecture notes prepared for the ICTP Winter School on Quantitative Systems Biology: Quantitative Approaches in Ecosystem Ecology." />
+  
+
+<meta name="author" content="Stefano Allesina" />
+
+
+<meta name="date" content="2020-11-26" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="index.html"/>
+<link rel="next" href="literature.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">ICTP Winter School</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preliminaries</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#goals"><i class="fa fa-check"></i>Goals</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#computing"><i class="fa fa-check"></i>Computing</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#questions-and-answers"><i class="fa fa-check"></i>Questions and answers</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>1</b> Introduction</a><ul>
+<li class="chapter" data-level="1.1" data-path="intro.html"><a href="intro.html#generalized-lotka-volterra-model"><i class="fa fa-check"></i><b>1.1</b> Generalized Lotka-Volterra model</a><ul>
+<li class="chapter" data-level="1.1.1" data-path="intro.html"><a href="intro.html#coexistence-equilibrium"><i class="fa fa-check"></i><b>1.1.1</b> Coexistence equilibrium</a></li>
+<li class="chapter" data-level="1.1.2" data-path="intro.html"><a href="intro.html#local-stability-of-the-coexistence-equilibrium"><i class="fa fa-check"></i><b>1.1.2</b> Local Stability of the coexistence equilibrium</a></li>
+<li class="chapter" data-level="1.1.3" data-path="intro.html"><a href="intro.html#the-equilibrium-is-the-time-average"><i class="fa fa-check"></i><b>1.1.3</b> The equilibrium is the time-average</a></li>
+<li class="chapter" data-level="1.1.4" data-path="intro.html"><a href="intro.html#lyapunov-diagonal-stability-and-global-stability"><i class="fa fa-check"></i><b>1.1.4</b> Lyapunov diagonal stability and global stability</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="intro.html"><a href="intro.html#what-makes-the-study-of-assembly-difficult"><i class="fa fa-check"></i><b>1.2</b> What makes the study of assembly difficult?</a></li>
+<li class="chapter" data-level="1.3" data-path="intro.html"><a href="intro.html#ecological-assembly-without-tears"><i class="fa fa-check"></i><b>1.3</b> Ecological assembly without tears</a></li>
+<li class="chapter" data-level="1.4" data-path="intro.html"><a href="intro.html#top-down-and-bottom-up-assembly"><i class="fa fa-check"></i><b>1.4</b> Top-down and bottom-up assembly</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="literature.html"><a href="literature.html"><i class="fa fa-check"></i><b>2</b> Literature</a></li>
+<li class="chapter" data-level="3" data-path="methods.html"><a href="methods.html"><i class="fa fa-check"></i><b>3</b> Methods</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Assembly of ecological communities: some theoretical explorations</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="intro" class="section level1">
+<h1><span class="header-section-number">Lecture 1</span> Introduction</h1>
+<p>We call <strong>ecological assembly</strong> the process by which <strong>ecological communities are built</strong>, by the interplay of invasions and extinctions. The typical setting for an assembly model is one in which a large pool of species are available (e.g., in a “mainland”), and every so often individuals from the species’ pool enter a local habitat (island, patch, etc.), at which point they might either grow (invasion, establishment, etc.), or go extinct. In either case, the local community might respond to the invader—for example, the invader could send some of the local populations extinct, or shift the community from one state to another.</p>
+<p>Historically, this type of island-mainland model (based on species) has been contrasted with “trait-environment” models, in which species’ traits, rather than identity are the focus of the dynamics. In such models, ideas such as “environmental filtering” (i.e., the pruning of species that cannot grow in the local environment) and “trait underdispersion” (i.e., the fact that the filtering imposed by the environment results in a convergence in traits) arise naturally. When thinking of communities of competitors (e.g., different species of plants), then we might think that species’ interactions will also play a role—because species need to be different enough to coexist, this would generate “trait overdispersion” (due to limiting similarity). For a great summary of 25 years of discussions on these themes (1975-2000), see <span class="citation">Weiher and Keddy (<a href="#ref-weiher2001ecological" role="doc-biblioref">2001</a>)</span>.</p>
+<div id="generalized-lotka-volterra-model" class="section level2">
+<h2><span class="header-section-number">1.1</span> Generalized Lotka-Volterra model</h2>
+<p>For our explorations, we will use what is arguably the simplest model for the dynamics of an ecological community, the Generalized Lotka-Volterra model.</p>
+<p>We can write the Generalized Lotka-Volterra model in a compact form as:</p>
+<p><span class="math display">\[
+\dfrac{dx(t)}{dt} = D(x(t))(r + A x(t)) 
+\]</span></p>
+<p>where <span class="math inline">\(x(t)\)</span> is a (column) vector of length <span class="math inline">\(n\)</span> containing the densities of all populations <span class="math inline">\(1, \ldots, n\)</span> at time <span class="math inline">\(t\)</span>, <span class="math inline">\(r\)</span> is a vector of “intrinsic growth rates” (or death rates, when negative), measuring the growth (decline) of population <span class="math inline">\(i\)</span> when grown alone at low density, and <span class="math inline">\(A\)</span> is a <span class="math inline">\(n \times n\)</span> matrix of interaction coefficients. We use <span class="math inline">\(D(x)\)</span> to denote the diagonal matrix with <span class="math inline">\(x\)</span> on the diagonal.
+For a single species, the model can yield only a limited number of outcomes—the species can grow exponentially, decay exponentially, or reach an equilibrium. When we include two or more species, we can observe cycles, and with three or more species we can find chaotic dynamics.</p>
+<div id="coexistence-equilibrium" class="section level3">
+<h3><span class="header-section-number">1.1.1</span> Coexistence equilibrium</h3>
+<p>For any instance of the model, we can look for stationary points (equilibria). If the matrix <span class="math inline">\(A\)</span> is not singular, then we can look for a solution of <span class="math inline">\(r + Ax = 0\)</span> that has positive components (called a <strong>feasible equilibrium</strong>). <strong>If such point exists, it is unique</strong> and is the solution of <span class="math inline">\(Ax^\star = -r\)</span>, <span class="math inline">\(x^\star = -A^{-1}r\)</span>.</p>
+<p>Suppose that the GLV has no feasible equilibrium. Then all trajectories (if bounded; some could grow to infinity) reach the boundary of <span class="math inline">\(\mathbb R^n_{0+}\)</span>. Practically, this means that <strong>to ensure coexistence of all species, it is necessary to have an equilibrium in the interior <span class="math inline">\(\mathbb R^n_{+}\)</span></strong>. For a proof, see Theorem 5.2.1 in <span class="citation">Hofbauer and Sigmund (<a href="#ref-hofbauer1998evolutionary" role="doc-biblioref">1998</a>)</span>.</p>
+</div>
+<div id="local-stability-of-the-coexistence-equilibrium" class="section level3">
+<h3><span class="header-section-number">1.1.2</span> Local Stability of the coexistence equilibrium</h3>
+<p>Suppose that a feasible equilibrium <span class="math inline">\(x^\star\)</span> exists. For the GLV model, the Jacobian is easy to compute:</p>
+<p><span class="math display">\[
+J_{ij} = \frac{\partial f_i}{\partial x_j} = A_{ij} x_i
+\]</span></p>
+<p>and</p>
+<p><span class="math display">\[
+J_{ii} = \frac{\partial f_i}{\partial x_i} = r_i + \sum_j A_{ij} x_j + A_{ii} x_i
+\]</span></p>
+<p>At equilibrium <span class="math inline">\(r_i + \sum_j A_{ij} x_j = 0\)</span>, and therefore:</p>
+<p><span class="math display">\[
+M = \left. {J} \right|_{ {x}^\star} = D(x^\star)A
+\]</span></p>
+<p>If the eigenvalues of <span class="math inline">\(M\)</span> have all negative real part, then <span class="math inline">\(x^\star\)</span> is locally asymptotically stable.</p>
+</div>
+<div id="the-equilibrium-is-the-time-average" class="section level3">
+<h3><span class="header-section-number">1.1.3</span> The equilibrium is the time-average</h3>
+<p>Suppose that <span class="math inline">\(x(t)\)</span> has a periodic orbit of period <span class="math inline">\(T\)</span> (i.e., we assume <span class="math inline">\(x(0) = x(T)\)</span>). Further, assume that the GLV has a feasible, interior equilibrium <span class="math inline">\(x^\star\)</span>. We want to calculate the average density for each species:</p>
+<p><span class="math display">\[
+\frac{1}{T} \int_0^T x(t) dt
+\]</span></p>
+<p>First, we assume that <span class="math inline">\(x(t) &gt; 0\)</span> and write the dynamics of its logarithm:</p>
+<p><span class="math display">\[
+\dfrac{d \log(x_i(t))}{dt} = \dfrac{1}{x_i(t)}\dfrac{d x_i(t)}{dt} = r_i + \sum_j A_{ij} x_j(t)
+\]</span></p>
+<p>In vector form:</p>
+<p><span class="math display">\[
+\dfrac{d \log x(t)}{d t} = r + A x(t)
+\]</span></p>
+<p>Compute the average on both sides:</p>
+<p><span class="math display">\[
+\frac{1}{T}\int_0^T \frac{d \log(x(t))}{dt} dt= \frac{1}{T}\int_0^T \left(r + Ax \right) dt
+\]</span></p>
+<p>yielding:</p>
+<p><span class="math display">\[
+\frac{1}{T}(\log(x(T)) - \log(x(0))) = 0 = r + A \left( \frac{1}{T} \int_0^T x(t) dt \right)
+\]</span></p>
+<p>Note that the l.h.s. is zero because <span class="math inline">\(x(0) = x(T)\)</span>. Multiplying by the matrix inverse and rearranging:</p>
+<p><span class="math display">\[
+-A^{-1} r = x^\star =  \frac{1}{T} \int_0^T x(t) dt 
+\]</span></p>
+<p>showing that <strong>the average density is</strong> in fact <strong>the equilibrium</strong>. With a similar argument, one can prove that if the trajectory stays in a compact space (i.e., in case of chaotic attractors), then long-time average is still <span class="math inline">\(x^\star\)</span>.</p>
+</div>
+<div id="lyapunov-diagonal-stability-and-global-stability" class="section level3">
+<h3><span class="header-section-number">1.1.4</span> Lyapunov diagonal stability and global stability</h3>
+<p>Suppose that there is a positive diagonal matrix <span class="math inline">\(C\)</span> such that <span class="math inline">\(C A + A^T C\)</span> is negative definite (i.e., has only negative eigenvalues; the eigenvalues are real because the matrix is symmetric). Then <span class="math inline">\(A\)</span> is <strong>Lyapunov-diagonally stable</strong>. If this is the case, then <span class="math inline">\(A\)</span> is stable, and any <span class="math inline">\(D A\)</span> with <span class="math inline">\(D\)</span> positive is also stable (called <span class="math inline">\(D-\)</span>stability).</p>
+<p>Further, suppose that the GLV system with parameters <span class="math inline">\(A\)</span> and <span class="math inline">\(r\)</span> has a feasible equilibrium point <span class="math inline">\(x^\star\)</span>. Then the function:</p>
+<p><span class="math display">\[
+V(x(t)) = 1^T C \left( x(t) -x^\star -x^\star \cdot \log (x(t) / x^\star)\right)
+\]</span></p>
+<p>is a Lyapunov function for the GLV system. It is clear that <span class="math inline">\(V(x(t))\)</span> is positive everywhere in the positive orthant besides at equilibrium. Then, we need to show that the function decreases along the trajectories of the system.</p>
+<p>To prove this point, we start from <span class="math inline">\(r = -A x^\star\)</span>. Substituting, we can write the GLV system as <span class="math inline">\(dx(t)/dt = D(x)A(x - x^\star)\)</span>; similarly, we can write <span class="math inline">\(d \log x(t)/dt = A(x - x^\star)\)</span>. Taking the derivative of <span class="math inline">\(V\)</span> with respect to time:</p>
+<p><span class="math display">\[
+\begin{aligned}
+ \frac{d V(x(t))}{dt} &amp;= 1^T C \left(\frac{d x(t)}{dt} - D(x^\star) \frac{d \log x(t)}{dt} \right)\\
+ &amp;= 1^T C \left(D(x)(A (x - x^\star)  - D(x^\star) A (x - x^\star) \right)\\
+ &amp;= 1^T C \left(D(x - x^\star)  A (x - x^\star) \right)\\
+ &amp;= 1^T \left(D(x - x^\star)  C A (x - x^\star) \right)\\
+ &amp;= (x - x^\star)^T  CA (x - x^\star)\\
+ &amp;= \frac{1}{2}(x - x^\star)^T  (CA + A^T C) (x - x^\star)\\
+\end{aligned}
+\]</span></p>
+<p>A matrix <span class="math inline">\(B\)</span> is negative definite if <span class="math inline">\(y^T B y &lt; 0\)</span> for all <span class="math inline">\(y \neq 0\)</span>. As such, if <span class="math inline">\(C A + A^T C\)</span>, then <span class="math inline">\(\frac{d V(x(t))}{dt} \leq 0\)</span>, i.e., will decrease in time (starting from any <span class="math inline">\(x(0)\)</span>) until the equilibrium <span class="math inline">\(x^\star\)</span> is reached.</p>
+<p>The results above show that <strong>if <span class="math inline">\(A\)</span> is Lyapunov diagonally-stable and a feasible equilibrium <span class="math inline">\(x^\star\)</span> exists, than all trajectories starting at a positive density will converge to the equilibrium</strong>. This property is often used to prove <strong>global stability</strong>.</p>
+</div>
+</div>
+<div id="what-makes-the-study-of-assembly-difficult" class="section level2">
+<h2><span class="header-section-number">1.2</span> What makes the study of assembly difficult?</h2>
+<p>There are three main complication that stand in the way of the development of simple models for ecological assembly (taken from <span class="citation">Serván and Allesina (<a href="#ref-servan2020tractable" role="doc-biblioref">2020</a>)</span>):</p>
+<ol style="list-style-type: decimal">
+<li><p><strong>Invasion rates</strong>. We have a timescale for the local dynamics, and a timescale for invasions, and the time at which the first species goes extinct after an invasion influences the effect of subsequent invasions. The simplest way to think of this is to have a “rock-paper-scissors” community. Suppose that our island contains only “rock”, and that “paper” enters the system—if we wait for long enough, it will displace rock; if <em>before rock goes extinct</em>, “scissors” invades, we can recover the full three-species community; if instead scissors arrives when rock is extinct, then it will displace paper.</p>
+<p>As such, if the speed at which the dynamics of the local community proceed are slow enough compared to the rate of invasion, we have that several species can invade before the community has reached its asymptotic configuration. At the extreme where local dynamics are fast compared to the rate of invasion, we have that each invader finds the local community at its asymptotic state; as the invasion rate increases, the system approaches a point where all the species enter the system before any extinction takes place. Increasing the invasion rate even further would result in an open system with constant immigration.</p></li>
+<li><p><strong>Invasion size.</strong> Consider the two-species competitive Lotka-Volterra model with preemptive competition, and suppose that initially we have species <span class="math inline">\(x_1\)</span> resting at its carrying capacity, i.e., the state of the system is <span class="math inline">\(\{x_1\}\)</span>. If <span class="math inline">\(x_2\)</span> invades with sufficiently low density, we find <span class="math inline">\(\{x_1, x_2\} \to \{x_1\}\)</span>; on the other hand, if <span class="math inline">\(x_2\)</span> has sufficiently high density, we can cross the separatrix in the phase plane, leading to <span class="math inline">\(\{x_1, x_2\} \to \{x_2\}\)</span>. This simple example shows that the density at which the invader enters the system can alter the outcome of the dynamics.</p></li>
+<li><p><strong>Invasion timing.</strong> When the local community coexists at a non-fixed point attractor, the fate of the invader could be very different depending on when it is introduced. For example, a predator requiring its prey to be above a certain level would not be able to invade an oscillating system whenever prey are at low abundance, but would start growing if the invasion happened at a time when prey were abundant.</p></li>
+</ol>
+</div>
+<div id="ecological-assembly-without-tears" class="section level2">
+<h2><span class="header-section-number">1.3</span> Ecological assembly without tears</h2>
+<p>We make three main assumptions, which remove the difficulties above while leaving the model interesting to study:</p>
+<ol style="list-style-type: decimal">
+<li><p><strong>Invasion events are rare.</strong> We assume that the invasion rate is low enough such that, after an invasion, the local community has sufficient time to reach its asymptotic configuration before the next invader arrives. In other words, we consider cases in which local dynamics operates at a much faster rate than invasions. Note that this choice precludes certain dynamics; for example, under these stringent conditions the rock-paper-scissors community described above would never reach the three-species configuration. While this is a strong requirement, it corresponds to assumptions routinely made in the study of population genetics, and in invasion analysis.</p></li>
+<li><p><strong>Invaders arrive at low abundance.</strong> We assume that the density of the invader is low enough so that intraspecific effects are negligible at the time of invasion (again, as routinely assumed in invasion analysis). Under this assumption, the assembly of the Lotka-Volterra preemptive competition model would have two possible final states, corresponding to each species in isolation. Note also that whenever the invader can enter the system only at low abundance, the local stability of an attractor (i.e. the community at the attractor is resistant to small perturbations caused by changes in abundance of any of the species in the pool) is sufficient to make it a possible outcome of the assembly process.</p></li>
+<li><p><strong>Fixed-point dynamics.</strong> Finally, we consider models in which the asymptotic state of the local community is a feasible, stable equilibrium, thereby sidestepping the difficulty stemming from the timing of invasion.</p>
+<p>For example, the Generalized Lotka-Volterra model with a symmetric matrix of interaction <span class="math inline">\(A\)</span> yields only fixed-point dynamics.</p></li>
+</ol>
+</div>
+<div id="top-down-and-bottom-up-assembly" class="section level2">
+<h2><span class="header-section-number">1.4</span> Top-down and bottom-up assembly</h2>
+<p>We distinguish between two extreme cases of assembly. In <strong>top-down</strong> assembly, all species enter the system (at arbitrary densities) <strong>at the same time</strong>; assembly then is simply the pruning of some of the species through the dynamics. At the other extreme, we find <strong>bottom-up assembly</strong>, in which species enter the system one at a time. Our second lecture will focus on top-down assembly, and the third on bottom-up assembly.</p>
+
+</div>
+</div>
+<h3>References</h3>
+<div id="refs" class="references">
+<div id="ref-hofbauer1998evolutionary">
+<p>Hofbauer, Josef, and Karl Sigmund. 1998. <em>Evolutionary Games and Population Dynamics</em>. Cambridge University Press.</p>
+</div>
+<div id="ref-servan2020tractable">
+<p>Serván, Carlos A, and Stefano Allesina. 2020. “Tractable Models of Ecological Assembly.” <em>bioRxiv</em>.</p>
+</div>
+<div id="ref-weiher2001ecological">
+<p>Weiher, Evan, and Paul Keddy. 2001. <em>Ecological Assembly Rules: Perspectives, Advances, Retreats</em>. Cambridge University Press.</p>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="literature.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["ICTP_Winter_School.pdf", "ICTP_Winter_School.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

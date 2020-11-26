@@ -1,0 +1,3 @@
+"0","# this file contains functions to integrate GLV dynamics"
+"0","# and plot the results"
+"0","source(""code/general_code.R"")"

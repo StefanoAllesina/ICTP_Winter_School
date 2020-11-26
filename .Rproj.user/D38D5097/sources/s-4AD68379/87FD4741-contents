@@ -1,0 +1,624 @@
+# Generalized Lotka-Volterra model
+
+**Lesson plan**:
+
+1. We start by discussing the Generalized Lotka-Volterra model, which we are going to see over and over again in the remainder of the lectures.
+1. We discuss the existence of a "coexistence" equilibrium, as well as its local stability.
+1. We show that the GLV model can give rise to all sort of dynamics, including limit cycles and chaos.
+1. Despite this fact, the persistence of all species requires the existence of a feasible equilibrium, which is the time-average of the species' densities for complex attractors. 
+1. We introduce D-stability, allowing us to write a Lyapunov function to determine global stability in GLV models.
+1. We conclude by analyzing the MacArthur's consumer-resource model, highlighting its deep connection to GLV.
+
+
+## Formulation
+
+```{r, include=FALSE}
+source("common_settings.R")
+```
+
+We can write the Generalized Lotka-Volterra model in a compact form as:
+
+$$
+\dfrac{dx(t)}{dt} = D(x(t))(r + A x(t)) 
+$$
+
+where $x(t)$ is a (column) vector of length $n$ containing the densities of all populations $1, \ldots, n$ at time $t$, $r$ is a vector of "intrinsic growth rates" (or death rates, when negative), measuring the growth (decline) of population $i$ when grown alone at low density, and $A$ is a $n \times n$ matrix of interaction coefficients. We use $D(x)$ to denote the diagonal matrix with $x$ on the diagonal. 
+
+## A single population
+
+The simplest case to study is that of a single population, in which case the equation becomes that of the logistic growth:
+
+$$
+\dfrac{dx(t)}{dt} = x(t)(\rho + \alpha x(t))
+$$
+
+As we've seen before, this is a separable ODE, with solution:
+
+$$
+x(t) = \frac{\rho\, {x_0}\, e^{\rho t}}{\rho- \alpha\, {x_0} \left(e^{\rho t}-1\right)}
+$$
+
+### Metapopulation dynamics
+
+Consider a fragmented landscape in which habitable patches are connected by dispersal (for simplicity, suppose that all patches are reachable from any other). Call $p(t)$ the proportion of patches occupied by the species of interest at time $t$, and assume that a) an empty patch (the proportion of empty patches is $1 - p(t)$) is colonized by the species with rate $\gamma\, p(t)$, where $\gamma$ is the "colonization rate", and b) that occupied patches become empty at rate $\epsilon\, p(t)$ ("extinction rate"). We want to model the proportion of patches occupied by the population at time $t$ [@levins1969some]:
+
+$$
+\dfrac{d p(t)}{dt} = \gamma\, p(t)(1 - p(t)) - \epsilon\, p(t) = p(t) ((\gamma - \epsilon) - \gamma\,  p(t))
+$$
+
+which is equivalent to the logistic equation above with $\rho = \gamma -\epsilon$ and $\alpha = -\gamma$. As such, asymptotically the proportion of patches occupied by the population will be $-\rho/\alpha = (\gamma -\epsilon) / \gamma$.
+
+### S-I-S model
+
+Consider a population of individuals, each of which can be in one of two states: susceptible to a disease, or infective/infected. Call $S(t)$ the proportion of susceptible individuals at time $t$, and $I(t)$ the proportion of infected individuals, with $S(t) + I(t) = 1$. When individuals meet, an infected individual can transmit the disease to susceptibles with rate $\beta$; infected individuals recover from the disease with rate $\gamma$, and return susceptible. We can write the system of equations:
+
+$$
+\begin{cases}
+\dfrac{d S(t)}{dt} = -\beta S(t) I(t) + \gamma I(t)\\
+\dfrac{d I(t)}{dt} = \beta S(t) I(t) - \gamma I(t)
+\end{cases}
+$$
+
+take the second equation, and substitute $S(t) = 1 - I(t)$; rearranging:
+
+$$
+\dfrac{d I(t)}{dt} = \beta (1-I(t)) I(t) - \gamma I(t) = I(t)(\beta - \gamma -\beta I(t))
+$$
+
+which is again the equation for the logistic growth with $\rho = \beta - \gamma$ and $\alpha = -\beta$. As such, provided that $\beta -\gamma > 0$, asymptotically a fraction $(\beta - \gamma) / \beta$ of individuals will be infected. The condition $\beta -\gamma > 0 \to \beta > \gamma \to \beta/ \gamma > 1$ is often written as $\mathcal R_0 = \beta/ \gamma > 1$.
+
+## Multi-species dynamics
+
+### Existence of an equilibrium
+
+Returning to the multi-species system, and in analogy with the single species, we can look for stationary points (equilibria). If the matrix $A$ is not singular, then we can look for a solution of $r + Ax = 0$ that has positive components (called a **feasible equilibrium**). **If such point exists, it is unique** and is the solution of $Ax^\star = -r$, $x^\star = -A^{-1}r$. 
+
+Suppose that the GLV has no feasible equilibrium. Then all trajectories (if bounded; some could grow to infinity) reach the boundary of $\mathbb R^n_{0+}$. Practically, this means that **to ensure coexistence of all species, it is necessary to have an equilibrium in the interior $\mathbb R^n_{+}$**. 
+
+For a proof, see Theorem 5.2.1 in @hofbauer1998evolutionary.
+
+### Stability of the coexistence equilibrium
+
+Suppose that a feasible equilibrium $x^\star$ exists. For the GLV model, the Jacobian is easy to compute:
+
+$$
+J_{ij} = \frac{\partial f_i}{\partial x_j} = A_{ij} x_i
+$$
+
+and 
+
+$$
+J_{ii} = \frac{\partial f_i}{\partial x_i} = r_i + \sum_j A_{ij} x_j + A_{ii} x_i
+$$
+
+At equilibrium $r_i + \sum_j A_{ij} x_j = 0$, and therefore:
+
+$$
+M = \left. {J} \right|_{ {x}^\star} = D(x^\star)A
+$$
+
+If the eigenvalues of $M$ have all negative real part, then $x^\star$ is locally asymptotically stable.
+
+:::boxmath
+
+**D-stability and Lyapunov-Diagonal Stability**
+
+A matrix $A$ is called *stable* if all its eigenvalues have negative real part. A matrix $A$ is called *D-stable* if $D(x) A$ is stable for every choice of $x$ such $x_i > 0\; \forall i$. While conditions for *D-stability* are not known for matrices of size greater than 3, a **sufficient** condtion for *D-stability* is that there exists a diagonal matrix $D$ with positive elements on the diagonal such that $DA + A^T D$ is negative definite (i.e., has negative eigenvalues). 
+
+**Consequences for Lotka-Volterra dynamics**
+
+- If a matrix $A$ is stable and symmetric, it is *D-stable* (just take $D = I$).
+- Take a stable, non symmetric matrix $A$ such that $A + A^T$ is negative definite. Then any feasible equilibrium is stable: we have $M = D(x^\star)A$, but if $A$ is *D-stable* then $M$ is stable.
+
+:::
+
+### Types of dynamics
+
+As we've seen before, for a single population, there are only three types of dynamics that can be displayed by a GLV model: either the population grows to infinity, shrinks to zero, or asymptotically reaches a steady state. 
+
+@smale1976differential and @hirsch1982systems showed that limit cylces are possible for three or more species, and that any dynamics can be found for competitive GLV systems with five or more species.
+
+```{r, glvfunctions, echo = FALSE}
+# Generalized Lotka-Volterra model
+GLV <- function(t, x, parameters){
+  with(as.list(c(x, parameters)), {
+    x[x < 10^-8] <- 0 # prevent numerical problems
+    dxdt <- x * (r + A %*% x)
+    list(dxdt)
+  })
+}
+# function to plot output
+plot_ODE_output <- function(out){
+  out <- as.data.frame(out)
+  colnames(out) <- c("time", paste("sp", 1:(ncol(out) -1), sep = "_"))
+  out <- as_tibble(out) %>% gather(species, density, -time)
+  pl <- ggplot(data = out) + 
+    aes(x = time, y = density, colour = species) + 
+    geom_line() + my_theme + scale_x_continuous(expression(t)) + 
+  scale_y_continuous(expression(x(t)))
+  show(pl)
+  return(out)
+}
+# general function to integrate GLV
+integrate_GLV <- function(r, A, x0, maxtime = 100, steptime = 0.5){
+  times <- seq(0, maxtime, by = steptime)
+  parameters <- list(r = r, A = A)
+  # solve numerically
+  out <- ode(y = x0, times = times, 
+           func = GLV, parms = parameters, 
+           method = "ode45")
+  # plot and make into tidy form
+  out <- plot_ODE_output(out)
+  return(out)
+}
+```
+
+A few examples taken from @barabas2016effect. First, a competitive system in which a feasible equilibrium does not exist, leading to the extinction of a species. For example, take 
+
+$$
+r = \begin{pmatrix} 
+1\\
+1\\
+1
+\end{pmatrix}\;\;A = -\begin{pmatrix}
+10 & 9 & 5 \\
+9 & 10 & 9\\
+5 & 9 & 10
+\end{pmatrix}
+$$
+
+The coexistence equilibrium is not feasible:
+
+$$
+-A^{-1}r = \begin{pmatrix}
+-\dfrac{1}{12}\\
+\dfrac{1}{4}\\
+-\dfrac{1}{12}\\
+\end{pmatrix}
+$$
+
+and as such dynamics will lead to a boundary equilibrium:
+
+```{r, glvex1, echo = FALSE}
+set.seed(1) # for reproducibility
+r_1 <- rep(1, 3)
+A_1 <- -matrix(c(10, 9, 5, 
+                 9, 10, 9, 
+                 5, 9, 10), 3, 3, byrow = TRUE)
+# check the existence of feasible equilibrium
+#print(solve(A_1, -r_1)) # not feasible
+x0_1 <- runif(3)
+res_1 <- integrate_GLV(r_1, A_1, x0_1)
+```
+
+Showing that species 2 goes extinct.
+
+Then, a case in which the equilibrium exists, and is attractive (stable). Take:
+
+$$
+r = \begin{pmatrix} 
+10\\
+10\\
+10
+\end{pmatrix}\;\;A = -\begin{pmatrix}
+10 & 7 & 12 \\
+15 & 10 & 8\\
+7 & 11 & 10
+\end{pmatrix}
+$$
+
+Now the coexistence equilibrium is feasible:
+
+$$
+-A^{-1}r = \dfrac{1}{301}\begin{pmatrix}
+50\\
+110\\
+145\\
+\end{pmatrix}
+$$
+
+and locally stable (the eigenvalues of $D(x^\star) A)$ have negative real part). Hence, there are initial conditions for which we will eventually converge to the equilibrium:
+
+```{r, glvex2, echo = FALSE}
+set.seed(2) # for reproducibility
+r_2 <- rep(10, 3)
+A_2 <- -matrix(c(10, 7, 12, 
+                 15, 10, 8, 
+                 7, 11, 10), 3, 3, byrow = TRUE)
+# check the existence of feasible equilibrium
+#print(solve(A_2, -r_2)) # feasible
+x0_2 <- runif(3)
+res_2 <- integrate_GLV(r_2, A_2, x0_2)
+```
+
+With three competitors we can find stable limit cycles (this requires a feasible, unstable equilibrium):
+
+```{r, glvex3, echo = FALSE}
+set.seed(3) # for reproducibility
+r_3 <- rep(1, 3)
+A_3 <- -matrix(c(10, 6, 12, 
+                 14, 10, 2, 
+                 8, 18, 10), 3, 3, byrow = TRUE)
+# check the existence of feasible equilibrium
+#print(solve(A_3, -r_3)) # feasible
+x0_3 <- 0.1 * runif(3)
+res_3 <- integrate_GLV(r_3, A_3, x0_3, maxtime = 250)
+```
+
+And with four or more species we can have chaos (also here we need a feasible, unstable coexistence equilibrium):
+
+```{r, glvex4, echo = FALSE}
+set.seed(4) # for reproducibility
+r_4 <- c(1, 0.72, 1.53, 1.27)
+A_4 <- -matrix(c(1, 1.09, 1.52, 0, 
+                 0, 0.72, 0.3168, 0.9792, 
+                 3.5649, 0, 1.53, 0.7191,
+                 1.5367, 0.6477, 0.4445, 1.27), 4, 4, byrow = TRUE)
+# check the existence of feasible equilibrium
+#print(solve(A_4, -r_4)) # feasible
+x0_4 <- 0.1 * runif(4)
+res_4 <- integrate_GLV(r_4, A_4, x0_4, maxtime = 500)
+```
+
+### The equilibrium is the time-average
+
+Suppose that $x(t)$ has a periodic orbit of period $T$ (i.e., we assume $x(0) = x(T)$). Further, assume that the GLV has a feasible,  interior equilibrium $x^\star$. We want to calculate the average density for each species:
+
+$$
+\frac{1}{T} \int_0^T x(t) dt
+$$
+
+First, we assume that $x(t) > 0$ and write the dynamics of its logarithm:
+
+$$
+\dfrac{d \log(x_i(t))}{dt} = \dfrac{1}{x_i(t)}\dfrac{d x_i(t)}{dt} = r_i + \sum_j A_{ij} x_j(t)
+$$
+
+In vector form:
+
+$$
+\dfrac{d \log x(t)}{d t} = r + A x(t)
+$$
+
+Compute the average on both sides:
+
+$$
+\frac{1}{T}\int_0^T \frac{d \log(x(t))}{dt} dt= \frac{1}{T}\int_0^T \left(r + Ax \right) dt
+$$
+
+yielding:
+
+$$
+\frac{1}{T}(\log(x(T)) - \log(x(0))) = 0 = r + A \left( \frac{1}{T} \int_0^T x(t) dt \right)
+$$
+Note that the l.h.s. is zero because  $x(0) = x(T)$. Multiplying by the matrix inverse and rearranging:
+
+$$
+-A^{-1} r = x^\star =  \frac{1}{T} \int_0^T x(t) dt 
+$$
+
+showing that **the average density is** in fact **the equilibrium**. With a similar argument, one can prove that if the trajectory stays in a compact space (i.e., in case of chaotic attractors), then long-time average is still $x^\star$.
+
+### Lyapunov diagonal stability and global stability
+
+Suppose that there is a positive diagonal matrix $C$ such that $C A + A^T C$ is negative definite (i.e., has only negative eigenvalues; the eigenvalues are real because the matrix is symmetric).  Then $A$ is **Lyapunov-diagonally stable**. If this is the case, then $A$ is stable, and any $D A$ with $D$ positive is also stable (called $D-$stability).
+
+Further, suppose that the GLV system with parameters $A$ and $r$ has a feasible equilibrium point $x^\star$. Then the function:
+
+$$
+V(x(t)) = 1^T C \left( x(t) -x^\star -x^\star \cdot \log (x(t) / x^\star)\right)
+$$
+
+is a Lyapunov function for the GLV system. It is clear that $V(x(t))$ is positive everywhere in the positive orthant besides at equilibrium. Then, we need to show that the function decreases along the trajectories of the system.
+
+To prove this point, we start from $r = -Ax^\star$. Substituting, we can write the GLV system as $dx(t)/dt = D(x)A(x - x^\star)$; similarly, we can write $d \log x(t)/dt = A(x - x^\star)$. Taking the derivative of $V$ with respect to time:
+
+$$
+\begin{aligned}
+ \frac{d V(x(t))}{dt} &= 1^T C \left(\frac{d x(t)}{dt} - D(x^\star) \frac{d \log x(t)}{dt} \right)\\
+ &= 1^T C \left(D(x)(A (x - x^\star)  - D(x^\star) A (x - x^\star) \right)\\
+ &= 1^T C \left(D(x - x^\star)  A (x - x^\star) \right)\\
+ &= 1^T \left(D(x - x^\star)  C A (x - x^\star) \right)\\
+ &= (x - x^\star)^T  CA (x - x^\star)\\
+ &= \frac{1}{2}(x - x^\star)^T  (CA + A^T C) (x - x^\star)\\
+\end{aligned}
+$$
+
+A matrix $B$ is negative definite if $y^T B y < 0$ for all $y \neq 0$. As such, if $C A + A^T C$, then $\frac{d V(x(t))}{dt} \leq 0$, i.e., will decrease in time (starting from any $x(0)$) until the equilibrium $x^\star$ is reached. 
+
+The results above show that **if $A$ is Lyapunov diagonally-stable and a feasible equilibrium $x^\star$ exists, than all trajectories starting at a positive density will converge to the equilibrium**. This property is often used to prove **global stability**.
+
+## MacArthur's consumer-resource model
+
+:::boxhistory
+**History: Robert H. MacArthur (1930-1972)**
+
+```{r, echo=FALSE,out.width = "25%"}
+knitr::include_graphics('img/MacArthur.jpg')
+```
+
+Robert MacArthur was born in Toronto, and moved to Vermont when his father (a geneticist) became a professor at Marlboro College.
+
+He studied mathematics first at Marlboro College and then at Brown University. He enrolled as a PhD student in mathematics at Yale, but quickly switched to studying ecology with George Evelyn Hutchinson. 
+
+He was a professor first at the University of Pennsylvania and then at Princeton University. In his brief career (he died at age 45) he revolutionized ecology, by making it into a rigorous, predictive science based on general principles.
+
+He is recognized for developing the *Theory of Island Biogeography* (with E. O. Wilson, @macarthur2001theory), the investigation of limiting similarity (with R. Levins, @macarthur1967limiting), the contributions to the complexity-stability debate (@macarthur1955fluctuations, see next lecture). The consumer-resource model he proposed in 1969 now bears his name (published also in @macarthur1970species in a longer form---the first paper in the journal Theoretical Population Biology!).
+
+:::
+
+MacArtur considered a system with two classes of equations: those describing the dynamics of consumers $(x_i)$ and resources ($y_i$). Resources do not interact with each other, and consumers interact only through the sharing of resources. Several parameterizations are possible---here we choose a simple formulation that retains the main features of the model (see @case1979global for a slightly more general model):
+
+$$
+\begin{cases}
+\dfrac{d y_i}{dt} = y_i \left(r_i - b_i\, y_i - \sum_j P_{ij}\, x_j \right)\\
+\dfrac{d x_j}{dt} = x_j \left(- m_j + \sum_i v_j\, P_{ij}\, y_i \right)\\
+\end{cases}
+$$
+
+In the absence of consumers, each resource grows logistically. In the absence of resources, consumers go extinct. In the model, all parameters are taken to be positive: $r_i$ is the growth rate for resource $i$, $b_i$ models its self-regulation; $m_j$ is the death rate of consumer $j$, and $v_j$ models the efficiency of transformation of resources into consumers. The matrix $P$ is in general rectangular ($n \times k$, where $n$ is the number of resources and $k$ that of consumers). 
+
+:::boxmath
+
+**Block matrices**
+
+Any matrix can be rewritten as a series of smaller matrices stitched together. For square matrices, it is often convenient to partition a matrix into blocks such that diagonal blocks are square matrices and off-diagonal blocks are (in general) rectangular. 
+
+For example:
+
+$$
+M = \begin{pmatrix}
+1 & 2 & 3 & 4 & 5\\
+6 & 7 & 8 & 9 & 10\\
+11 & 12 & 13 & 14 & 15\\
+16 & 17 & 18 & 19 & 20\\
+21 & 22 & 23 & 24 & 25\\
+\end{pmatrix}
+$$
+
+Can be written as:
+
+$$
+M = \begin{pmatrix}
+M_{11} & M_{12}\\
+M_{21} & M_{22}
+\end{pmatrix}
+$$
+with:
+
+$$
+M_{11} = \begin{pmatrix}
+1 & 2 \\
+6 & 7 
+\end{pmatrix}
+\;
+M_{21} = \begin{pmatrix}
+3 & 4 & 5\\
+8 & 9 & 10\\
+\end{pmatrix}
+\;\ldots
+$$
+
+**Multiplication of block matrices**
+
+The multiplication of two block matrices with square diagonal blocks is very easy:
+
+$$
+\begin{pmatrix}
+A_{11} & A_{12}\\
+A_{21} & A_{22}
+\end{pmatrix} \begin{pmatrix}
+B_{11} & B_{12}\\
+B_{21} & B_{22}
+\end{pmatrix} = \begin{pmatrix}
+A_{11}B_{11}  + A_{12} B_{21}& A_{11}B_{12} + A_{12} B_{22}\\
+A_{21}B_{11} + A_{22} B_{21} &A_{21}B_{12} + A_{22} B_{22}
+\end{pmatrix}
+$$
+
+**Determinant of block matrices**
+
+Take
+
+$$
+A = \begin{pmatrix}
+A_{11} & A_{12}\\
+A_{21} & A_{22}
+\end{pmatrix} 
+$$
+
+and assume that $A_{22}$ is invertible. Then $\det(A) = \det(A_{22})\det(A_{11} - A_{12}A_{22}^{-1} A_{21})$
+
+**Inverse of block matrix**
+
+Similarly, if $A_{22}$ is invertible, and $\det(A) \neq 0$ (and hence the Schur complement $A_{11} - A_{12}A_{22}^{-1} A_{21}$ is nonsingular) then
+
+$$
+A^{-1} = \begin{pmatrix}
+S & -S A_{12}A_{22}^{-1}\\
+-A_{22}^{-1} A_{21} S & A_{22}^{-1} +  A_{22}^{-1} A_{21}SA_{21}A_{22}^{-1}
+\end{pmatrix}
+$$
+
+where $S = (A_{11} - A_{12}A_{22}^{-1} A_{21})^{-1}$
+
+:::
+
+We can rewrite the system as a generalized Lotka-Volterra model (see @case1979global). We define:
+
+$$
+z = (y,x)^T\;\;s = (r, -m)^T
+$$
+
+And the block structured matrix $A$:
+
+$$
+A = \begin{pmatrix}
+A_{11} & A_{12}\\
+A_{21} & A_{22}
+\end{pmatrix}\; \text{with}\; A_{11} = -D(b),\; A_{12}=-P,\; A_{21} = D(v)P^T, A_{22} = 0_{k,k}
+$$
+where $0_{k,k}$ is a $k \times k$ matrix of zeros. Now the system becomes:
+
+$$
+\dfrac{d z}{d t} = D(z)(s + Az)
+$$
+
+### Existence of an equilibrium
+
+For simplicity, we concentrate on the study of the feasibility and stability of the coexistence equilibrium. If an equilibrium $z^\star \neq 0$ exists, it is the solution of $Az^\star = -s$, which requires matrix $A$ to be non-singular. Matrix $A$ is nonsingular only if $w = 0$ is the only solution of $Aw = 0$. We prove that $A$ is nonsingular whenever $A_{12}$ is of rank $k$, and $A_{11}$ is negative definite. We do so by contradiction. First, because the matrix $A$ has a special structure, we can split $w$ into $(w_1, w_2)^T$, and write:
+
+$$
+A \begin{pmatrix} w_1\\ w_2 \end{pmatrix} = \begin{pmatrix} A_{11}w_1 + A_{12} w_2\\ A_{21}w_1 \end{pmatrix} = \begin{pmatrix} 0_n\\ 0_k \end{pmatrix}
+$$
+
+We therefore have $A_{21} w_1 = 0$ and $A_{11}w_1 + A_{12} w_2 = 0$.
+
+* Suppose that $w_1 =0$ and $w_2 \neq 0$; then we find $A_{12} w_2 = 0$ with $w_2 \neq 0$, which is not possible when $A_{12}$ has rank $k$. 
+* Now suppose that $w_1 \neq 0$ and $w_2 = 0$, but this implies $A_{11}w_1 = 0$ with $w_1 \neq 0$, which is impossible given that $A_{11}$ is clearly of full rank. 
+* We are left with the case in which both $w_1 \neq 0$ and $w_2 \neq 0$. We have $A_{21} w_1 = 0$, but $A_{21} w_1= D(v)P^T w_1 = 0$, which implies $P^T w_1 = 0$ because all $v_i > 0$. Then, multiply the first set of equations by $w_1^T$ and the second by $w_2^T$. We obtain $w_1^T A_{11} w_1 - w_1^T P w_2 = 0$ and $w_2^T  D(v)P^T w_1 = 0 = w_2^T  P^T w_1$. But then $w_1^T P w_2 = 0$, leaving us with $w_1^T A_{11} w_1 = 0$ with $w_1 \neq 0$, which is again a contradiction because $A_{11}$ is clearly negative definite (and as such $w_1^T A_{11} w_1 \leq 0$, with equality implying $w_1 = 0$).
+
+We have proven that $A$ is nonsingular, and therefore a unique equilibrium point for the system exists (the equilibrium for the moment needs not to be feasible) whenever $A_{11} = -D(b)$ is negative definite (which is always the case whenever resources are self-regulating) and, importantly, $A_{12}$ has rank $k$ (the number of consumers). This in turn implies that **the number of resources must be larger (or equal) than the number of consumers**. A similar argument is developed in the classic @levin1970community.
+
+:::boxpaper
+**Key paper: @levin1970community**
+
+Starting from fairly generic assumptions, the principle of competitive exclusion is generalized: *No stable equilibrium can be attained in an ecological community in which some $r$ components are limited by less than $r$ limiting factors. In particular, no stable equilibrium is possible if some $r$ species are limited by less than $r$ factors.*
+
+:::
+
+### Global stability
+
+Next, we prove that if a feasible equilibrium for the system exists, it is globally stable. First, we choose a diagonal matrix $G$ 
+
+$$
+G = \begin{pmatrix}
+I_n & 0_{n,k}\\
+0_{k,n} & D(v)^{-1}
+\end{pmatrix}
+$$
+
+We have:
+
+$$
+B = GA = \begin{pmatrix}
+-D(b) & -P\\
+P^T & 0_{k,k}
+\end{pmatrix}
+$$
+
+$B$ is therefore negative semi-definite:
+
+$$ 
+\frac{1}{2}(B + B^T) = \begin{pmatrix}
+-D(b) & 0_{n,k}\\
+0_{k,n} & 0_{k,k}
+\end{pmatrix}
+$$
+
+with eigenvalues $-b$ and $0$ (with multiplicity $k$). Therefore, 
+
+$$
+\begin{align}
+\frac{d V(z(t))}{dt} &= 1^T G \left(\frac{d z(t)}{dt} - D(z^\star) \frac{d \log z(t)}{dt} \right)\\
+ &= \frac{1}{2}(z - z^\star)^T  (GA + A^T G) (z - z^\star)\\
+ &= \frac{1}{2}(z - z^\star)^T  (B + B^T) (z - z^\star)\\
+ &= (y - y^\star)^T  (-D(b)) (y - y^\star)
+ \end{align}
+$$
+
+which is zero only at equilibrium. This proves that any feasible equilibrium is stable.
+
+:::boxhomework
+
+**Homework 3a**
+
+Prove the local stability of the feasible coexistence equilibrium.
+
+:::
+
+
+### Separation of time-scales
+
+In the original article, @macarthur1970species takes an interesting shortcut, which can shed light on the behavior of the GLV when the matrix of interactions is symmetric (i.e., $A = A^T$). Consider the Consumer-Resource model above, and assume that resources equilibrate quickly compared to the dynamics of the consumers. In practice, this means that the system operates on two different time scales, such that the consumers perceive resources to be constantly at equilibrium.
+
+We solve the equations for the resources:
+
+$$
+\begin{align}
+r - D(b)\, y - P\, x &=0\\
+y = D(b)^{-1} (r - P\,x)
+\end{align}
+$$
+
+Substituting in the equations for the consumers, we obtain:
+
+$$
+\begin{aligned}
+\dfrac{d x}{dt} &= D(x) \left(- m + D(v) P^T\, y \right)\\
+ &= D(x) \left(- m + D(v) P^T\, D(b)^{-1} (r - P\,x) \right)\\
+ &= D(x) \left([D(v) P^T\, D(b)^{-1} r - m] - [D(v) P^T\, D(b)^{-1} P]\,x\right)\\
+ &= D(x) D(v)\left([P^T\, D(b)^{-1} r - D(v)^{-1}m] - [P^T\, D(b)^{-1} P]\,x\right)\\
+ &= D(x) D(v)\left(s - B\,x\right)
+\end{aligned}
+$$
+
+Which is again GLV, with "growth rates" $s = P^T\, D(b)^{-1} r - D(v)^{-1}m$ and "interactions" $B = P^T D(b)^{-1} P$, which, importantly, is symmetric (note also that if $P$ is of rank $k$ and $b > 0$, then $B$ is of full rank).
+
+### Lyapunov function for symmetric Lotka-Volterra
+
+At equilibrium, we have $x^\star = B^{-1} s$. Consider the function:
+
+$$
+V(x(t)) = 2 \sum_i s_i x_i - \sum_{ij} B_{ij} x_i x_j
+$$
+
+Note that $\sum_i s_i x_i > 0$ and that whenever $B$ is stable (and because it's symmetric, negative definite), $- \sum_{ij} B_{ij} x_i x_j > 0$. At equilibrium, we have:
+
+$$
+V(x^\star) = 2 \sum_i s_i x_i^\star - \sum_{ij} x_j^\star B_{ij}  B_{ij}^{-1} s_j = 2 \sum_i s_i x_i^\star - \sum_j s_j x_j^\star = \sum_i s_i x_i^\star
+$$
+
+It is of particular interest the case in which $s_i = 1$ for all $i$ and $V(x^\star)$ is simply the total biomass of the system at equilibrium. 
+
+Now, let's take the derivative of $V(x(t))$ with respect to $x_i$:
+
+$$
+\dfrac{\partial V}{\partial x_i} = 2 s_i - 2 \sum_j B_{ij} x_j
+$$
+
+But then:
+
+$$
+\dfrac{d x_i}{d t} = x_i v_i \left(s_i -\sum_j B_{ij} x_j\right) = x_i v_i \frac{1}{2}\dfrac{\partial V}{\partial x_i}
+$$
+And therefore, by chain rule:
+
+$$
+\dfrac{d V(x(t))} {d t} = \sum_i \dfrac{\partial V}{\partial x_i} \dfrac{d x_i}{d t} = \sum_i x_i v_i \frac{1}{2}\left(\dfrac{\partial V}{\partial x_i} \right)^2
+$$
+
+which is always nonnegative, and is zero at equilibrium. Therefore, $V(x(t))$ is maximized through the dynamics. This holds even more generally, as we will see in the next lecture and in the following homework. In a way, competitive dynamics are "optimizing" $V$, by following a gradient. This argument can be further expanded, showing that many ecological models can be interpreted as optimization processes (@marsland2019minimum).
+
+:::boxhomework
+
+**Homework 3b**
+
+Consider a five-species system with symmetric, stable $B$ (with all positive coefficients) and positive $s$, yielding the feasible equilibrium $x^\star$. 
+
+* Find random parameters satisfying 1) $B_{ij} = B_{ji} > 0\; \forall i,j$; 2) $B$ is stable; 3) $s_i > 0 \; \forall i$; 4) $B^{-1}s = x^\star > 0$. These parameters define your pool of species.
+* For each possible subset of species in the pool, (i.e., for all combinations ranging from a single species [5 cases], to two species [10 cases], \ldots, to all species together [1 case]), compute the corresponding equilibrium. Is it feasible? Is it stable?
+* Take two subset of species such that a) both are feasible and stable; b) subset 1 contains subset 2 (i.e., all species in 2 are in 1, but not the converse); c) the value of $V(x^\star)$ for subset 1 is larger than that for subset 2. Try invading subset 2 with the species by introducing at the equilibrium of subset 2 the species that are in subset 1 but not in 2---starting all of them at low density. What happens?
+
+:::
+
+## Further readings
+
+On the theory of GLV:
+
+- @hofbauer1998evolutionary is a wonderful introduction to dynamical systems in ecology and population genetics, with a nice introduction to evolutionary game theory.
+
+- @hadeler2017topics contains a more mathematically-oriented treatment of the material covered in the first part of this lecture.
+
+- @baigent2016lotka is a mathematical introduction to Lotka-Volterra dynamics.
+

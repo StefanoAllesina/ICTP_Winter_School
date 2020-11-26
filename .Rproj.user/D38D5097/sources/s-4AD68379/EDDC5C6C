@@ -1,0 +1,25 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1606347297735.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "EDDC5C6C",
+    "lastKnownWriteTime" : 1606422428,
+    "last_content_update" : 1606422428874,
+    "path" : "~/GH/Theoretical_Community_Ecology/05-assembly.Rmd",
+    "project_path" : null,
+    "properties" : {
+        "cursorPosition" : "342,0",
+        "scrollLine" : "335"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 4,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}
