@@ -7,12 +7,12 @@
     "folds" : "",
     "hash" : "0",
     "id" : "87FD4741",
-    "lastKnownWriteTime" : 1606420232,
-    "last_content_update" : 1606420232150,
+    "lastKnownWriteTime" : 1606511908,
+    "last_content_update" : 1606511908347,
     "path" : "~/GH/Theoretical_Community_Ecology/03-lotka_volterra.Rmd",
     "project_path" : null,
     "properties" : {
-        "cursorPosition" : "328,259",
+        "cursorPosition" : "328,115",
         "scrollLine" : "325"
     },
     "read_only" : false,

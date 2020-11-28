@@ -326,7 +326,7 @@ $$
 
 A matrix $B$ is negative definite if $y^T B y < 0$ for all $y \neq 0$. As such, if $C A + A^T C$, then $\frac{d V(x(t))}{dt} \leq 0$, i.e., will decrease in time (starting from any $x(0)$) until the equilibrium $x^\star$ is reached. 
 
-The results above show that **if $A$ is Lyapunov diagonally-stable and a feasible equilibrium $x^\star$ exists, than all trajectories starting at a positive density will converge to the equilibrium**. This property is often used to prove **global stability**.
+The results above show that **if $A$ is Lyapunov diagonally-stable and a feasible equilibrium $x^\star$ exists, then all trajectories starting at a positive density will converge to the equilibrium**. This property is often used to prove **global stability**.
 
 ## MacArthur's consumer-resource model
 

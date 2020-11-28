@@ -112,11 +112,11 @@ $$
 
 A matrix $B$ is negative definite if $y^T B y < 0$ for all $y \neq 0$. As such, if $C A + A^T C$, then $\frac{d V(x(t))}{dt} \leq 0$, i.e., will decrease in time (starting from any $x(0)$) until the equilibrium $x^\star$ is reached. 
 
-The results above show that **if $A$ is Lyapunov diagonally-stable and a feasible equilibrium $x^\star$ exists, than all trajectories starting at a positive density will converge to the equilibrium**. This property is often used to prove **global stability**.
+The results above show that **if $A$ is Lyapunov diagonally-stable and a feasible equilibrium $x^\star$ exists, then all trajectories starting at a positive density will converge to the equilibrium**. This property is often used to prove **global stability**.
 
 ## What makes the study of assembly difficult?
 
-There are three main complication that stand in the way of the development of simple models for ecological assembly (taken from @servan2020tractable):
+There are three main complications that stand in the way of the development of simple theories for ecological assembly (taken from @servan2020tractable):
 
 1. **Invasion rates**. We have a timescale for the local dynamics, and a timescale for invasions, and the time at which the first species goes extinct after an invasion influences the effect of subsequent invasions. The simplest way to think of this is to have a "rock-paper-scissors" community. Suppose that our island contains only "rock", and that "paper" enters the system---if we wait for long enough, it will displace rock; if *before rock goes extinct*, "scissors" invades, we can recover the full three-species community; if instead scissors arrives when rock is extinct, then it will displace paper.
 
@@ -168,7 +168,7 @@ If the species $j$ can grow when rare, in general, it could a) grow initially, b
 
 ## Invasions in multispecies communities
 
-Now consider a pool of species (e.g., a metacommunity) and an environment (e.g., an island) in which some of the species are present, and coexisting at an equilibrium. We have $n$ species in the pool, and $k$ species in the environment. We want to write conditions for the invasibility of the equilibrium. To this end, we can re-arrange the rows and columns of $A$, and the elements of $r$ to obtain two blocks: one for the $k$ species already in the community, and one for the $n-k$ potential invaders.
+Now consider a pool of species (e.g., a metacommunity/mainland) and an environment (e.g., a local habitat/island) in which some of the species are present, and coexisting at an equilibrium. We have $n$ species in the pool, and $k$ species in the habitat/island. We want to write conditions for the invasibility of the equilibrium. To this end, we can re-arrange the rows and columns of $A$, and the elements of $r$ to obtain two blocks: one for the $k$ species already in the community, and one for the $n-k$ potential invaders.
 
 The fixed point $\bar{x}$ can be written as:
 
@@ -200,10 +200,10 @@ $$
 where each block $A^{(a,b)}$ contains the effects of the species in set $b$ on the growth of the species in $a$. For feasibility we need:
 
 $$
-x^{(k)} = -r^{(k)}\left(A^{(k,k)} \right)^{-1} > 0
+x^{(k)} = -\left(A^{(k,k)} \right)^{-1}r^{(k)} > 0
 $$
 
-Now we want to write the condition for the non-invasibility of the resident community by the other species in the metacommunity. For each species in $(n-k)$, we need to have a negative growth rate when invading:
+Now we want to write the condition for the **non-invasibility** of the resident community by the other species in the metacommunity. For each species in $(n-k)$, we need to have a negative growth rate when invading:
 
 $$
 r^{(n-k)} + A^{(n-k,k)}x^{(k)} < 0
