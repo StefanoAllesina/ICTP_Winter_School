@@ -1,0 +1,13 @@
+# Bottom-up assembly
+
+## How many invasions?
+
+## An assembly graph
+
+## Acyclicity, accessibility
+
+## Relationship with Lyapunov function
+
+## How many assembly endpoints?
+
+## Conclusions

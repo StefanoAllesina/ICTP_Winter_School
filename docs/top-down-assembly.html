@@ -32,7 +32,7 @@
   
   
 <link rel="prev" href="intro.html"/>
-<link rel="next" href="methods.html"/>
+<link rel="next" href="bottom-up-assembly.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -157,8 +157,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="2.2" data-path="top-down-assembly.html"><a href="top-down-assembly.html#simulating-final-composition"><i class="fa fa-check"></i><b>2.2</b> Simulating final composition</a></li>
 <li class="chapter" data-level="2.3" data-path="top-down-assembly.html"><a href="top-down-assembly.html#a-random-zoo"><i class="fa fa-check"></i><b>2.3</b> A random zoo</a></li>
 <li class="chapter" data-level="2.4" data-path="top-down-assembly.html"><a href="top-down-assembly.html#assembly-and-saturated-equilibrium"><i class="fa fa-check"></i><b>2.4</b> Assembly and saturated equilibrium</a></li>
+<li class="chapter" data-level="2.5" data-path="top-down-assembly.html"><a href="top-down-assembly.html#network-spandrels"><i class="fa fa-check"></i><b>2.5</b> Network spandrels</a></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="methods.html"><a href="methods.html"><i class="fa fa-check"></i><b>3</b> Methods</a></li>
+<li class="chapter" data-level="3" data-path="bottom-up-assembly.html"><a href="bottom-up-assembly.html"><i class="fa fa-check"></i><b>3</b> Bottom-up assembly</a><ul>
+<li class="chapter" data-level="3.1" data-path="bottom-up-assembly.html"><a href="bottom-up-assembly.html#how-many-invasions"><i class="fa fa-check"></i><b>3.1</b> How many invasions?</a></li>
+<li class="chapter" data-level="3.2" data-path="bottom-up-assembly.html"><a href="bottom-up-assembly.html#an-assembly-graph"><i class="fa fa-check"></i><b>3.2</b> An assembly graph</a></li>
+<li class="chapter" data-level="3.3" data-path="bottom-up-assembly.html"><a href="bottom-up-assembly.html#acyclicity-accessibility"><i class="fa fa-check"></i><b>3.3</b> Acyclicity, accessibility</a></li>
+<li class="chapter" data-level="3.4" data-path="bottom-up-assembly.html"><a href="bottom-up-assembly.html#relationship-with-lyapunov-function"><i class="fa fa-check"></i><b>3.4</b> Relationship with Lyapunov function</a></li>
+<li class="chapter" data-level="3.5" data-path="bottom-up-assembly.html"><a href="bottom-up-assembly.html#how-many-assembly-endpoints"><i class="fa fa-check"></i><b>3.5</b> How many assembly endpoints?</a></li>
+<li class="chapter" data-level="3.6" data-path="bottom-up-assembly.html"><a href="bottom-up-assembly.html#conclusions"><i class="fa fa-check"></i><b>3.6</b> Conclusions</a></li>
+</ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 
@@ -346,7 +354,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb14-4"><a href="top-down-assembly.html#cb14-4"></a>pl &lt;-<span class="st"> </span>pl <span class="op">+</span><span class="st"> </span><span class="kw">geom_point</span>(<span class="dt">data =</span> tbinom, <span class="kw">aes</span>(<span class="dt">x =</span> ncoexisting, <span class="dt">y =</span> expectation))</span>
 <span id="cb14-5"><a href="top-down-assembly.html#cb14-5"></a><span class="kw">show</span>(pl)</span></code></pre></div>
 <p><img src="ICTP_Winter_School_files/figure-html/randomzoo-2.png" width="480" style="display: block; margin: auto;" /></p>
-<p>We find again that the number of coexisting species follows the binomial distribution with parameters <span class="math inline">\(n\)</span> and <span class="math inline">\(1/2\)</span> (i.e., exactly the same result found for non interacting species). To prove this fact, let’s begin with showing that the probability of having all species coexisting is <span class="math inline">\(1 / 2^n\)</span>. For this, we need <span class="math inline">\(x^\star = -r A^{-1}\)</span> to be feasible. For each possible <span class="math inline">\(A\)</span> (invertible) and <span class="math inline">\(r\)</span>, we have that the vector <span class="math inline">\(-r A^{-1}\)</span> will display a certain pattern of signs. Proving that the probability that all <span class="math inline">\(n\)</span> species coexist is <span class="math inline">\(1 / 2^n\)</span> amounts to proving that all sign patterns are equally probable. To this end, define the matrix <span class="math inline">\(D_k = (-1)^{\delta_{ik}} \delta_{ij}\)</span>. This is like the identity matrix, but with element <span class="math inline">\(k\)</span> of the diagonal set to <span class="math inline">\(-1\)</span> instead of <span class="math inline">\(1\)</span>. We have that:</p>
+<p>We find again that the number of coexisting species follows the binomial distribution with parameters <span class="math inline">\(n\)</span> and <span class="math inline">\(1/2\)</span> (i.e., exactly the same result found for non interacting species). To prove this fact, let’s begin with showing that the probability of having all species coexisting is <span class="math inline">\(1 / 2^n\)</span>. For this, we need <span class="math inline">\(x^\star = -A^{-1}r\)</span> to be feasible. For each possible <span class="math inline">\(A\)</span> (invertible) and <span class="math inline">\(r\)</span>, we have that the vector <span class="math inline">\(-r A^{-1}\)</span> will display a certain pattern of signs. Proving that the probability that all <span class="math inline">\(n\)</span> species coexist is <span class="math inline">\(1 / 2^n\)</span> amounts to proving that all sign patterns are equally probable. To this end, define the matrix <span class="math inline">\(D_k = (-1)^{\delta_{ik}} \delta_{ij}\)</span>. This is like the identity matrix, but with element <span class="math inline">\(k\)</span> of the diagonal set to <span class="math inline">\(-1\)</span> instead of <span class="math inline">\(1\)</span>. We have that:</p>
 <p><span class="math display">\[
 (D_k A D_k) D_k x^\star = -D_k r
 \]</span></p>
@@ -514,15 +522,101 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="top-down-assembly.html#cb25-1"></a>x</span></code></pre></div>
 <p>[1] 1.7588344 2.5440743 0.0000000 0.7860178 1.8730535 2.5502055 0.6961259
 [8] 1.6956878 0.0000000 0.0000000</p>
-<p>As such, given enough time, any assembly history for a symmetric, stable matrix <span class="math inline">\(A\)</span> will eventually reach the final composition represented by the saturated equilibrium (Serván, unpublished).</p>
+<p>As such, given enough time, any assembly history for a symmetric, stable matrix <span class="math inline">\(A\)</span> will eventually reach the final composition represented by the saturated equilibrium (<span class="citation">Serván and Allesina (<a href="#ref-servan2020tractable" role="doc-biblioref">2020</a>)</span>).</p>
 <p>Interestingly, this is not the case when the matrix is not symmetric. <span class="citation">Serván et al. (<a href="#ref-servan2018coexistence" role="doc-biblioref">2018</a>)</span> conjectured however that the probability of finding a system whose final composition cannot be assembled one species at a time decreases rapidly with the size of the pool, as long as <span class="math inline">\(A\)</span> is Lyapunov Diagonally stable.</p>
+</div>
+<div id="network-spandrels" class="section level2">
+<h2><span class="header-section-number">2.5</span> Network spandrels</h2>
+<p>What is the network structure of the assembled community vs. that of the initial pool? Can we detect a signature of the forces acting on the community such that some species can persist, while other go extinct? To answer these questions, we start by considering a larger pool of species:</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="top-down-assembly.html#cb26-1"></a><span class="kw">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb26-2"><a href="top-down-assembly.html#cb26-2"></a><span class="co"># initial pool</span></span>
+<span id="cb26-3"><a href="top-down-assembly.html#cb26-3"></a>A &lt;-<span class="st"> </span><span class="kw">build_LDstable</span>(<span class="dv">200</span>)</span>
+<span id="cb26-4"><a href="top-down-assembly.html#cb26-4"></a>r &lt;-<span class="st"> </span><span class="kw">build_randomr</span>(<span class="dv">200</span>)</span>
+<span id="cb26-5"><a href="top-down-assembly.html#cb26-5"></a><span class="co"># final composition</span></span>
+<span id="cb26-6"><a href="top-down-assembly.html#cb26-6"></a>xstar &lt;-<span class="st"> </span><span class="kw">get_final_composition</span>(A, r)</span>
+<span id="cb26-7"><a href="top-down-assembly.html#cb26-7"></a>A_pruned &lt;-<span class="st"> </span>A[xstar <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>, xstar <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>]</span>
+<span id="cb26-8"><a href="top-down-assembly.html#cb26-8"></a>r_pruned &lt;-<span class="st"> </span>r[xstar <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>]</span></code></pre></div>
+<p>Are the properties of matrix <span class="math inline">\(A\)</span> different from those of the pruned version <span class="math inline">\(\tilde{A}\)</span>? We probe this in two ways: first, we build a graph with the strongest interactions, and plot it.</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="top-down-assembly.html#cb27-1"></a>plot_graph_strong &lt;-<span class="st"> </span><span class="cf">function</span>(B, <span class="dt">quantile =</span> <span class="fl">0.75</span>){</span>
+<span id="cb27-2"><a href="top-down-assembly.html#cb27-2"></a>  Bstrong &lt;-<span class="st"> </span><span class="kw">abs</span>(B)</span>
+<span id="cb27-3"><a href="top-down-assembly.html#cb27-3"></a>  <span class="kw">diag</span>(Bstrong) &lt;-<span class="st"> </span><span class="dv">0</span></span>
+<span id="cb27-4"><a href="top-down-assembly.html#cb27-4"></a>  Bstrong[Bstrong <span class="op">&lt;</span><span class="st"> </span><span class="kw">quantile</span>(Bstrong, quantile)] &lt;-<span class="st"> </span><span class="dv">0</span></span>
+<span id="cb27-5"><a href="top-down-assembly.html#cb27-5"></a>  gr &lt;-<span class="st"> </span><span class="kw">graph_from_adjacency_matrix</span>((Bstrong <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>) <span class="op">*</span><span class="st"> </span><span class="dv">1</span>, <span class="dt">mode =</span> <span class="st">&quot;undirected&quot;</span>)</span>
+<span id="cb27-6"><a href="top-down-assembly.html#cb27-6"></a>  <span class="kw">plot</span>(gr, <span class="dt">vertex.size=</span><span class="dv">10</span>, <span class="dt">vertex.label=</span><span class="ot">NA</span>, <span class="dt">layout=</span>layout_with_fr)</span>
+<span id="cb27-7"><a href="top-down-assembly.html#cb27-7"></a>}</span>
+<span id="cb27-8"><a href="top-down-assembly.html#cb27-8"></a></span>
+<span id="cb27-9"><a href="top-down-assembly.html#cb27-9"></a><span class="kw">plot_graph_strong</span>(A)</span></code></pre></div>
+<p><img src="ICTP_Winter_School_files/figure-html/plotnetworksrz-1.png" width="480" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="top-down-assembly.html#cb28-1"></a><span class="kw">plot_graph_strong</span>(A_pruned)</span></code></pre></div>
+<p><img src="ICTP_Winter_School_files/figure-html/plotnetworksrz-2.png" width="480" style="display: block; margin: auto;" /></p>
+<p>There seems to be no special structure. A more powerful way to show the same is to plot the eigenvalues of <span class="math inline">\(A\)</span> and <span class="math inline">\(\tilde{A}\)</span>. For a symmetric matrix with off-diagonal elements centered at zero, the eigenvalues should follow Wigner’s semicircle law:</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="top-down-assembly.html#cb29-1"></a>plot_eigen &lt;-<span class="st"> </span><span class="cf">function</span>(B){</span>
+<span id="cb29-2"><a href="top-down-assembly.html#cb29-2"></a>  evals &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">lambda =</span> <span class="kw">eigen</span>(B, <span class="dt">only.values =</span> <span class="ot">TRUE</span>, <span class="dt">symmetric =</span> <span class="ot">TRUE</span>)<span class="op">$</span>values)</span>
+<span id="cb29-3"><a href="top-down-assembly.html#cb29-3"></a>  <span class="kw">ggplot</span>(<span class="dt">data =</span> evals) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb29-4"><a href="top-down-assembly.html#cb29-4"></a><span class="st">    </span><span class="kw">aes</span>(<span class="dt">x =</span> lambda) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb29-5"><a href="top-down-assembly.html#cb29-5"></a><span class="st">    </span><span class="kw">geom_histogram</span>(<span class="dt">bins =</span> <span class="kw">as.integer</span>(<span class="kw">nrow</span>(evals) <span class="op">/</span><span class="st"> </span><span class="dv">10</span>), <span class="dt">colour =</span> <span class="st">&quot;black&quot;</span>)</span>
+<span id="cb29-6"><a href="top-down-assembly.html#cb29-6"></a>}</span>
+<span id="cb29-7"><a href="top-down-assembly.html#cb29-7"></a><span class="kw">plot_eigen</span>(A)</span></code></pre></div>
+<p><img src="ICTP_Winter_School_files/figure-html/ploteigenrz-1.png" width="480" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="top-down-assembly.html#cb30-1"></a><span class="kw">plot_eigen</span>(A_pruned)</span></code></pre></div>
+<p><img src="ICTP_Winter_School_files/figure-html/ploteigenrz-2.png" width="480" style="display: block; margin: auto;" /></p>
+<p>As such, the matrix of interactions before/after dynamics seem to have the same properties. However, as shown in <span class="citation">Serván et al. (<a href="#ref-servan2018coexistence" role="doc-biblioref">2018</a>)</span>, the distribution of the growth rates changes in a non-trivial way:</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="top-down-assembly.html#cb31-1"></a>toplot &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">r =</span> r, <span class="dt">type =</span> <span class="st">&quot;before&quot;</span>)</span>
+<span id="cb31-2"><a href="top-down-assembly.html#cb31-2"></a>toplot &lt;-<span class="st"> </span><span class="kw">rbind</span>(toplot, <span class="kw">data.frame</span>(<span class="dt">r =</span> r_pruned, <span class="dt">type =</span> <span class="st">&quot;after&quot;</span>))</span>
+<span id="cb31-3"><a href="top-down-assembly.html#cb31-3"></a><span class="kw">ggplot</span>(toplot) <span class="op">+</span><span class="st"> </span><span class="kw">aes</span>(<span class="dt">x =</span> r, <span class="dt">fill =</span> type) <span class="op">+</span><span class="st"> </span><span class="kw">geom_histogram</span>(<span class="dt">position =</span> <span class="st">&quot;dodge&quot;</span>)</span></code></pre></div>
+<p><img src="ICTP_Winter_School_files/figure-html/plotrbeforeafter-1.png" width="480" style="display: block; margin: auto;" /></p>
+<p>But what if species were to be related to each other? For example, suppose <span class="math inline">\(r_i = 1\)</span> for all species, and build a matrix in which the interactions of species <span class="math inline">\(i + 1\)</span> are obtained by mutating slightly those of species <span class="math inline">\(i\)</span>:</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="top-down-assembly.html#cb32-1"></a>n &lt;-<span class="st"> </span><span class="dv">200</span></span>
+<span id="cb32-2"><a href="top-down-assembly.html#cb32-2"></a>r &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="dv">1</span>, <span class="dv">200</span>)</span>
+<span id="cb32-3"><a href="top-down-assembly.html#cb32-3"></a>A &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">0</span>, n, n)</span>
+<span id="cb32-4"><a href="top-down-assembly.html#cb32-4"></a><span class="co"># set first species</span></span>
+<span id="cb32-5"><a href="top-down-assembly.html#cb32-5"></a>A[<span class="dv">1</span>, <span class="dv">1</span>] &lt;-<span class="st"> </span><span class="dv">-1</span></span>
+<span id="cb32-6"><a href="top-down-assembly.html#cb32-6"></a><span class="co"># now each species is obtained by mutating the previous one</span></span>
+<span id="cb32-7"><a href="top-down-assembly.html#cb32-7"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">2</span><span class="op">:</span>n){</span>
+<span id="cb32-8"><a href="top-down-assembly.html#cb32-8"></a>  ai &lt;-<span class="st"> </span>A[i <span class="dv">-1</span>,] <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="fl">0.05</span> <span class="op">*</span><span class="st"> </span><span class="kw">runif</span>(n))</span>
+<span id="cb32-9"><a href="top-down-assembly.html#cb32-9"></a>  A[i, ] &lt;-<span class="st"> </span>A[i, ] <span class="op">+</span><span class="st"> </span>ai</span>
+<span id="cb32-10"><a href="top-down-assembly.html#cb32-10"></a>  A[, i] &lt;-<span class="st"> </span>A[, i] <span class="op">+</span><span class="st"> </span>ai</span>
+<span id="cb32-11"><a href="top-down-assembly.html#cb32-11"></a>  A[i, i] &lt;-<span class="st"> </span><span class="dv">-1</span></span>
+<span id="cb32-12"><a href="top-down-assembly.html#cb32-12"></a>}</span>
+<span id="cb32-13"><a href="top-down-assembly.html#cb32-13"></a><span class="co"># make LD-stable</span></span>
+<span id="cb32-14"><a href="top-down-assembly.html#cb32-14"></a>l1 &lt;-<span class="st"> </span><span class="kw">max</span>(<span class="kw">eigen</span>(A, <span class="dt">only.values =</span> <span class="ot">TRUE</span>, <span class="dt">symmetric =</span> <span class="ot">TRUE</span>)<span class="op">$</span>values)</span>
+<span id="cb32-15"><a href="top-down-assembly.html#cb32-15"></a><span class="cf">if</span> (l1 <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>) <span class="kw">diag</span>(A) &lt;-<span class="st"> </span><span class="kw">diag</span>(A) <span class="op">-</span><span class="st"> </span>l1 <span class="op">*</span><span class="st"> </span><span class="fl">1.01</span></span></code></pre></div>
+<p>Now each species is similar to the previous one:</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="top-down-assembly.html#cb33-1"></a><span class="kw">image</span>(A[<span class="dv">1</span><span class="op">:</span>n, n<span class="op">:</span><span class="dv">1</span>])</span></code></pre></div>
+<p><img src="ICTP_Winter_School_files/figure-html/similarimage-1.png" width="480" style="display: block; margin: auto;" /></p>
+<p>Perform the pruning, and plot networks and eigenvalues:</p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="top-down-assembly.html#cb34-1"></a>xstar &lt;-<span class="st"> </span><span class="kw">get_final_composition</span>(A, r)</span>
+<span id="cb34-2"><a href="top-down-assembly.html#cb34-2"></a>A_pruned &lt;-<span class="st"> </span>A[xstar <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>, xstar <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>]</span>
+<span id="cb34-3"><a href="top-down-assembly.html#cb34-3"></a>r_pruned &lt;-<span class="st"> </span>r[xstar <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>]</span>
+<span id="cb34-4"><a href="top-down-assembly.html#cb34-4"></a></span>
+<span id="cb34-5"><a href="top-down-assembly.html#cb34-5"></a><span class="kw">plot_graph_strong</span>(A)</span></code></pre></div>
+<p><img src="ICTP_Winter_School_files/figure-html/structruredspandrels-1.png" width="480" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="top-down-assembly.html#cb35-1"></a><span class="kw">plot_graph_strong</span>(A_pruned)</span></code></pre></div>
+<p><img src="ICTP_Winter_School_files/figure-html/structruredspandrels-2.png" width="480" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="top-down-assembly.html#cb36-1"></a><span class="kw">plot_eigen</span>(A)</span></code></pre></div>
+<p><img src="ICTP_Winter_School_files/figure-html/structruredspandrels-3.png" width="480" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="top-down-assembly.html#cb37-1"></a><span class="kw">plot_eigen</span>(A_pruned)</span></code></pre></div>
+<p><img src="ICTP_Winter_School_files/figure-html/structruredspandrels-4.png" width="480" style="display: block; margin: auto;" /></p>
+<p>Meaning that if our matrix <span class="math inline">\(A\)</span> is structured, we will recover a structured matrix after pruning, while if <span class="math inline">\(A\)</span> is unstructured, we will recover an unstructured matrix. <span class="citation">Maynard, Serván, and Allesina (<a href="#ref-maynard2018network" role="doc-biblioref">2018</a>)</span> showed that a well-defined network structure could be a “network spandrel” (cfr. <span class="citation">Gould and Lewontin (<a href="#ref-gould1979spandrels" role="doc-biblioref">1979</a>)</span> and <span class="citation">Solé and Valverde (<a href="#ref-sole2006network" role="doc-biblioref">2006</a>)</span>) arising from the way new species are introduced, rather than a “signature of stability”.</p>
 
 </div>
 </div>
 <h3>References</h3>
 <div id="refs" class="references">
+<div id="ref-gould1979spandrels">
+<p>Gould, Stephen Jay, and Richard C Lewontin. 1979. “The Spandrels of San Marco and the Panglossian Paradigm: A Critique of the Adaptationist Programme.” <em>Proceedings of the Royal Society of London. Series B. Biological Sciences</em> 205 (1161): 581–98.</p>
+</div>
+<div id="ref-maynard2018network">
+<p>Maynard, Daniel S, Carlos A Serván, and Stefano Allesina. 2018. “Network Spandrels Reflect Ecological Assembly.” <em>Ecology Letters</em> 21 (3): 324–34.</p>
+</div>
+<div id="ref-servan2020tractable">
+<p>Serván, Carlos A, and Stefano Allesina. 2020. “Tractable Models of Ecological Assembly.” <em>bioRxiv</em>.</p>
+</div>
 <div id="ref-servan2018coexistence">
 <p>Serván, Carlos A, José A Capitán, Jacopo Grilli, Kent E Morrison, and Stefano Allesina. 2018. “Coexistence of Many Species in Random Ecosystems.” <em>Nature Ecology &amp; Evolution</em> 2 (8): 1237.</p>
+</div>
+<div id="ref-sole2006network">
+<p>Solé, Ricard V, and Sergi Valverde. 2006. “Are Network Motifs the Spandrels of Cellular Complexity?” <em>Trends in Ecology &amp; Evolution</em> 21 (8): 419–22.</p>
 </div>
 </div>
             </section>
@@ -531,7 +625,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
         </div>
       </div>
 <a href="intro.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="methods.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="bottom-up-assembly.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

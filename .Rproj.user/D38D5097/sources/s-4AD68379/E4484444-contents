@@ -1,7 +1,0 @@
-book_filename: "ICTP_Winter_School"
-delete_merged_file: true
-language:
-  ui:
-    chapter_name: "Lecture "
-output_dir: "docs"
-

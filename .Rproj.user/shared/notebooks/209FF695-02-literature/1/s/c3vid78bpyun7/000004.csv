@@ -1,4 +1,0 @@
-"0","pl <- ggplot(results) + aes(x = invasion, y = richness, label = composition) + "
-"0","  geom_point() + geom_line() + geom_text(hjust = 0, nudge_y = 0.25, angle = 90)+ "
-"0","  ylim(c(0, n * 1.25))"
-"0","show(pl)"
