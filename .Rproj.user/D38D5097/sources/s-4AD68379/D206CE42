@@ -1,0 +1,25 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1606681385631.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "D206CE42",
+    "lastKnownWriteTime" : 1606681573,
+    "last_content_update" : 1606681573557,
+    "path" : "~/GH/ICTP_Winter_School/code/tmp_find_interesting_params.R",
+    "project_path" : "code/tmp_find_interesting_params.R",
+    "properties" : {
+        "cursorPosition" : "28,0",
+        "scrollLine" : "5"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 4,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

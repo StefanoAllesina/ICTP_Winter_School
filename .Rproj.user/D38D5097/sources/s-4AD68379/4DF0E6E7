@@ -2,18 +2,18 @@
     "collab_server" : "",
     "contents" : "",
     "created" : 1606343006683.000,
-    "dirty" : true,
+    "dirty" : false,
     "encoding" : "UTF-8",
     "folds" : "",
     "hash" : "0",
     "id" : "4DF0E6E7",
-    "lastKnownWriteTime" : 1606512239,
-    "last_content_update" : 1606512301134,
+    "lastKnownWriteTime" : 1606683674,
+    "last_content_update" : 1606683674892,
     "path" : "~/GH/ICTP_Winter_School/01-intro.Rmd",
     "project_path" : "01-intro.Rmd",
     "properties" : {
-        "cursorPosition" : "234,433",
-        "scrollLine" : "233"
+        "cursorPosition" : "277,88",
+        "scrollLine" : "273"
     },
     "read_only" : false,
     "read_only_alternatives" : [

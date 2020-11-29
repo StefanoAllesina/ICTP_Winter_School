@@ -1,8 +1,16 @@
 # Introduction {#intro}
 
-We call **ecological assembly** the process by which **ecological communities are built**, by the interplay of invasions and extinctions. The typical setting for an assembly model is one in which a large pool of species are available (e.g., in a "mainland"), and every so often individuals from the species' pool enter a local habitat (island, patch, etc.), at which point they might either grow (invasion, establishment, etc.), or go extinct. In either case, the local community might respond to the invader---for example, the invader could send some of the local populations extinct, or shift the community from one state to another.
+We call **ecological assembly** the process by which **ecological communities are built** by the interplay of invasions (increasing community "richness") and extinctions (decreasing it). The typical setting for an assembly model is one in which a large (possibly infinite) pool of species are available (e.g., in a "mainland"), and every so often individuals from the species' pool enter a local habitat (island, patch, etc.), at which point they might either grow (invasion, establishment, etc.), or go extinct. In either case, the local community might respond to the invader---for example, the invader could send some of the local populations extinct, or shift the community from one state to another.
 
-Historically, this type of island-mainland model (based on species) has been contrasted with "trait-environment" models, in which species' traits, rather than identity are the focus of the dynamics. In such models, ideas such as "environmental filtering" (i.e., the pruning of species that cannot grow in the local environment) and "trait underdispersion" (i.e., the fact that the filtering imposed by the environment results in a convergence in traits) arise naturally. When thinking of communities of competitors (e.g., different species of plants), then we might think that species' interactions will also play a role---because species need to be different enough to coexist, this would generate "trait overdispersion" (due to limiting similarity). For a great summary of 25 years of discussions on these themes (1975-2000), see @weiher2001ecological.
+The idea of assembly was first introduced in ecology by the pioneers of "succession". For example, in 1899 Henry Chandler Cowles studied the vegetation development in the Indiana Dunes---sand dunes are first colonized by "pioneer" species of plants, which are then overgrown by different vegetation in older dunes. Because dunes are regularly disrupted by wind, one could make a "space-for-time" substitution and reconstruct the development of the vegetation as a "chronosequence". Importantly, Cowles (and then Clements) held the view that succession would be a strongly ordered, "determinisitc" process by which communities tended to a certain "climax" state. In the 1920s, Henry Gleason challenged this view, advocating for a much greater role for chance.
+
+Another important piece of the puzzle was provided by the work of Jared Diamond who, while studying avian assemblages in New Guinea, proposed that certain species assemblages would be "forbidden" (due to competition)---by observing several instances of assembly (in the different islands), one could guess the rules of the assembly game. Diamond's work sparked decades of intense debate, bringing a focus on the role of null models in ecology (are the observed patterns due to chance or necessity?), with especially cogent critiques brought forward by Simberloff, Connor and Gotelli (see for example @gotelli1996null). 
+
+In the early 2000s, the focus changed decisively and became centered on the difference between "neutrality" (i.e., where species distribution are driven by stochastic fluctuations, @hubbell2001unified) and "niche" (i.e., driven by species interactions---or rather their avoidance). 
+
+Finally, the budding field of "community phylogenetics" (@cadotte2016phylogenies) is centered on relating these concepts with data stemming from phylogenetic trees.
+
+Here, we step back and reconsider basic models of ecological assembly in the style for example of @drake1991community, @law1996permanence, and @morton1996models.
 
 ## Generalized Lotka-Volterra model
 
@@ -15,11 +23,30 @@ $$
 $$
 
 where $x(t)$ is a (column) vector of length $n$ containing the densities of all populations $1, \ldots, n$ at time $t$, $r$ is a vector of "intrinsic growth rates" (or death rates, when negative), measuring the growth (decline) of population $i$ when grown alone at low density, and $A$ is a $n \times n$ matrix of interaction coefficients. We use $D(x)$ to denote the diagonal matrix with $x$ on the diagonal. 
+
 For a single species, the model can yield only a limited number of outcomes---the species can grow exponentially, decay exponentially, or reach an equilibrium. When we include two or more species, we can observe cycles, and with three or more species we can find chaotic dynamics. 
+
+```{r, warning=FALSE, message=FALSE}
+source("code/general_code.R")
+# load interesting parameters
+load("code/four_spp_cycle.RData")
+A <- limit_cycle_4spp$A
+r <- limit_cycle_4spp$r
+set.seed(1) # for reproducibility
+dynamics <- GLV_dynamics(A = A, 
+                         r = r,
+                         maxtime = 150)
+plot_dynamics(dynamics)
+```
 
 ### Coexistence equilibrium
 
 For any instance of the model, we can look for stationary points (equilibria). If the matrix $A$ is not singular, then we can look for a solution of $r + Ax = 0$ that has positive components (called a **feasible equilibrium**). **If such point exists, it is unique** and is the solution of $Ax^\star = -r$, $x^\star = -A^{-1}r$. 
+
+```{r}
+# find feasible equilibrium for the example above
+solve(A, -r)
+```
 
 Suppose that the GLV has no feasible equilibrium. Then all trajectories (if bounded; some could grow to infinity) reach the boundary of $\mathbb R^n_{0+}$. Practically, this means that **to ensure coexistence of all species, it is necessary to have an equilibrium in the interior $\mathbb R^n_{+}$**. For a proof, see Theorem 5.2.1 in @hofbauer1998evolutionary.
 
@@ -44,6 +71,14 @@ M = \left. {J} \right|_{ {x}^\star} = D(x^\star)A
 $$
 
 If the eigenvalues of $M$ have all negative real part, then $x^\star$ is locally asymptotically stable.
+
+```{r}
+# build the community matrix
+x_star <- solve(A, -r)
+M <- diag(x_star) %*% A
+eigen(M, only.values = TRUE)$values %>% 
+  round(2)
+```
 
 ### The equilibrium is the time-average
 
@@ -85,6 +120,18 @@ $$
 
 showing that **the average density is** in fact **the equilibrium**. With a similar argument, one can prove that if the trajectory stays in a compact space (i.e., in case of chaotic attractors), then long-time average is still $x^\star$.
 
+```{r}
+dynamics$ts %>% 
+  filter(time > 50) %>% 
+  group_by(species) %>% 
+  summarize(density = mean(density)) %>% 
+  select(density) %>% t() %>% as.numeric()
+```
+
+```{r}
+x_star
+```
+
 ### Lyapunov diagonal stability and global stability
 
 Suppose that there is a positive diagonal matrix $C$ such that $C A + A^T C$ is negative definite (i.e., has only negative eigenvalues; the eigenvalues are real because the matrix is symmetric).  Then $A$ is **Lyapunov-diagonally stable**. If this is the case, then $A$ is stable, and any $D A$ with $D$ positive is also stable (called $D-$stability).
@@ -110,7 +157,7 @@ $$
 \end{aligned}
 $$
 
-A matrix $B$ is negative definite if $y^T B y < 0$ for all $y \neq 0$. As such, if $C A + A^T C$, then $\frac{d V(x(t))}{dt} \leq 0$, i.e., will decrease in time (starting from any $x(0)$) until the equilibrium $x^\star$ is reached. 
+A matrix $B$ is negative definite if $y^T B y < 0$ for all $y \neq 0$. As such, if $C A + A^T C$, then $\frac{d V(x(t))}{dt} \leq 0$, i.e., will decrease in time (starting from any positive $x(0)$) until the equilibrium $x^\star$ is reached. 
 
 The results above show that **if $A$ is Lyapunov diagonally-stable and a feasible equilibrium $x^\star$ exists, then all trajectories starting at a positive density will converge to the equilibrium**. This property is often used to prove **global stability**.
 
@@ -203,7 +250,7 @@ $$
 x^{(k)} = -\left(A^{(k,k)} \right)^{-1}r^{(k)} > 0
 $$
 
-Now we want to write the condition for the non-invasibility of the resident community by the other species in the metacommunity. For each species in $(n-k)$, we need to have a negative growth rate when invading:
+Now we want to write the condition for the **non-invasibility** of the resident community by the other species in the metacommunity. For each species in $(n-k)$, we need to have a negative growth rate when invading:
 
 $$
 r^{(n-k)} + A^{(n-k,k)}x^{(k)} < 0
@@ -228,7 +275,7 @@ $$
 \dfrac{dV(x)}{dt} &= -\sum_i c_i \left(\bar{x}_i \frac{d \log x_i}{dt} - \frac{d x_i}{dt} \right) \\
 &= -\sum_i c_i \left( \bar{x}_i - x_i \right)  \left( r_i + \sum_j A_{ij} x_j \right) \\
 &= -\sum_i c_i \left( \bar{x}_i - x_i \right)  \left( r_i + \sum_j A_{ij} (x_j - \bar{x}_j) +  \sum_j A_{ij} \bar{x}_j \right) \\
-&= \sum_{i,j} \left( \bar{x}_i - x_i \right) c_i A_{ij} \left( \bar{x}_j - x_j \right) - \sum_i c_i \left( \bar{x}_i - x_i \right) \left(r_i + \sum_j A_{ij} \bar{x}_j \right)
+&= \sum_{i,j} \left( \bar{x}_i - x_i \right) c_i A_{ij} \left( \bar{x}_j - x_j \right) + \sum_i c_i \left( \bar{x}_i - x_i \right) \left(r_i + \sum_j A_{ij} \bar{x}_j \right)
 \end{aligned}
 $$
 

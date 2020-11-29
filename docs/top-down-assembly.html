@@ -24,7 +24,7 @@
 <meta name="author" content="Stefano Allesina" />
 
 
-<meta name="date" content="2020-11-26" />
+<meta name="date" content="2020-11-29" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -191,42 +191,42 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="simulating-final-composition" class="section level2">
 <h2><span class="header-section-number">2.2</span> Simulating final composition</h2>
 <p>Now, let’s simulate cases in which species do interact with each other. First, we load the functions we’ve written before:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="top-down-assembly.html#cb1-1"></a><span class="co"># this file contains functions to integrate GLV dynamics</span></span>
-<span id="cb1-2"><a href="top-down-assembly.html#cb1-2"></a><span class="co"># and plot the results</span></span>
-<span id="cb1-3"><a href="top-down-assembly.html#cb1-3"></a><span class="kw">source</span>(<span class="st">&quot;code/general_code.R&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="top-down-assembly.html#cb6-1"></a><span class="co"># this file contains functions to integrate GLV dynamics</span></span>
+<span id="cb6-2"><a href="top-down-assembly.html#cb6-2"></a><span class="co"># and plot the results</span></span>
+<span id="cb6-3"><a href="top-down-assembly.html#cb6-3"></a><span class="kw">source</span>(<span class="st">&quot;code/general_code.R&quot;</span>)</span></code></pre></div>
 <p>And then write functions to give us a (barely) stable, symmetric matrix <span class="math inline">\(A\)</span>, and random growth rates:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="top-down-assembly.html#cb2-1"></a><span class="co"># function to build symmetric, Lyapunov Diagonally-stable matrix</span></span>
-<span id="cb2-2"><a href="top-down-assembly.html#cb2-2"></a>build_LDstable &lt;-<span class="st"> </span><span class="cf">function</span>(n){</span>
-<span id="cb2-3"><a href="top-down-assembly.html#cb2-3"></a>  A &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">0</span>, n, n)</span>
-<span id="cb2-4"><a href="top-down-assembly.html#cb2-4"></a>  A[<span class="kw">upper.tri</span>(A)] &lt;-<span class="st"> </span><span class="kw">rnorm</span>(n <span class="op">*</span><span class="st"> </span>(n <span class="op">-</span><span class="st"> </span><span class="dv">1</span>) <span class="op">/</span><span class="st"> </span><span class="dv">2</span>)</span>
-<span id="cb2-5"><a href="top-down-assembly.html#cb2-5"></a>  <span class="co"># make symmetric</span></span>
-<span id="cb2-6"><a href="top-down-assembly.html#cb2-6"></a>  A &lt;-<span class="st"> </span>A <span class="op">+</span><span class="st"> </span><span class="kw">t</span>(A)</span>
-<span id="cb2-7"><a href="top-down-assembly.html#cb2-7"></a>  <span class="co"># now find the largest eigenvalue</span></span>
-<span id="cb2-8"><a href="top-down-assembly.html#cb2-8"></a>  l1A &lt;-<span class="st"> </span><span class="kw">max</span>(<span class="kw">eigen</span>(A, <span class="dt">only.values =</span> <span class="ot">TRUE</span>, <span class="dt">symmetric =</span> <span class="ot">TRUE</span>)<span class="op">$</span>values)</span>
-<span id="cb2-9"><a href="top-down-assembly.html#cb2-9"></a>  <span class="cf">if</span> (l1A <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>){</span>
-<span id="cb2-10"><a href="top-down-assembly.html#cb2-10"></a>    <span class="co"># set the diagonal to make it stable</span></span>
-<span id="cb2-11"><a href="top-down-assembly.html#cb2-11"></a>    <span class="kw">diag</span>(A) &lt;-<span class="st"> </span><span class="kw">diag</span>(A) <span class="op">-</span><span class="st"> </span>l1A <span class="op">-</span><span class="st"> </span><span class="fl">0.01</span></span>
-<span id="cb2-12"><a href="top-down-assembly.html#cb2-12"></a>  }</span>
-<span id="cb2-13"><a href="top-down-assembly.html#cb2-13"></a>  <span class="kw">return</span>(A)</span>
-<span id="cb2-14"><a href="top-down-assembly.html#cb2-14"></a>}</span>
-<span id="cb2-15"><a href="top-down-assembly.html#cb2-15"></a></span>
-<span id="cb2-16"><a href="top-down-assembly.html#cb2-16"></a><span class="co"># function to get random growth rates</span></span>
-<span id="cb2-17"><a href="top-down-assembly.html#cb2-17"></a>build_randomr &lt;-<span class="st"> </span><span class="cf">function</span>(n){</span>
-<span id="cb2-18"><a href="top-down-assembly.html#cb2-18"></a>  <span class="kw">return</span>(<span class="kw">rnorm</span>(n))</span>
-<span id="cb2-19"><a href="top-down-assembly.html#cb2-19"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="top-down-assembly.html#cb7-1"></a><span class="co"># function to build symmetric, Lyapunov Diagonally-stable matrix</span></span>
+<span id="cb7-2"><a href="top-down-assembly.html#cb7-2"></a>build_LDstable &lt;-<span class="st"> </span><span class="cf">function</span>(n){</span>
+<span id="cb7-3"><a href="top-down-assembly.html#cb7-3"></a>  A &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">0</span>, n, n)</span>
+<span id="cb7-4"><a href="top-down-assembly.html#cb7-4"></a>  A[<span class="kw">upper.tri</span>(A)] &lt;-<span class="st"> </span><span class="kw">rnorm</span>(n <span class="op">*</span><span class="st"> </span>(n <span class="op">-</span><span class="st"> </span><span class="dv">1</span>) <span class="op">/</span><span class="st"> </span><span class="dv">2</span>)</span>
+<span id="cb7-5"><a href="top-down-assembly.html#cb7-5"></a>  <span class="co"># make symmetric</span></span>
+<span id="cb7-6"><a href="top-down-assembly.html#cb7-6"></a>  A &lt;-<span class="st"> </span>A <span class="op">+</span><span class="st"> </span><span class="kw">t</span>(A)</span>
+<span id="cb7-7"><a href="top-down-assembly.html#cb7-7"></a>  <span class="co"># now find the largest eigenvalue</span></span>
+<span id="cb7-8"><a href="top-down-assembly.html#cb7-8"></a>  l1A &lt;-<span class="st"> </span><span class="kw">max</span>(<span class="kw">eigen</span>(A, <span class="dt">only.values =</span> <span class="ot">TRUE</span>, <span class="dt">symmetric =</span> <span class="ot">TRUE</span>)<span class="op">$</span>values)</span>
+<span id="cb7-9"><a href="top-down-assembly.html#cb7-9"></a>  <span class="cf">if</span> (l1A <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>){</span>
+<span id="cb7-10"><a href="top-down-assembly.html#cb7-10"></a>    <span class="co"># set the diagonal to make it stable</span></span>
+<span id="cb7-11"><a href="top-down-assembly.html#cb7-11"></a>    <span class="kw">diag</span>(A) &lt;-<span class="st"> </span><span class="kw">diag</span>(A) <span class="op">-</span><span class="st"> </span>l1A <span class="op">-</span><span class="st"> </span><span class="fl">0.01</span></span>
+<span id="cb7-12"><a href="top-down-assembly.html#cb7-12"></a>  }</span>
+<span id="cb7-13"><a href="top-down-assembly.html#cb7-13"></a>  <span class="kw">return</span>(A)</span>
+<span id="cb7-14"><a href="top-down-assembly.html#cb7-14"></a>}</span>
+<span id="cb7-15"><a href="top-down-assembly.html#cb7-15"></a></span>
+<span id="cb7-16"><a href="top-down-assembly.html#cb7-16"></a><span class="co"># function to get random growth rates</span></span>
+<span id="cb7-17"><a href="top-down-assembly.html#cb7-17"></a>build_randomr &lt;-<span class="st"> </span><span class="cf">function</span>(n){</span>
+<span id="cb7-18"><a href="top-down-assembly.html#cb7-18"></a>  <span class="kw">return</span>(<span class="kw">rnorm</span>(n))</span>
+<span id="cb7-19"><a href="top-down-assembly.html#cb7-19"></a>}</span></code></pre></div>
 <p>Now, we build a random system with seven species, and integrate the dynamics:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="top-down-assembly.html#cb3-1"></a><span class="kw">set.seed</span>(<span class="dv">5</span>) <span class="co"># for reproducibility</span></span>
-<span id="cb3-2"><a href="top-down-assembly.html#cb3-2"></a>n &lt;-<span class="st"> </span><span class="dv">7</span></span>
-<span id="cb3-3"><a href="top-down-assembly.html#cb3-3"></a>A &lt;-<span class="st"> </span><span class="kw">build_LDstable</span>(n)</span>
-<span id="cb3-4"><a href="top-down-assembly.html#cb3-4"></a>r &lt;-<span class="st"> </span><span class="kw">build_randomr</span>(n)</span>
-<span id="cb3-5"><a href="top-down-assembly.html#cb3-5"></a>x0 &lt;-<span class="st"> </span><span class="kw">runif</span>(n)</span>
-<span id="cb3-6"><a href="top-down-assembly.html#cb3-6"></a>out &lt;-<span class="st"> </span><span class="kw">GLV_dynamics</span>(<span class="dt">z0 =</span> x0, <span class="dt">A =</span> A, <span class="dt">r =</span> r, <span class="dt">maxtime =</span> <span class="dv">25</span>, <span class="dt">bytime =</span> <span class="fl">0.1</span>)</span>
-<span id="cb3-7"><a href="top-down-assembly.html#cb3-7"></a><span class="kw">show</span>(<span class="kw">plot_dynamics</span>(out))</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="top-down-assembly.html#cb8-1"></a><span class="kw">set.seed</span>(<span class="dv">5</span>) <span class="co"># for reproducibility</span></span>
+<span id="cb8-2"><a href="top-down-assembly.html#cb8-2"></a>n &lt;-<span class="st"> </span><span class="dv">7</span></span>
+<span id="cb8-3"><a href="top-down-assembly.html#cb8-3"></a>A &lt;-<span class="st"> </span><span class="kw">build_LDstable</span>(n)</span>
+<span id="cb8-4"><a href="top-down-assembly.html#cb8-4"></a>r &lt;-<span class="st"> </span><span class="kw">build_randomr</span>(n)</span>
+<span id="cb8-5"><a href="top-down-assembly.html#cb8-5"></a>x0 &lt;-<span class="st"> </span><span class="kw">runif</span>(n)</span>
+<span id="cb8-6"><a href="top-down-assembly.html#cb8-6"></a>out &lt;-<span class="st"> </span><span class="kw">GLV_dynamics</span>(<span class="dt">z0 =</span> x0, <span class="dt">A =</span> A, <span class="dt">r =</span> r, <span class="dt">maxtime =</span> <span class="dv">25</span>, <span class="dt">bytime =</span> <span class="fl">0.1</span>)</span>
+<span id="cb8-7"><a href="top-down-assembly.html#cb8-7"></a><span class="kw">show</span>(<span class="kw">plot_dynamics</span>(out))</span></code></pre></div>
 <p><img src="ICTP_Winter_School_files/figure-html/rndzooex1-1.png" width="480" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="top-down-assembly.html#cb4-1"></a>knitr<span class="op">::</span><span class="kw">kable</span>(</span>
-<span id="cb4-2"><a href="top-down-assembly.html#cb4-2"></a>out<span class="op">$</span>ts <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb4-3"><a href="top-down-assembly.html#cb4-3"></a><span class="st">  </span><span class="kw">filter</span>(out<span class="op">$</span>ts<span class="op">$</span>time <span class="op">==</span><span class="st"> </span><span class="kw">max</span>(out<span class="op">$</span>ts<span class="op">$</span>time)) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb4-4"><a href="top-down-assembly.html#cb4-4"></a><span class="st">  </span><span class="kw">select</span>(<span class="op">-</span>time) )</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="top-down-assembly.html#cb9-1"></a>knitr<span class="op">::</span><span class="kw">kable</span>(</span>
+<span id="cb9-2"><a href="top-down-assembly.html#cb9-2"></a>out<span class="op">$</span>ts <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb9-3"><a href="top-down-assembly.html#cb9-3"></a><span class="st">  </span><span class="kw">filter</span>(out<span class="op">$</span>ts<span class="op">$</span>time <span class="op">==</span><span class="st"> </span><span class="kw">max</span>(out<span class="op">$</span>ts<span class="op">$</span>time)) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb9-4"><a href="top-down-assembly.html#cb9-4"></a><span class="st">  </span><span class="kw">select</span>(<span class="op">-</span>time) )</span></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -266,15 +266,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </tbody>
 </table>
 <p>As you can see, in this case, two species (3 and 5) go extinct, while the other ones reach a feasible equilibrium. Let’s try to start the system with species 3 and 5 at high abundance, to show that the equilibrium is indeed globally stable:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="top-down-assembly.html#cb5-1"></a>x0[<span class="dv">3</span>] &lt;-<span class="st"> </span><span class="dv">10</span></span>
-<span id="cb5-2"><a href="top-down-assembly.html#cb5-2"></a>x0[<span class="dv">5</span>] &lt;-<span class="st"> </span><span class="dv">10</span></span>
-<span id="cb5-3"><a href="top-down-assembly.html#cb5-3"></a>out &lt;-<span class="st"> </span><span class="kw">GLV_dynamics</span>(<span class="dt">z0 =</span> x0, <span class="dt">A =</span> A, <span class="dt">r =</span> r, <span class="dt">maxtime =</span> <span class="dv">25</span>, <span class="dt">bytime =</span> <span class="fl">0.1</span>)</span>
-<span id="cb5-4"><a href="top-down-assembly.html#cb5-4"></a><span class="kw">show</span>(<span class="kw">plot_dynamics</span>(out))</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="top-down-assembly.html#cb10-1"></a>x0[<span class="dv">3</span>] &lt;-<span class="st"> </span><span class="dv">10</span></span>
+<span id="cb10-2"><a href="top-down-assembly.html#cb10-2"></a>x0[<span class="dv">5</span>] &lt;-<span class="st"> </span><span class="dv">10</span></span>
+<span id="cb10-3"><a href="top-down-assembly.html#cb10-3"></a>out &lt;-<span class="st"> </span><span class="kw">GLV_dynamics</span>(<span class="dt">z0 =</span> x0, <span class="dt">A =</span> A, <span class="dt">r =</span> r, <span class="dt">maxtime =</span> <span class="dv">25</span>, <span class="dt">bytime =</span> <span class="fl">0.1</span>)</span>
+<span id="cb10-4"><a href="top-down-assembly.html#cb10-4"></a><span class="kw">show</span>(<span class="kw">plot_dynamics</span>(out))</span></code></pre></div>
 <p><img src="ICTP_Winter_School_files/figure-html/rndzooex2-1.png" width="480" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="top-down-assembly.html#cb6-1"></a>knitr<span class="op">::</span><span class="kw">kable</span>(</span>
-<span id="cb6-2"><a href="top-down-assembly.html#cb6-2"></a>out<span class="op">$</span>ts <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb6-3"><a href="top-down-assembly.html#cb6-3"></a><span class="st">  </span><span class="kw">filter</span>(out<span class="op">$</span>ts<span class="op">$</span>time <span class="op">==</span><span class="st"> </span><span class="kw">max</span>(out<span class="op">$</span>ts<span class="op">$</span>time)) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb6-4"><a href="top-down-assembly.html#cb6-4"></a><span class="st">  </span><span class="kw">select</span>(<span class="op">-</span>time) )</span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="top-down-assembly.html#cb11-1"></a>knitr<span class="op">::</span><span class="kw">kable</span>(</span>
+<span id="cb11-2"><a href="top-down-assembly.html#cb11-2"></a>out<span class="op">$</span>ts <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb11-3"><a href="top-down-assembly.html#cb11-3"></a><span class="st">  </span><span class="kw">filter</span>(out<span class="op">$</span>ts<span class="op">$</span>time <span class="op">==</span><span class="st"> </span><span class="kw">max</span>(out<span class="op">$</span>ts<span class="op">$</span>time)) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb11-4"><a href="top-down-assembly.html#cb11-4"></a><span class="st">  </span><span class="kw">select</span>(<span class="op">-</span>time) )</span></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -314,93 +314,93 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </tbody>
 </table>
 <p>As you can see, the system still goes to the same equilibrium, with 3 and 5 extinct. Turns out, for this type of system, one does not even need to integrate dynamics: the Lemke–Howson algorithm can be adapted to solve the problem efficiently <span class="citation">(Serván et al. <a href="#ref-servan2018coexistence" role="doc-biblioref">2018</a>)</span>. I have coded up the algorithm already, and you can load the function <code>get_final_composition(A, r)</code> by typing:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="top-down-assembly.html#cb7-1"></a><span class="kw">source</span>(<span class="st">&quot;code/L-H.R&quot;</span>)</span>
-<span id="cb7-2"><a href="top-down-assembly.html#cb7-2"></a><span class="kw">get_final_composition</span>(A, r) <span class="co"># use LH instead of integrating dynamics</span></span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="top-down-assembly.html#cb12-1"></a><span class="kw">source</span>(<span class="st">&quot;code/L-H.R&quot;</span>)</span>
+<span id="cb12-2"><a href="top-down-assembly.html#cb12-2"></a><span class="kw">get_final_composition</span>(A, r) <span class="co"># use LH instead of integrating dynamics</span></span></code></pre></div>
 <p>[1] 0.4290300 0.2761030 0.0000000 0.4021761 0.0000000 0.6453202 0.5776840</p>
 </div>
 <div id="a-random-zoo" class="section level2">
 <h2><span class="header-section-number">2.3</span> A random zoo</h2>
 <p>In the case above, 5 species persisted. We can ask how many species will coexist in general under this parametrization. A good metaphor is that of the random zoo: take a large zoo, open all the cages, and return after fifty years. How many species will you find?</p>
 <p>To simulate the random zoo, we take random matrices and random growth rates with <span class="math inline">\(n\)</span> species, and tally the number of coexisting species over several simulations:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="top-down-assembly.html#cb8-1"></a><span class="kw">set.seed</span>(<span class="dv">1</span>)</span>
-<span id="cb8-2"><a href="top-down-assembly.html#cb8-2"></a>n &lt;-<span class="st"> </span><span class="dv">5</span></span>
-<span id="cb8-3"><a href="top-down-assembly.html#cb8-3"></a>nsim &lt;-<span class="st"> </span><span class="dv">2000</span></span>
-<span id="cb8-4"><a href="top-down-assembly.html#cb8-4"></a>results &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">simulation =</span> <span class="dv">1</span><span class="op">:</span>nsim, </span>
-<span id="cb8-5"><a href="top-down-assembly.html#cb8-5"></a>                      <span class="dt">ncoexisting =</span> <span class="kw">rep</span>(<span class="ot">NA</span>, nsim))</span>
-<span id="cb8-6"><a href="top-down-assembly.html#cb8-6"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>nsim){</span>
-<span id="cb8-7"><a href="top-down-assembly.html#cb8-7"></a>  <span class="co"># build the matrix and vector</span></span>
-<span id="cb8-8"><a href="top-down-assembly.html#cb8-8"></a>  A &lt;-<span class="st"> </span><span class="kw">build_LDstable</span>(n)</span>
-<span id="cb8-9"><a href="top-down-assembly.html#cb8-9"></a>  r &lt;-<span class="st"> </span><span class="kw">build_randomr</span>(n)</span>
-<span id="cb8-10"><a href="top-down-assembly.html#cb8-10"></a>  xstar &lt;-<span class="st"> </span><span class="kw">get_final_composition</span>(A, r)</span>
-<span id="cb8-11"><a href="top-down-assembly.html#cb8-11"></a>  results<span class="op">$</span>ncoexisting[i] &lt;-<span class="st"> </span><span class="kw">sum</span>(xstar <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>)</span>
-<span id="cb8-12"><a href="top-down-assembly.html#cb8-12"></a>}</span>
-<span id="cb8-13"><a href="top-down-assembly.html#cb8-13"></a>pl &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data =</span> results) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb8-14"><a href="top-down-assembly.html#cb8-14"></a><span class="st">  </span><span class="kw">aes</span>(<span class="dt">x =</span> ncoexisting) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb8-15"><a href="top-down-assembly.html#cb8-15"></a><span class="st">  </span><span class="kw">geom_bar</span>() <span class="op">+</span><span class="st"> </span></span>
-<span id="cb8-16"><a href="top-down-assembly.html#cb8-16"></a><span class="st">  </span><span class="kw">scale_x_continuous</span>(<span class="st">&quot;number of species coexisting&quot;</span>, <span class="dt">breaks =</span> <span class="dv">0</span><span class="op">:</span><span class="dv">10</span>)</span>
-<span id="cb8-17"><a href="top-down-assembly.html#cb8-17"></a><span class="kw">show</span>(pl)</span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="top-down-assembly.html#cb13-1"></a><span class="kw">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb13-2"><a href="top-down-assembly.html#cb13-2"></a>n &lt;-<span class="st"> </span><span class="dv">5</span></span>
+<span id="cb13-3"><a href="top-down-assembly.html#cb13-3"></a>nsim &lt;-<span class="st"> </span><span class="dv">2000</span></span>
+<span id="cb13-4"><a href="top-down-assembly.html#cb13-4"></a>results &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">simulation =</span> <span class="dv">1</span><span class="op">:</span>nsim, </span>
+<span id="cb13-5"><a href="top-down-assembly.html#cb13-5"></a>                      <span class="dt">ncoexisting =</span> <span class="kw">rep</span>(<span class="ot">NA</span>, nsim))</span>
+<span id="cb13-6"><a href="top-down-assembly.html#cb13-6"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>nsim){</span>
+<span id="cb13-7"><a href="top-down-assembly.html#cb13-7"></a>  <span class="co"># build the matrix and vector</span></span>
+<span id="cb13-8"><a href="top-down-assembly.html#cb13-8"></a>  A &lt;-<span class="st"> </span><span class="kw">build_LDstable</span>(n)</span>
+<span id="cb13-9"><a href="top-down-assembly.html#cb13-9"></a>  r &lt;-<span class="st"> </span><span class="kw">build_randomr</span>(n)</span>
+<span id="cb13-10"><a href="top-down-assembly.html#cb13-10"></a>  xstar &lt;-<span class="st"> </span><span class="kw">get_final_composition</span>(A, r)</span>
+<span id="cb13-11"><a href="top-down-assembly.html#cb13-11"></a>  results<span class="op">$</span>ncoexisting[i] &lt;-<span class="st"> </span><span class="kw">sum</span>(xstar <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>)</span>
+<span id="cb13-12"><a href="top-down-assembly.html#cb13-12"></a>}</span>
+<span id="cb13-13"><a href="top-down-assembly.html#cb13-13"></a>pl &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data =</span> results) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb13-14"><a href="top-down-assembly.html#cb13-14"></a><span class="st">  </span><span class="kw">aes</span>(<span class="dt">x =</span> ncoexisting) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb13-15"><a href="top-down-assembly.html#cb13-15"></a><span class="st">  </span><span class="kw">geom_bar</span>() <span class="op">+</span><span class="st"> </span></span>
+<span id="cb13-16"><a href="top-down-assembly.html#cb13-16"></a><span class="st">  </span><span class="kw">scale_x_continuous</span>(<span class="st">&quot;number of species coexisting&quot;</span>, <span class="dt">breaks =</span> <span class="dv">0</span><span class="op">:</span><span class="dv">10</span>)</span>
+<span id="cb13-17"><a href="top-down-assembly.html#cb13-17"></a><span class="kw">show</span>(pl)</span></code></pre></div>
 <p><img src="ICTP_Winter_School_files/figure-html/randomzoo-1.png" width="480" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="top-down-assembly.html#cb9-1"></a><span class="co"># add binomial distribution</span></span>
-<span id="cb9-2"><a href="top-down-assembly.html#cb9-2"></a>tbinom &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">ncoexisting =</span> <span class="dv">0</span><span class="op">:</span>n, </span>
-<span id="cb9-3"><a href="top-down-assembly.html#cb9-3"></a>                 <span class="dt">expectation =</span> nsim <span class="op">*</span><span class="st"> </span><span class="kw">dbinom</span>(<span class="dv">0</span><span class="op">:</span>n, n, <span class="fl">0.5</span>))</span>
-<span id="cb9-4"><a href="top-down-assembly.html#cb9-4"></a>pl &lt;-<span class="st"> </span>pl <span class="op">+</span><span class="st"> </span><span class="kw">geom_point</span>(<span class="dt">data =</span> tbinom, <span class="kw">aes</span>(<span class="dt">x =</span> ncoexisting, <span class="dt">y =</span> expectation))</span>
-<span id="cb9-5"><a href="top-down-assembly.html#cb9-5"></a><span class="kw">show</span>(pl)</span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="top-down-assembly.html#cb14-1"></a><span class="co"># add binomial distribution</span></span>
+<span id="cb14-2"><a href="top-down-assembly.html#cb14-2"></a>tbinom &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">ncoexisting =</span> <span class="dv">0</span><span class="op">:</span>n, </span>
+<span id="cb14-3"><a href="top-down-assembly.html#cb14-3"></a>                 <span class="dt">expectation =</span> nsim <span class="op">*</span><span class="st"> </span><span class="kw">dbinom</span>(<span class="dv">0</span><span class="op">:</span>n, n, <span class="fl">0.5</span>))</span>
+<span id="cb14-4"><a href="top-down-assembly.html#cb14-4"></a>pl &lt;-<span class="st"> </span>pl <span class="op">+</span><span class="st"> </span><span class="kw">geom_point</span>(<span class="dt">data =</span> tbinom, <span class="kw">aes</span>(<span class="dt">x =</span> ncoexisting, <span class="dt">y =</span> expectation))</span>
+<span id="cb14-5"><a href="top-down-assembly.html#cb14-5"></a><span class="kw">show</span>(pl)</span></code></pre></div>
 <p><img src="ICTP_Winter_School_files/figure-html/randomzoo-2.png" width="480" style="display: block; margin: auto;" /></p>
 <p>We find again that the number of coexisting species follows the binomial distribution with parameters <span class="math inline">\(n\)</span> and <span class="math inline">\(1/2\)</span> (i.e., exactly the same result found for non interacting species). To prove this fact, let’s begin with showing that the probability of having all species coexisting is <span class="math inline">\(1 / 2^n\)</span>. For this, we need <span class="math inline">\(x^\star = -r A^{-1}\)</span> to be feasible. For each possible <span class="math inline">\(A\)</span> (invertible) and <span class="math inline">\(r\)</span>, we have that the vector <span class="math inline">\(-r A^{-1}\)</span> will display a certain pattern of signs. Proving that the probability that all <span class="math inline">\(n\)</span> species coexist is <span class="math inline">\(1 / 2^n\)</span> amounts to proving that all sign patterns are equally probable. To this end, define the matrix <span class="math inline">\(D_k = (-1)^{\delta_{ik}} \delta_{ij}\)</span>. This is like the identity matrix, but with element <span class="math inline">\(k\)</span> of the diagonal set to <span class="math inline">\(-1\)</span> instead of <span class="math inline">\(1\)</span>. We have that:</p>
 <p><span class="math display">\[
 (D_k A D_k) D_k x^\star = -D_k r
 \]</span></p>
 <p>That is, by setting the <span class="math inline">\(k^\text{th}\)</span> element of <span class="math inline">\(D_k\)</span> to -1, we flip the sign of the <span class="math inline">\(k^\text{th}\)</span> component of <span class="math inline">\(x^\star\)</span>. For example:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="top-down-assembly.html#cb10-1"></a><span class="kw">set.seed</span>(<span class="dv">2</span>)</span>
-<span id="cb10-2"><a href="top-down-assembly.html#cb10-2"></a>A &lt;-<span class="st"> </span><span class="kw">build_LDstable</span>(<span class="dv">3</span>)</span>
-<span id="cb10-3"><a href="top-down-assembly.html#cb10-3"></a>r &lt;-<span class="st"> </span><span class="kw">build_randomr</span>(<span class="dv">3</span>)</span>
-<span id="cb10-4"><a href="top-down-assembly.html#cb10-4"></a><span class="co"># the equilibrium is not feasible</span></span>
-<span id="cb10-5"><a href="top-down-assembly.html#cb10-5"></a><span class="kw">solve</span>(A, <span class="op">-</span>r)</span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="top-down-assembly.html#cb15-1"></a><span class="kw">set.seed</span>(<span class="dv">2</span>)</span>
+<span id="cb15-2"><a href="top-down-assembly.html#cb15-2"></a>A &lt;-<span class="st"> </span><span class="kw">build_LDstable</span>(<span class="dv">3</span>)</span>
+<span id="cb15-3"><a href="top-down-assembly.html#cb15-3"></a>r &lt;-<span class="st"> </span><span class="kw">build_randomr</span>(<span class="dv">3</span>)</span>
+<span id="cb15-4"><a href="top-down-assembly.html#cb15-4"></a><span class="co"># the equilibrium is not feasible</span></span>
+<span id="cb15-5"><a href="top-down-assembly.html#cb15-5"></a><span class="kw">solve</span>(A, <span class="op">-</span>r)</span></code></pre></div>
 <p>[1] -11.75292 26.47508 22.73981</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="top-down-assembly.html#cb11-1"></a><span class="co"># build matrix D_1</span></span>
-<span id="cb11-2"><a href="top-down-assembly.html#cb11-2"></a>D_<span class="dv">1</span> &lt;-<span class="st"> </span><span class="kw">diag</span>(<span class="kw">c</span>(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>))</span>
-<span id="cb11-3"><a href="top-down-assembly.html#cb11-3"></a><span class="co"># the multiplication changes the sign of a component of the solution</span></span>
-<span id="cb11-4"><a href="top-down-assembly.html#cb11-4"></a><span class="co"># making the equilibrium feasible</span></span>
-<span id="cb11-5"><a href="top-down-assembly.html#cb11-5"></a><span class="kw">as.numeric</span>(<span class="kw">solve</span>(D_<span class="dv">1</span> <span class="op">%*%</span><span class="st"> </span>A <span class="op">%*%</span><span class="st"> </span>D_<span class="dv">1</span>, <span class="op">-</span>D_<span class="dv">1</span> <span class="op">%*%</span><span class="st"> </span>r))</span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="top-down-assembly.html#cb16-1"></a><span class="co"># build matrix D_1</span></span>
+<span id="cb16-2"><a href="top-down-assembly.html#cb16-2"></a>D_<span class="dv">1</span> &lt;-<span class="st"> </span><span class="kw">diag</span>(<span class="kw">c</span>(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>))</span>
+<span id="cb16-3"><a href="top-down-assembly.html#cb16-3"></a><span class="co"># the multiplication changes the sign of a component of the solution</span></span>
+<span id="cb16-4"><a href="top-down-assembly.html#cb16-4"></a><span class="co"># making the equilibrium feasible</span></span>
+<span id="cb16-5"><a href="top-down-assembly.html#cb16-5"></a><span class="kw">as.numeric</span>(<span class="kw">solve</span>(D_<span class="dv">1</span> <span class="op">%*%</span><span class="st"> </span>A <span class="op">%*%</span><span class="st"> </span>D_<span class="dv">1</span>, <span class="op">-</span>D_<span class="dv">1</span> <span class="op">%*%</span><span class="st"> </span>r))</span></code></pre></div>
 <p>[1] 11.75292 26.47508 22.73981</p>
 <p>Because of the symmetry assumption (i.e., we sampled all growth rates and off-diagonal elements from a distribution centered at zero), <span class="math inline">\((D_k A D_k)\)</span> has the same distribution as <span class="math inline">\(A\)</span>, and <span class="math inline">\(D_k r\)</span> the same distribution as <span class="math inline">\(r\)</span>. In fact, one can see that <span class="math inline">\((D_k A D_k)\)</span> is also a similarity transformation, implying that the eigenvalues of <span class="math inline">\(A\)</span> and <span class="math inline">\((D_k A D_k)\)</span> are the same (i.e., the operation preserves stability):</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="top-down-assembly.html#cb12-1"></a><span class="kw">eigen</span>(A)<span class="op">$</span>values</span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="top-down-assembly.html#cb17-1"></a><span class="kw">eigen</span>(A)<span class="op">$</span>values</span></code></pre></div>
 <p>[1] -0.010000 -1.601076 -3.665781</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="top-down-assembly.html#cb13-1"></a><span class="kw">eigen</span>(D_<span class="dv">1</span> <span class="op">%*%</span><span class="st"> </span>A <span class="op">%*%</span><span class="st"> </span>D_<span class="dv">1</span>)<span class="op">$</span>values</span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="top-down-assembly.html#cb18-1"></a><span class="kw">eigen</span>(D_<span class="dv">1</span> <span class="op">%*%</span><span class="st"> </span>A <span class="op">%*%</span><span class="st"> </span>D_<span class="dv">1</span>)<span class="op">$</span>values</span></code></pre></div>
 <p>[1] -0.010000 -1.601076 -3.665781</p>
 <p>We can repeat the operation several times, connecting each possible starting point to the feasible solution. Therefore, the probability of all species coexisting amounts to the probability of having chosen the “right” sequence of <span class="math inline">\(D_k\)</span>, which happens with probability <span class="math inline">\(1 / 2^n\)</span>. Notice that the same proof holds when the coefficients of <span class="math inline">\(A\)</span> are sampled in pairs from a bivariate distribution (rather than having symmetric matrices), as long as the distribution is centered at zero, and the matrix is Lyapunov-Diagonally stable (<span class="citation">Serván et al. (<a href="#ref-servan2018coexistence" role="doc-biblioref">2018</a>)</span>). Using the same argument, one can prove that, under this parametrization, the probability of observing <span class="math inline">\(k\)</span> species coexisting and <span class="math inline">\(n -k\)</span> not being able to invade is exactly <span class="math inline">\(\binom{n}{k} \frac{1}{2^n}\)</span> (<span class="citation">Serván et al. (<a href="#ref-servan2018coexistence" role="doc-biblioref">2018</a>)</span>).</p>
 </div>
 <div id="assembly-and-saturated-equilibrium" class="section level2">
 <h2><span class="header-section-number">2.4</span> Assembly and saturated equilibrium</h2>
 <p>Now let’s make it more complicated: we assemble an ecological community from the ground up. At each step, we introduce a species at low abundance, starting from an empty community. We then compute the new equilibrium, completing a step of the assembly:</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="top-down-assembly.html#cb14-1"></a>assembly_one_step &lt;-<span class="st"> </span><span class="cf">function</span>(x, r, A){</span>
-<span id="cb14-2"><a href="top-down-assembly.html#cb14-2"></a>  n &lt;-<span class="st"> </span><span class="kw">nrow</span>(A)</span>
-<span id="cb14-3"><a href="top-down-assembly.html#cb14-3"></a>  invader &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span>n, <span class="dv">1</span>)</span>
-<span id="cb14-4"><a href="top-down-assembly.html#cb14-4"></a>  x[invader] &lt;-<span class="st"> </span><span class="fl">0.001</span> <span class="co"># introduce the invader at low abundance</span></span>
-<span id="cb14-5"><a href="top-down-assembly.html#cb14-5"></a>  present &lt;-<span class="st"> </span>x <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span> <span class="co"># these are the species present now</span></span>
-<span id="cb14-6"><a href="top-down-assembly.html#cb14-6"></a>  <span class="co"># compute new equilibrium</span></span>
-<span id="cb14-7"><a href="top-down-assembly.html#cb14-7"></a>  y &lt;-<span class="st"> </span><span class="kw">get_final_composition</span>(A[present, present, <span class="dt">drop =</span> <span class="ot">FALSE</span>], r[present])</span>
-<span id="cb14-8"><a href="top-down-assembly.html#cb14-8"></a>  x[present] &lt;-<span class="st"> </span>y</span>
-<span id="cb14-9"><a href="top-down-assembly.html#cb14-9"></a>  <span class="kw">return</span>(x)</span>
-<span id="cb14-10"><a href="top-down-assembly.html#cb14-10"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="top-down-assembly.html#cb19-1"></a>assembly_one_step &lt;-<span class="st"> </span><span class="cf">function</span>(x, r, A){</span>
+<span id="cb19-2"><a href="top-down-assembly.html#cb19-2"></a>  n &lt;-<span class="st"> </span><span class="kw">nrow</span>(A)</span>
+<span id="cb19-3"><a href="top-down-assembly.html#cb19-3"></a>  invader &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span>n, <span class="dv">1</span>)</span>
+<span id="cb19-4"><a href="top-down-assembly.html#cb19-4"></a>  x[invader] &lt;-<span class="st"> </span><span class="fl">0.001</span> <span class="co"># introduce the invader at low abundance</span></span>
+<span id="cb19-5"><a href="top-down-assembly.html#cb19-5"></a>  present &lt;-<span class="st"> </span>x <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span> <span class="co"># these are the species present now</span></span>
+<span id="cb19-6"><a href="top-down-assembly.html#cb19-6"></a>  <span class="co"># compute new equilibrium</span></span>
+<span id="cb19-7"><a href="top-down-assembly.html#cb19-7"></a>  y &lt;-<span class="st"> </span><span class="kw">get_final_composition</span>(A[present, present, <span class="dt">drop =</span> <span class="ot">FALSE</span>], r[present])</span>
+<span id="cb19-8"><a href="top-down-assembly.html#cb19-8"></a>  x[present] &lt;-<span class="st"> </span>y</span>
+<span id="cb19-9"><a href="top-down-assembly.html#cb19-9"></a>  <span class="kw">return</span>(x)</span>
+<span id="cb19-10"><a href="top-down-assembly.html#cb19-10"></a>}</span></code></pre></div>
 <p>Now we can take a species pool along with their parameters, and try to assemble the system until we can no longer add any more species (i.e., until we reach a saturated equilibrium):</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="top-down-assembly.html#cb15-1"></a><span class="kw">set.seed</span>(<span class="dv">7</span>)</span>
-<span id="cb15-2"><a href="top-down-assembly.html#cb15-2"></a>n &lt;-<span class="st"> </span><span class="dv">10</span></span>
-<span id="cb15-3"><a href="top-down-assembly.html#cb15-3"></a>A &lt;-<span class="st"> </span><span class="kw">build_LDstable</span>(n)</span>
-<span id="cb15-4"><a href="top-down-assembly.html#cb15-4"></a>r &lt;-<span class="st"> </span><span class="kw">build_randomr</span>(n)</span>
-<span id="cb15-5"><a href="top-down-assembly.html#cb15-5"></a><span class="co"># start with no species</span></span>
-<span id="cb15-6"><a href="top-down-assembly.html#cb15-6"></a>x &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="dv">0</span>, n)</span>
-<span id="cb15-7"><a href="top-down-assembly.html#cb15-7"></a><span class="co"># assemble for 40 steps and keep track of richness and composition</span></span>
-<span id="cb15-8"><a href="top-down-assembly.html#cb15-8"></a>ninvasions &lt;-<span class="st"> </span><span class="dv">40</span></span>
-<span id="cb15-9"><a href="top-down-assembly.html#cb15-9"></a>results &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">invasion =</span> <span class="dv">1</span><span class="op">:</span>ninvasions, </span>
-<span id="cb15-10"><a href="top-down-assembly.html#cb15-10"></a>                  <span class="dt">richness =</span> <span class="kw">rep</span>(<span class="ot">NA</span>, ninvasions),</span>
-<span id="cb15-11"><a href="top-down-assembly.html#cb15-11"></a>                  <span class="dt">composition =</span> <span class="kw">rep</span>(<span class="ot">NA</span>, ninvasions))</span>
-<span id="cb15-12"><a href="top-down-assembly.html#cb15-12"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>ninvasions){</span>
-<span id="cb15-13"><a href="top-down-assembly.html#cb15-13"></a>  x &lt;-<span class="st"> </span><span class="kw">assembly_one_step</span>(x, r, A) </span>
-<span id="cb15-14"><a href="top-down-assembly.html#cb15-14"></a>  results<span class="op">$</span>richness[i] &lt;-<span class="st"> </span><span class="kw">sum</span>(x <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>)</span>
-<span id="cb15-15"><a href="top-down-assembly.html#cb15-15"></a>  results<span class="op">$</span>composition[i] &lt;-<span class="st"> </span><span class="kw">paste</span>((<span class="dv">1</span><span class="op">:</span>n)[x<span class="op">&gt;</span><span class="dv">0</span>], <span class="dt">collapse =</span> <span class="st">&quot;-&quot;</span>)</span>
-<span id="cb15-16"><a href="top-down-assembly.html#cb15-16"></a>}</span>
-<span id="cb15-17"><a href="top-down-assembly.html#cb15-17"></a>knitr<span class="op">::</span><span class="kw">kable</span>(<span class="kw">head</span>(results))</span></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="top-down-assembly.html#cb20-1"></a><span class="kw">set.seed</span>(<span class="dv">7</span>)</span>
+<span id="cb20-2"><a href="top-down-assembly.html#cb20-2"></a>n &lt;-<span class="st"> </span><span class="dv">10</span></span>
+<span id="cb20-3"><a href="top-down-assembly.html#cb20-3"></a>A &lt;-<span class="st"> </span><span class="kw">build_LDstable</span>(n)</span>
+<span id="cb20-4"><a href="top-down-assembly.html#cb20-4"></a>r &lt;-<span class="st"> </span><span class="kw">build_randomr</span>(n)</span>
+<span id="cb20-5"><a href="top-down-assembly.html#cb20-5"></a><span class="co"># start with no species</span></span>
+<span id="cb20-6"><a href="top-down-assembly.html#cb20-6"></a>x &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="dv">0</span>, n)</span>
+<span id="cb20-7"><a href="top-down-assembly.html#cb20-7"></a><span class="co"># assemble for 40 steps and keep track of richness and composition</span></span>
+<span id="cb20-8"><a href="top-down-assembly.html#cb20-8"></a>ninvasions &lt;-<span class="st"> </span><span class="dv">40</span></span>
+<span id="cb20-9"><a href="top-down-assembly.html#cb20-9"></a>results &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">invasion =</span> <span class="dv">1</span><span class="op">:</span>ninvasions, </span>
+<span id="cb20-10"><a href="top-down-assembly.html#cb20-10"></a>                  <span class="dt">richness =</span> <span class="kw">rep</span>(<span class="ot">NA</span>, ninvasions),</span>
+<span id="cb20-11"><a href="top-down-assembly.html#cb20-11"></a>                  <span class="dt">composition =</span> <span class="kw">rep</span>(<span class="ot">NA</span>, ninvasions))</span>
+<span id="cb20-12"><a href="top-down-assembly.html#cb20-12"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>ninvasions){</span>
+<span id="cb20-13"><a href="top-down-assembly.html#cb20-13"></a>  x &lt;-<span class="st"> </span><span class="kw">assembly_one_step</span>(x, r, A) </span>
+<span id="cb20-14"><a href="top-down-assembly.html#cb20-14"></a>  results<span class="op">$</span>richness[i] &lt;-<span class="st"> </span><span class="kw">sum</span>(x <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>)</span>
+<span id="cb20-15"><a href="top-down-assembly.html#cb20-15"></a>  results<span class="op">$</span>composition[i] &lt;-<span class="st"> </span><span class="kw">paste</span>((<span class="dv">1</span><span class="op">:</span>n)[x<span class="op">&gt;</span><span class="dv">0</span>], <span class="dt">collapse =</span> <span class="st">&quot;-&quot;</span>)</span>
+<span id="cb20-16"><a href="top-down-assembly.html#cb20-16"></a>}</span>
+<span id="cb20-17"><a href="top-down-assembly.html#cb20-17"></a>knitr<span class="op">::</span><span class="kw">kable</span>(<span class="kw">head</span>(results))</span></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -442,25 +442,25 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="top-down-assembly.html#cb16-1"></a>pl &lt;-<span class="st"> </span><span class="kw">ggplot</span>(results) <span class="op">+</span><span class="st"> </span><span class="kw">aes</span>(<span class="dt">x =</span> invasion, <span class="dt">y =</span> richness, <span class="dt">label =</span> composition) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb16-2"><a href="top-down-assembly.html#cb16-2"></a><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span><span class="kw">geom_line</span>() <span class="op">+</span><span class="st"> </span><span class="kw">geom_text</span>(<span class="dt">hjust =</span> <span class="dv">0</span>, <span class="dt">nudge_y =</span> <span class="fl">0.25</span>, <span class="dt">angle =</span> <span class="dv">90</span>)<span class="op">+</span><span class="st"> </span></span>
-<span id="cb16-3"><a href="top-down-assembly.html#cb16-3"></a><span class="st">  </span><span class="kw">ylim</span>(<span class="kw">c</span>(<span class="dv">0</span>, n <span class="op">*</span><span class="st"> </span><span class="fl">1.25</span>))</span>
-<span id="cb16-4"><a href="top-down-assembly.html#cb16-4"></a><span class="kw">show</span>(pl)</span></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="top-down-assembly.html#cb21-1"></a>pl &lt;-<span class="st"> </span><span class="kw">ggplot</span>(results) <span class="op">+</span><span class="st"> </span><span class="kw">aes</span>(<span class="dt">x =</span> invasion, <span class="dt">y =</span> richness, <span class="dt">label =</span> composition) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb21-2"><a href="top-down-assembly.html#cb21-2"></a><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span><span class="kw">geom_line</span>() <span class="op">+</span><span class="st"> </span><span class="kw">geom_text</span>(<span class="dt">hjust =</span> <span class="dv">0</span>, <span class="dt">nudge_y =</span> <span class="fl">0.25</span>, <span class="dt">angle =</span> <span class="dv">90</span>)<span class="op">+</span><span class="st"> </span></span>
+<span id="cb21-3"><a href="top-down-assembly.html#cb21-3"></a><span class="st">  </span><span class="kw">ylim</span>(<span class="kw">c</span>(<span class="dv">0</span>, n <span class="op">*</span><span class="st"> </span><span class="fl">1.25</span>))</span>
+<span id="cb21-4"><a href="top-down-assembly.html#cb21-4"></a><span class="kw">show</span>(pl)</span></code></pre></div>
 <p><img src="ICTP_Winter_School_files/figure-html/rndzooassembly-1.png" width="480" style="display: block; margin: auto;" /></p>
 <p>Now let’s roll back history and assemble again:</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="top-down-assembly.html#cb17-1"></a><span class="co"># start with no species</span></span>
-<span id="cb17-2"><a href="top-down-assembly.html#cb17-2"></a>x &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="dv">0</span>, n)</span>
-<span id="cb17-3"><a href="top-down-assembly.html#cb17-3"></a><span class="co"># assemble for 40 steps and keep track of richness</span></span>
-<span id="cb17-4"><a href="top-down-assembly.html#cb17-4"></a>ninvasions &lt;-<span class="st"> </span><span class="dv">40</span></span>
-<span id="cb17-5"><a href="top-down-assembly.html#cb17-5"></a>results &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">invasion =</span> <span class="dv">1</span><span class="op">:</span>ninvasions, </span>
-<span id="cb17-6"><a href="top-down-assembly.html#cb17-6"></a>                  <span class="dt">richness =</span> <span class="kw">rep</span>(<span class="ot">NA</span>, ninvasions),</span>
-<span id="cb17-7"><a href="top-down-assembly.html#cb17-7"></a>                  <span class="dt">composition =</span> <span class="kw">rep</span>(<span class="ot">NA</span>, ninvasions))</span>
-<span id="cb17-8"><a href="top-down-assembly.html#cb17-8"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>ninvasions){</span>
-<span id="cb17-9"><a href="top-down-assembly.html#cb17-9"></a>  x &lt;-<span class="st"> </span><span class="kw">assembly_one_step</span>(x, r, A) </span>
-<span id="cb17-10"><a href="top-down-assembly.html#cb17-10"></a>  results<span class="op">$</span>richness[i] &lt;-<span class="st"> </span><span class="kw">sum</span>(x <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>)</span>
-<span id="cb17-11"><a href="top-down-assembly.html#cb17-11"></a>  results<span class="op">$</span>composition[i] &lt;-<span class="st"> </span><span class="kw">paste</span>((<span class="dv">1</span><span class="op">:</span>n)[x<span class="op">&gt;</span><span class="dv">0</span>], <span class="dt">collapse =</span> <span class="st">&quot;-&quot;</span>)</span>
-<span id="cb17-12"><a href="top-down-assembly.html#cb17-12"></a>}</span>
-<span id="cb17-13"><a href="top-down-assembly.html#cb17-13"></a>knitr<span class="op">::</span><span class="kw">kable</span>(<span class="kw">head</span>(results))</span></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="top-down-assembly.html#cb22-1"></a><span class="co"># start with no species</span></span>
+<span id="cb22-2"><a href="top-down-assembly.html#cb22-2"></a>x &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="dv">0</span>, n)</span>
+<span id="cb22-3"><a href="top-down-assembly.html#cb22-3"></a><span class="co"># assemble for 40 steps and keep track of richness</span></span>
+<span id="cb22-4"><a href="top-down-assembly.html#cb22-4"></a>ninvasions &lt;-<span class="st"> </span><span class="dv">40</span></span>
+<span id="cb22-5"><a href="top-down-assembly.html#cb22-5"></a>results &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">invasion =</span> <span class="dv">1</span><span class="op">:</span>ninvasions, </span>
+<span id="cb22-6"><a href="top-down-assembly.html#cb22-6"></a>                  <span class="dt">richness =</span> <span class="kw">rep</span>(<span class="ot">NA</span>, ninvasions),</span>
+<span id="cb22-7"><a href="top-down-assembly.html#cb22-7"></a>                  <span class="dt">composition =</span> <span class="kw">rep</span>(<span class="ot">NA</span>, ninvasions))</span>
+<span id="cb22-8"><a href="top-down-assembly.html#cb22-8"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>ninvasions){</span>
+<span id="cb22-9"><a href="top-down-assembly.html#cb22-9"></a>  x &lt;-<span class="st"> </span><span class="kw">assembly_one_step</span>(x, r, A) </span>
+<span id="cb22-10"><a href="top-down-assembly.html#cb22-10"></a>  results<span class="op">$</span>richness[i] &lt;-<span class="st"> </span><span class="kw">sum</span>(x <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>)</span>
+<span id="cb22-11"><a href="top-down-assembly.html#cb22-11"></a>  results<span class="op">$</span>composition[i] &lt;-<span class="st"> </span><span class="kw">paste</span>((<span class="dv">1</span><span class="op">:</span>n)[x<span class="op">&gt;</span><span class="dv">0</span>], <span class="dt">collapse =</span> <span class="st">&quot;-&quot;</span>)</span>
+<span id="cb22-12"><a href="top-down-assembly.html#cb22-12"></a>}</span>
+<span id="cb22-13"><a href="top-down-assembly.html#cb22-13"></a>knitr<span class="op">::</span><span class="kw">kable</span>(<span class="kw">head</span>(results))</span></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -502,16 +502,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="top-down-assembly.html#cb18-1"></a>pl &lt;-<span class="st"> </span><span class="kw">ggplot</span>(results) <span class="op">+</span><span class="st"> </span><span class="kw">aes</span>(<span class="dt">x =</span> invasion, <span class="dt">y =</span> richness, <span class="dt">label =</span> composition) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb18-2"><a href="top-down-assembly.html#cb18-2"></a><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span><span class="kw">geom_line</span>() <span class="op">+</span><span class="st"> </span><span class="kw">geom_text</span>(<span class="dt">hjust =</span> <span class="dv">0</span>, <span class="dt">nudge_y =</span> <span class="fl">0.25</span>, <span class="dt">angle =</span> <span class="dv">90</span>)<span class="op">+</span><span class="st"> </span></span>
-<span id="cb18-3"><a href="top-down-assembly.html#cb18-3"></a><span class="st">  </span><span class="kw">ylim</span>(<span class="kw">c</span>(<span class="dv">0</span>, n <span class="op">*</span><span class="st"> </span><span class="fl">1.25</span>))</span>
-<span id="cb18-4"><a href="top-down-assembly.html#cb18-4"></a><span class="kw">show</span>(pl)</span></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="top-down-assembly.html#cb23-1"></a>pl &lt;-<span class="st"> </span><span class="kw">ggplot</span>(results) <span class="op">+</span><span class="st"> </span><span class="kw">aes</span>(<span class="dt">x =</span> invasion, <span class="dt">y =</span> richness, <span class="dt">label =</span> composition) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb23-2"><a href="top-down-assembly.html#cb23-2"></a><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span><span class="kw">geom_line</span>() <span class="op">+</span><span class="st"> </span><span class="kw">geom_text</span>(<span class="dt">hjust =</span> <span class="dv">0</span>, <span class="dt">nudge_y =</span> <span class="fl">0.25</span>, <span class="dt">angle =</span> <span class="dv">90</span>)<span class="op">+</span><span class="st"> </span></span>
+<span id="cb23-3"><a href="top-down-assembly.html#cb23-3"></a><span class="st">  </span><span class="kw">ylim</span>(<span class="kw">c</span>(<span class="dv">0</span>, n <span class="op">*</span><span class="st"> </span><span class="fl">1.25</span>))</span>
+<span id="cb23-4"><a href="top-down-assembly.html#cb23-4"></a><span class="kw">show</span>(pl)</span></code></pre></div>
 <p><img src="ICTP_Winter_School_files/figure-html/alternativehistory-1.png" width="480" style="display: block; margin: auto;" /></p>
 <p>As you can see, despite taking a different assembly history, we reach the same final composition. In fact, this is exactly what we would expect if we were to throw all species in the environment at the same time:</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="top-down-assembly.html#cb19-1"></a><span class="kw">get_final_composition</span>(A, r)</span></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="top-down-assembly.html#cb24-1"></a><span class="kw">get_final_composition</span>(A, r)</span></code></pre></div>
 <p>[1] 1.7588344 2.5440743 0.0000000 0.7860178 1.8730535 2.5502055 0.6961259
 [8] 1.6956878 0.0000000 0.0000000</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="top-down-assembly.html#cb20-1"></a>x</span></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="top-down-assembly.html#cb25-1"></a>x</span></code></pre></div>
 <p>[1] 1.7588344 2.5440743 0.0000000 0.7860178 1.8730535 2.5502055 0.6961259
 [8] 1.6956878 0.0000000 0.0000000</p>
 <p>As such, given enough time, any assembly history for a symmetric, stable matrix <span class="math inline">\(A\)</span> will eventually reach the final composition represented by the saturated equilibrium (Serván, unpublished).</p>

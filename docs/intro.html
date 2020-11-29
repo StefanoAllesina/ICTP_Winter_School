@@ -24,7 +24,7 @@
 <meta name="author" content="Stefano Allesina" />
 
 
-<meta name="date" content="2020-11-26" />
+<meta name="date" content="2020-11-29" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -181,8 +181,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="intro" class="section level1">
 <h1><span class="header-section-number">Lecture 1</span> Introduction</h1>
-<p>We call <strong>ecological assembly</strong> the process by which <strong>ecological communities are built</strong>, by the interplay of invasions and extinctions. The typical setting for an assembly model is one in which a large pool of species are available (e.g., in a “mainland”), and every so often individuals from the species’ pool enter a local habitat (island, patch, etc.), at which point they might either grow (invasion, establishment, etc.), or go extinct. In either case, the local community might respond to the invader—for example, the invader could send some of the local populations extinct, or shift the community from one state to another.</p>
-<p>Historically, this type of island-mainland model (based on species) has been contrasted with “trait-environment” models, in which species’ traits, rather than identity are the focus of the dynamics. In such models, ideas such as “environmental filtering” (i.e., the pruning of species that cannot grow in the local environment) and “trait underdispersion” (i.e., the fact that the filtering imposed by the environment results in a convergence in traits) arise naturally. When thinking of communities of competitors (e.g., different species of plants), then we might think that species’ interactions will also play a role—because species need to be different enough to coexist, this would generate “trait overdispersion” (due to limiting similarity). For a great summary of 25 years of discussions on these themes (1975-2000), see <span class="citation">Weiher and Keddy (<a href="#ref-weiher2001ecological" role="doc-biblioref">2001</a>)</span>.</p>
+<p>We call <strong>ecological assembly</strong> the process by which <strong>ecological communities are built</strong> by the interplay of invasions (increasing community “richness”) and extinctions (decreasing it). The typical setting for an assembly model is one in which a large (possibly infinite) pool of species are available (e.g., in a “mainland”), and every so often individuals from the species’ pool enter a local habitat (island, patch, etc.), at which point they might either grow (invasion, establishment, etc.), or go extinct. In either case, the local community might respond to the invader—for example, the invader could send some of the local populations extinct, or shift the community from one state to another.</p>
+<p>The idea of assembly was first introduced in ecology by the pioneers of “succession”. For example, in 1899 Henry Chandler Cowles studied the vegetation development in the Indiana Dunes—sand dunes are first colonized by “pioneer” species of plants, which are then overgrown by different vegetation in older dunes. Because dunes are regularly disrupted by wind, one could make a “space-for-time” substitution and reconstruct the development of the vegetation as a “chronosequence”. Importantly, Cowles (and then Clements) held the view that succession would be a strongly ordered, “determinisitc” process by which communities tended to a certain “climax” state. In the 1920s, Henry Gleason challenged this view, advocating for a much greater role for chance.</p>
+<p>Another important piece of the puzzle was provided by the work of Jared Diamond who, while studying avian assemblages in New Guinea, proposed that certain species assemblages would be “forbidden” (due to competition)—by observing several instances of assembly (in the different islands), one could guess the rules of the assembly game. Diamond’s work sparked decades of intense debate, bringing a focus on the role of null models in ecology (are the observed patterns due to chance or necessity?), with especially cogent critiques brought forward by Simberloff, Connor and Gotelli (see for example <span class="citation">Gotelli and Graves (<a href="#ref-gotelli1996null" role="doc-biblioref">1996</a>)</span>).</p>
+<p>In the early 2000s, the focus changed decisively and became centered on the difference between “neutrality” (i.e., where species distribution are driven by stochastic fluctuations, <span class="citation">Hubbell (<a href="#ref-hubbell2001unified" role="doc-biblioref">2001</a>)</span>) and “niche” (i.e., driven by species interactions—or rather their avoidance).</p>
+<p>Finally, the budding field of “community phylogenetics” (<span class="citation">Cadotte and Davies (<a href="#ref-cadotte2016phylogenies" role="doc-biblioref">2016</a>)</span>) is centered on relating these concepts with data stemming from phylogenetic trees.</p>
+<p>Here, we step back and reconsider basic models of ecological assembly in the style for example of <span class="citation">Drake (<a href="#ref-drake1991community" role="doc-biblioref">1991</a>)</span>, <span class="citation">Law and Morton (<a href="#ref-law1996permanence" role="doc-biblioref">1996</a>)</span>, and <span class="citation">Morton et al. (<a href="#ref-morton1996models" role="doc-biblioref">1996</a>)</span>.</p>
 <div id="generalized-lotka-volterra-model" class="section level2">
 <h2><span class="header-section-number">1.1</span> Generalized Lotka-Volterra model</h2>
 <p>For our explorations, we will use what is arguably the simplest model for the dynamics of an ecological community, the Generalized Lotka-Volterra model.</p>
@@ -190,11 +194,25 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><span class="math display">\[
 \dfrac{dx(t)}{dt} = D(x(t))(r + A x(t)) 
 \]</span></p>
-<p>where <span class="math inline">\(x(t)\)</span> is a (column) vector of length <span class="math inline">\(n\)</span> containing the densities of all populations <span class="math inline">\(1, \ldots, n\)</span> at time <span class="math inline">\(t\)</span>, <span class="math inline">\(r\)</span> is a vector of “intrinsic growth rates” (or death rates, when negative), measuring the growth (decline) of population <span class="math inline">\(i\)</span> when grown alone at low density, and <span class="math inline">\(A\)</span> is a <span class="math inline">\(n \times n\)</span> matrix of interaction coefficients. We use <span class="math inline">\(D(x)\)</span> to denote the diagonal matrix with <span class="math inline">\(x\)</span> on the diagonal.
-For a single species, the model can yield only a limited number of outcomes—the species can grow exponentially, decay exponentially, or reach an equilibrium. When we include two or more species, we can observe cycles, and with three or more species we can find chaotic dynamics.</p>
+<p>where <span class="math inline">\(x(t)\)</span> is a (column) vector of length <span class="math inline">\(n\)</span> containing the densities of all populations <span class="math inline">\(1, \ldots, n\)</span> at time <span class="math inline">\(t\)</span>, <span class="math inline">\(r\)</span> is a vector of “intrinsic growth rates” (or death rates, when negative), measuring the growth (decline) of population <span class="math inline">\(i\)</span> when grown alone at low density, and <span class="math inline">\(A\)</span> is a <span class="math inline">\(n \times n\)</span> matrix of interaction coefficients. We use <span class="math inline">\(D(x)\)</span> to denote the diagonal matrix with <span class="math inline">\(x\)</span> on the diagonal.</p>
+<p>For a single species, the model can yield only a limited number of outcomes—the species can grow exponentially, decay exponentially, or reach an equilibrium. When we include two or more species, we can observe cycles, and with three or more species we can find chaotic dynamics.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="intro.html#cb1-1"></a><span class="kw">source</span>(<span class="st">&quot;code/general_code.R&quot;</span>)</span>
+<span id="cb1-2"><a href="intro.html#cb1-2"></a><span class="co"># load interesting parameters</span></span>
+<span id="cb1-3"><a href="intro.html#cb1-3"></a><span class="kw">load</span>(<span class="st">&quot;code/four_spp_cycle.RData&quot;</span>)</span>
+<span id="cb1-4"><a href="intro.html#cb1-4"></a>A &lt;-<span class="st"> </span>limit_cycle_4spp<span class="op">$</span>A</span>
+<span id="cb1-5"><a href="intro.html#cb1-5"></a>r &lt;-<span class="st"> </span>limit_cycle_4spp<span class="op">$</span>r</span>
+<span id="cb1-6"><a href="intro.html#cb1-6"></a><span class="kw">set.seed</span>(<span class="dv">1</span>) <span class="co"># for reproducibility</span></span>
+<span id="cb1-7"><a href="intro.html#cb1-7"></a>dynamics &lt;-<span class="st"> </span><span class="kw">GLV_dynamics</span>(<span class="dt">A =</span> A, </span>
+<span id="cb1-8"><a href="intro.html#cb1-8"></a>                         <span class="dt">r =</span> r,</span>
+<span id="cb1-9"><a href="intro.html#cb1-9"></a>                         <span class="dt">maxtime =</span> <span class="dv">150</span>)</span>
+<span id="cb1-10"><a href="intro.html#cb1-10"></a><span class="kw">plot_dynamics</span>(dynamics)</span></code></pre></div>
+<p><img src="ICTP_Winter_School_files/figure-html/unnamed-chunk-2-1.png" width="480" style="display: block; margin: auto;" /></p>
 <div id="coexistence-equilibrium" class="section level3">
 <h3><span class="header-section-number">1.1.1</span> Coexistence equilibrium</h3>
 <p>For any instance of the model, we can look for stationary points (equilibria). If the matrix <span class="math inline">\(A\)</span> is not singular, then we can look for a solution of <span class="math inline">\(r + Ax = 0\)</span> that has positive components (called a <strong>feasible equilibrium</strong>). <strong>If such point exists, it is unique</strong> and is the solution of <span class="math inline">\(Ax^\star = -r\)</span>, <span class="math inline">\(x^\star = -A^{-1}r\)</span>.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="intro.html#cb2-1"></a><span class="co"># find feasible equilibrium for the example above</span></span>
+<span id="cb2-2"><a href="intro.html#cb2-2"></a><span class="kw">solve</span>(A, <span class="op">-</span>r)</span></code></pre></div>
+<p>[1] 1.8722239 1.5603128 2.4236325 0.4654487</p>
 <p>Suppose that the GLV has no feasible equilibrium. Then all trajectories (if bounded; some could grow to infinity) reach the boundary of <span class="math inline">\(\mathbb R^n_{0+}\)</span>. Practically, this means that <strong>to ensure coexistence of all species, it is necessary to have an equilibrium in the interior <span class="math inline">\(\mathbb R^n_{+}\)</span></strong>. For a proof, see Theorem 5.2.1 in <span class="citation">Hofbauer and Sigmund (<a href="#ref-hofbauer1998evolutionary" role="doc-biblioref">1998</a>)</span>.</p>
 </div>
 <div id="local-stability-of-the-coexistence-equilibrium" class="section level3">
@@ -212,6 +230,12 @@ J_{ii} = \frac{\partial f_i}{\partial x_i} = r_i + \sum_j A_{ij} x_j + A_{ii} x_
 M = \left. {J} \right|_{ {x}^\star} = D(x^\star)A
 \]</span></p>
 <p>If the eigenvalues of <span class="math inline">\(M\)</span> have all negative real part, then <span class="math inline">\(x^\star\)</span> is locally asymptotically stable.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="intro.html#cb3-1"></a><span class="co"># build the community matrix</span></span>
+<span id="cb3-2"><a href="intro.html#cb3-2"></a>x_star &lt;-<span class="st"> </span><span class="kw">solve</span>(A, <span class="op">-</span>r)</span>
+<span id="cb3-3"><a href="intro.html#cb3-3"></a>M &lt;-<span class="st"> </span><span class="kw">diag</span>(x_star) <span class="op">%*%</span><span class="st"> </span>A</span>
+<span id="cb3-4"><a href="intro.html#cb3-4"></a><span class="kw">eigen</span>(M, <span class="dt">only.values =</span> <span class="ot">TRUE</span>)<span class="op">$</span>values <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb3-5"><a href="intro.html#cb3-5"></a><span class="st">  </span><span class="kw">round</span>(<span class="dv">2</span>)</span></code></pre></div>
+<p>[1] -2.40+0.00i 0.37+2.06i 0.37-2.06i -0.61+0.00i</p>
 </div>
 <div id="the-equilibrium-is-the-time-average" class="section level3">
 <h3><span class="header-section-number">1.1.3</span> The equilibrium is the time-average</h3>
@@ -240,6 +264,14 @@ M = \left. {J} \right|_{ {x}^\star} = D(x^\star)A
 -A^{-1} r = x^\star =  \frac{1}{T} \int_0^T x(t) dt 
 \]</span></p>
 <p>showing that <strong>the average density is</strong> in fact <strong>the equilibrium</strong>. With a similar argument, one can prove that if the trajectory stays in a compact space (i.e., in case of chaotic attractors), then long-time average is still <span class="math inline">\(x^\star\)</span>.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="intro.html#cb4-1"></a>dynamics<span class="op">$</span>ts <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb4-2"><a href="intro.html#cb4-2"></a><span class="st">  </span><span class="kw">filter</span>(time <span class="op">&gt;</span><span class="st"> </span><span class="dv">50</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb4-3"><a href="intro.html#cb4-3"></a><span class="st">  </span><span class="kw">group_by</span>(species) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb4-4"><a href="intro.html#cb4-4"></a><span class="st">  </span><span class="kw">summarize</span>(<span class="dt">density =</span> <span class="kw">mean</span>(density)) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb4-5"><a href="intro.html#cb4-5"></a><span class="st">  </span><span class="kw">select</span>(density) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">t</span>() <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">as.numeric</span>()</span></code></pre></div>
+<p>[1] 1.8681154 1.5585202 2.4212556 0.4621904</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="intro.html#cb5-1"></a>x_star</span></code></pre></div>
+<p>[1] 1.8722239 1.5603128 2.4236325 0.4654487</p>
 </div>
 <div id="lyapunov-diagonal-stability-and-global-stability" class="section level3">
 <h3><span class="header-section-number">1.1.4</span> Lyapunov diagonal stability and global stability</h3>
@@ -260,13 +292,13 @@ V(x(t)) = 1^T C \left( x(t) -x^\star -x^\star \cdot \log (x(t) / x^\star)\right)
  &amp;= \frac{1}{2}(x - x^\star)^T  (CA + A^T C) (x - x^\star)\\
 \end{aligned}
 \]</span></p>
-<p>A matrix <span class="math inline">\(B\)</span> is negative definite if <span class="math inline">\(y^T B y &lt; 0\)</span> for all <span class="math inline">\(y \neq 0\)</span>. As such, if <span class="math inline">\(C A + A^T C\)</span>, then <span class="math inline">\(\frac{d V(x(t))}{dt} \leq 0\)</span>, i.e., will decrease in time (starting from any <span class="math inline">\(x(0)\)</span>) until the equilibrium <span class="math inline">\(x^\star\)</span> is reached.</p>
-<p>The results above show that <strong>if <span class="math inline">\(A\)</span> is Lyapunov diagonally-stable and a feasible equilibrium <span class="math inline">\(x^\star\)</span> exists, than all trajectories starting at a positive density will converge to the equilibrium</strong>. This property is often used to prove <strong>global stability</strong>.</p>
+<p>A matrix <span class="math inline">\(B\)</span> is negative definite if <span class="math inline">\(y^T B y &lt; 0\)</span> for all <span class="math inline">\(y \neq 0\)</span>. As such, if <span class="math inline">\(C A + A^T C\)</span>, then <span class="math inline">\(\frac{d V(x(t))}{dt} \leq 0\)</span>, i.e., will decrease in time (starting from any positive <span class="math inline">\(x(0)\)</span>) until the equilibrium <span class="math inline">\(x^\star\)</span> is reached.</p>
+<p>The results above show that <strong>if <span class="math inline">\(A\)</span> is Lyapunov diagonally-stable and a feasible equilibrium <span class="math inline">\(x^\star\)</span> exists, then all trajectories starting at a positive density will converge to the equilibrium</strong>. This property is often used to prove <strong>global stability</strong>.</p>
 </div>
 </div>
 <div id="what-makes-the-study-of-assembly-difficult" class="section level2">
 <h2><span class="header-section-number">1.2</span> What makes the study of assembly difficult?</h2>
-<p>There are three main complication that stand in the way of the development of simple models for ecological assembly (taken from <span class="citation">Serván and Allesina (<a href="#ref-servan2020tractable" role="doc-biblioref">2020</a>)</span>):</p>
+<p>There are three main complications that stand in the way of the development of simple theories for ecological assembly (taken from <span class="citation">Serván and Allesina (<a href="#ref-servan2020tractable" role="doc-biblioref">2020</a>)</span>):</p>
 <ol style="list-style-type: decimal">
 <li><p><strong>Invasion rates</strong>. We have a timescale for the local dynamics, and a timescale for invasions, and the time at which the first species goes extinct after an invasion influences the effect of subsequent invasions. The simplest way to think of this is to have a “rock-paper-scissors” community. Suppose that our island contains only “rock”, and that “paper” enters the system—if we wait for long enough, it will displace rock; if <em>before rock goes extinct</em>, “scissors” invades, we can recover the full three-species community; if instead scissors arrives when rock is extinct, then it will displace paper.</p>
 <p>As such, if the speed at which the dynamics of the local community proceed are slow enough compared to the rate of invasion, we have that several species can invade before the community has reached its asymptotic configuration. At the extreme where local dynamics are fast compared to the rate of invasion, we have that each invader finds the local community at its asymptotic state; as the invasion rate increases, the system approaches a point where all the species enter the system before any extinction takes place. Increasing the invasion rate even further would result in an open system with constant immigration.</p></li>
@@ -307,7 +339,7 @@ V(x(t)) = 1^T C \left( x(t) -x^\star -x^\star \cdot \log (x(t) / x^\star)\right)
 </div>
 <div id="invasions-in-multispecies-communities" class="section level2">
 <h2><span class="header-section-number">1.6</span> Invasions in multispecies communities</h2>
-<p>Now consider a pool of species (e.g., a metacommunity) and an environment (e.g., an island) in which some of the species are present, and coexisting at an equilibrium. We have <span class="math inline">\(n\)</span> species in the pool, and <span class="math inline">\(k\)</span> species in the environment. We want to write conditions for the invasibility of the equilibrium. To this end, we can re-arrange the rows and columns of <span class="math inline">\(A\)</span>, and the elements of <span class="math inline">\(r\)</span> to obtain two blocks: one for the <span class="math inline">\(k\)</span> species already in the community, and one for the <span class="math inline">\(n-k\)</span> potential invaders.</p>
+<p>Now consider a pool of species (e.g., a metacommunity/mainland) and an environment (e.g., a local habitat/island) in which some of the species are present, and coexisting at an equilibrium. We have <span class="math inline">\(n\)</span> species in the pool, and <span class="math inline">\(k\)</span> species in the habitat/island. We want to write conditions for the invasibility of the equilibrium. To this end, we can re-arrange the rows and columns of <span class="math inline">\(A\)</span>, and the elements of <span class="math inline">\(r\)</span> to obtain two blocks: one for the <span class="math inline">\(k\)</span> species already in the community, and one for the <span class="math inline">\(n-k\)</span> potential invaders.</p>
 <p>The fixed point <span class="math inline">\(\bar{x}\)</span> can be written as:</p>
 <p><span class="math display">\[
 \bar{x} = \left(\begin{array}{l}
@@ -331,9 +363,9 @@ A^{(n-k,k)} &amp; A^{(n-k, n- k)}\\
 \]</span></p>
 <p>where each block <span class="math inline">\(A^{(a,b)}\)</span> contains the effects of the species in set <span class="math inline">\(b\)</span> on the growth of the species in <span class="math inline">\(a\)</span>. For feasibility we need:</p>
 <p><span class="math display">\[
-x^{(k)} = -r^{(k)}\left(A^{(k,k)} \right)^{-1} &gt; 0
+x^{(k)} = -\left(A^{(k,k)} \right)^{-1}r^{(k)} &gt; 0
 \]</span></p>
-<p>Now we want to write the condition for the non-invasibility of the resident community by the other species in the metacommunity. For each species in <span class="math inline">\((n-k)\)</span>, we need to have a negative growth rate when invading:</p>
+<p>Now we want to write the condition for the <strong>non-invasibility</strong> of the resident community by the other species in the metacommunity. For each species in <span class="math inline">\((n-k)\)</span>, we need to have a negative growth rate when invading:</p>
 <p><span class="math display">\[
 r^{(n-k)} + A^{(n-k,k)}x^{(k)} &lt; 0
 \]</span></p>
@@ -352,7 +384,7 @@ V(x) = -\sum_i c_i (\bar{x}_i \log x_i - x_i)
 \dfrac{dV(x)}{dt} &amp;= -\sum_i c_i \left(\bar{x}_i \frac{d \log x_i}{dt} - \frac{d x_i}{dt} \right) \\
 &amp;= -\sum_i c_i \left( \bar{x}_i - x_i \right)  \left( r_i + \sum_j A_{ij} x_j \right) \\
 &amp;= -\sum_i c_i \left( \bar{x}_i - x_i \right)  \left( r_i + \sum_j A_{ij} (x_j - \bar{x}_j) +  \sum_j A_{ij} \bar{x}_j \right) \\
-&amp;= \sum_{i,j} \left( \bar{x}_i - x_i \right) c_i A_{ij} \left( \bar{x}_j - x_j \right) - \sum_i c_i \left( \bar{x}_i - x_i \right) \left(r_i + \sum_j A_{ij} \bar{x}_j \right)
+&amp;= \sum_{i,j} \left( \bar{x}_i - x_i \right) c_i A_{ij} \left( \bar{x}_j - x_j \right) + \sum_i c_i \left( \bar{x}_i - x_i \right) \left(r_i + \sum_j A_{ij} \bar{x}_j \right)
 \end{aligned}
 \]</span></p>
 <p>The first term is negative for all <span class="math inline">\(x \neq \bar{x}\)</span>, and is zero at the saturated equilibrium point. The second term is zero for all <span class="math inline">\(\bar{x}_i &gt; 0\)</span>: <span class="math inline">\(r_i + \sum_j A_{ij} \bar{x}_j = 0\)</span>, given that <span class="math inline">\(\bar{x}\)</span> is an equilibrium for the species at positive density; for the remaining species (for which <span class="math inline">\(\bar{x}_i = 0\)</span>), this amounts to the invasion criterion above, and must therefore be negative. As such <span class="math inline">\(V(x)\)</span> is a Lyapunov function for the system, assuming negative values everywhere but at <span class="math inline">\(\bar{x}\)</span>.</p>
@@ -361,14 +393,29 @@ V(x) = -\sum_i c_i (\bar{x}_i \log x_i - x_i)
 </div>
 <h3>References</h3>
 <div id="refs" class="references">
+<div id="ref-cadotte2016phylogenies">
+<p>Cadotte, Marc W, and T Jonathan Davies. 2016. <em>Phylogenies in Ecology: A Guide to Concepts and Methods</em>. Princeton University Press.</p>
+</div>
+<div id="ref-drake1991community">
+<p>Drake, James A. 1991. “Community-Assembly Mechanics and the Structure of an Experimental Species Ensemble.” <em>The American Naturalist</em> 137 (1): 1–26.</p>
+</div>
+<div id="ref-gotelli1996null">
+<p>Gotelli, Nicholas J, and Gary R Graves. 1996. <em>Null Models in Ecology</em>.</p>
+</div>
 <div id="ref-hofbauer1998evolutionary">
 <p>Hofbauer, Josef, and Karl Sigmund. 1998. <em>Evolutionary Games and Population Dynamics</em>. Cambridge University Press.</p>
 </div>
+<div id="ref-hubbell2001unified">
+<p>Hubbell, Stephen P. 2001. <em>The Unified Neutral Theory of Biodiversity and Biogeography</em>. Vol. 32. Princeton University Press.</p>
+</div>
+<div id="ref-law1996permanence">
+<p>Law, Richard, and R Daniel Morton. 1996. “Permanence and the Assembly of Ecological Communities.” <em>Ecology</em> 77 (3): 762–75.</p>
+</div>
+<div id="ref-morton1996models">
+<p>Morton, R Daniel, Richard Law, Stuart L Pimm, and James A Drake. 1996. “On Models for Assembling Ecological Communities.” <em>Oikos</em>, 493–99.</p>
+</div>
 <div id="ref-servan2020tractable">
 <p>Serván, Carlos A, and Stefano Allesina. 2020. “Tractable Models of Ecological Assembly.” <em>bioRxiv</em>.</p>
-</div>
-<div id="ref-weiher2001ecological">
-<p>Weiher, Evan, and Paul Keddy. 2001. <em>Ecological Assembly Rules: Perspectives, Advances, Retreats</em>. Cambridge University Press.</p>
 </div>
 </div>
             </section>

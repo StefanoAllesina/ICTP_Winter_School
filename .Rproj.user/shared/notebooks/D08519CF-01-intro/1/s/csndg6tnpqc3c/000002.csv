@@ -1,0 +1,10 @@
+"0","# find feasible equilibrium for the example above
+solve(A, -r)
+"
+"1","[1]"
+"1"," 1.8722239"
+"1"," 1.5603128"
+"1"," 2.4236325"
+"1"," 0.4654487"
+"1","
+"
