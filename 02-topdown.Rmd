@@ -111,7 +111,7 @@ pl <- pl + geom_point(data = tbinom, aes(x = ncoexisting, y = expectation))
 show(pl)
 ```
 
-We find again that the number of coexisting species follows the binomial distribution with parameters $n$ and $1/2$ (i.e., exactly the same result found for non interacting species). To prove this fact, let's begin with showing that the probability of having all species coexisting is $1 / 2^n$. For this, we need $x^\star = -A^{-1}r$ to be feasible. For each possible $A$ (invertible) and $r$, we have that the vector $-r A^{-1}$ will display a certain pattern of signs. Proving that the probability that all $n$ species coexist is $1 / 2^n$ amounts to proving that all sign patterns are equally probable. To this end, define the matrix $D_k = (-1)^{\delta_{ik}} \delta_{ij}$. This is like the identity matrix, but with element $k$ of the diagonal set to $-1$ instead of $1$. We have that:
+We find again that the number of coexisting species follows the binomial distribution with parameters $n$ and $1/2$ (i.e., exactly the same result found for non interacting species). To prove this fact, let's begin with showing that the probability of having all species coexisting is $1 / 2^n$. For this, we need $x^\star = -A^{-1}r$ to be feasible. For each possible $A$ (invertible) and $r$, we have that the vector $- A^{-1}r$ will display a certain pattern of signs. Proving that the probability that all $n$ species coexist is $1 / 2^n$ amounts to proving that all sign patterns are equally probable. To this end, define the matrix $D_k = (-1)^{\delta_{ik}} \delta_{ij}$. This is like the identity matrix, but with element $k$ of the diagonal set to $-1$ instead of $1$. We have that:
 
 $$
 (D_k A D_k) D_k x^\star = -D_k r
