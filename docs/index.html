@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Assembly of ecological communities: some theoretical explorations</title>
   <meta name="description" content="Lecture notes prepared for the ICTP Winter School on Quantitative Systems Biology: Quantitative Approaches in Ecosystem Ecology." />
-  <meta name="generator" content="bookdown 0.18 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Assembly of ecological communities: some theoretical explorations" />
   <meta property="og:type" content="book" />
@@ -24,7 +24,7 @@
 <meta name="author" content="Stefano Allesina" />
 
 
-<meta name="date" content="2020-11-29" />
+<meta name="date" content="2020-11-30" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -50,12 +50,14 @@
 
 
 
+<link href="libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0/anchor-sections.js"></script>
 
 
 <style type="text/css">
-code.sourceCode > span { display: inline-block; line-height: 1.25; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-code.sourceCode > span:empty { height: 1.2em; }
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode { white-space: pre; position: relative; }
 pre.sourceCode { margin: 0; }
@@ -64,16 +66,14 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 code.sourceCode { white-space: pre-wrap; }
-code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
 }
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
+    border: none; pointer-events: all; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -82,9 +82,9 @@ pre.numberSource code > span > a:first-child::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {   }
+  {  }
 @media screen {
-code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+a.sourceLine::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -190,7 +190,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="header">
 <h1 class="title">Assembly of ecological communities: some theoretical explorations</h1>
 <p class="author"><em>Stefano Allesina</em></p>
-<p class="date"><em>2020-11-29</em></p>
+<p class="date"><em>2020-11-30</em></p>
 </div>
 <div id="preliminaries" class="section level1 unnumbered">
 <h1>Preliminaries</h1>
@@ -208,7 +208,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="computing" class="section level2 unnumbered">
 <h2>Computing</h2>
-<p>All the figures are generate at runtime, using <code>R</code> code that can be found in <a href="https://github.com/StefanoAllesina/ICTP_Winter_School">this GitHub repository</a>. Please make sure that the following libraries are installed:</p>
+<p>All the figures are generated at runtime, using <code>R</code> code that can be found in <a href="https://github.com/StefanoAllesina/ICTP_Winter_School">this GitHub repository</a>. Please make sure that the following libraries are installed:</p>
 <ul>
 <li><code>deSolve</code> for integration of differential equations</li>
 <li><code>tidyverse</code> for data manipulation and plotting</li>
@@ -218,7 +218,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="questions-and-answers" class="section level2 unnumbered">
 <h2>Questions and answers</h2>
-<p>If you have a question that prevents you from following the lecture, please unmute yourself and ask the question—other students are likely to have the same problem! If you are asking a question out of curiosity, or that can be discussed later, please put it in the chat. I will keep the last few minutes of the lecture for Q&amp;A.</p>
+<p>If you have a question that prevents you from following the lecture, please unmute yourself and ask the question—other students are likely to have the same problem! If you are asking a question out of curiosity, or that can be discussed later, please put it in the chat. I will keep the last few minutes of each lecture for Q&amp;A.</p>
 
 </div>
 </div>

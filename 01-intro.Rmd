@@ -8,7 +8,7 @@ Another important piece of the puzzle was provided by the work of Jared Diamond 
 
 In the early 2000s, the focus changed decisively and became centered on the difference between "neutrality" (i.e., where species distribution are driven by stochastic fluctuations, @hubbell2001unified) and "niche" (i.e., driven by species interactions---or rather their avoidance). 
 
-Finally, the budding field of "community phylogenetics" (@cadotte2016phylogenies) is centered on relating these concepts with data stemming from phylogenetic trees.
+Finally, the budding field of "community phylogenetics" (@cadotte2016phylogenies) is centered on relating these concepts to data stemming from phylogenetic trees.
 
 Here, we step back and reconsider basic models of ecological assembly in the style for example of @drake1991community, @law1996permanence, and @morton1996models.
 
