@@ -1,8 +1,26 @@
 # Bottom-up assembly
 
+> Mother Nature, of course, does not assemble her networks by throwing *n* species together in one go. It makes more sense to assume that she adds one species after another through successive invasions. 
+>
+> @sigmuiud1995darwin
+
+Having considered the case in which all species are thrown into the habitat at the same time (**top-down** assembly), we consider a process in which we start from the "bare ground" and build our community from the **bottom-up**.
+
+Note that in **top-down** assembly, any feasible equilibrium can be achieved by starting with the appropriate initial conditions; being slightly less generous, we can think of being able to assemble any "persistent" (e.g., stable), feasible community we can form from the pool. It makes therefore sense to ask whether these same states can or cannot be accessed when assembling the community from the ground up.
+
 ## How many invasions?
 
+First, we might want to think of the problem of invasion. The bottom-up assembly can be seen as a single, massive invasion. At the other extreme, we have assembly proceeding with invasions of a single species at a time. Of course, we can imagine anything in between: species invade in small groups, there is a distribution describing the number of species invading at each step, etc. For the moment, let's stick with the idea invasions of a single species at a time.
+
 ## An assembly graph
+
+In GLV, a given (sub-)community has at most one feasible equilibrium; that is, there is **no true multi-stability in GLV**: we can find the system at different stable states, but **they have to differ in composition**. Because of this fact, we can devise a clever scheme to label the possible states our community can be in. 
+
+We call $0$ the state in which no species are present, $1$ the state in which only species 1 is present, $2$ the state in which only species 2 is present, $3$ the state in which species 1 and 2 are both present, and so on, basically taking composition to be the base-2 representation of the label. For example, label $11$ in a community of 6 species corresponds to $001011$ (i.e., a state in which species 1, 2, and 4 are present). As this notation makes obvious, for a given pool of $n$ species, we can have up to $2^n - 1$ feasible equilibria. As we saw in Lecture 1, the existence of a feasible equilibrium is a necessary (but not sufficient---we should require also some form of stability/permanence) for coexistence.
+
+We can take these labels/states to be the **nodes** in a directed graph. Then, we take the **edges** of this graph to represent invasions, moving the local community from one state to another. To keep the graph simple, we only consider "successful" invasions (i.e., those for which the initial and final state differ), thereby removing the need for "self-loops". 
+
+This **assembly graph** was considered several times in the literature (see for example @law1993alternative, @hang1993assembly, @schreiber2004simple, @capitan2009statistical). Here, we follow the approach @servan2020tractable, and note that the assembly graph fully describes the assembly process whenever the assumptions that we've made at the onset of our exploration (invasions are rare, invasions are small, dynamics converge to equilibria) are satisfied. When this is the case, we can study the assembly process in its full glory by studying a graph (which definitely sounds more fun!).
 
 ## Acyclicity, accessibility
 
