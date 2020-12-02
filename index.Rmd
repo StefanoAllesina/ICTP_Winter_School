@@ -28,7 +28,7 @@ source("common_settings.R")
 
 ## Computing {-}
 
-All the figures are generate at runtime, using `R` code that can be found in [this GitHub repository](https://github.com/StefanoAllesina/ICTP_Winter_School). Please make sure that the following libraries are installed:
+All the figures are generated at runtime, using `R` code that can be found in [this GitHub repository](https://github.com/StefanoAllesina/ICTP_Winter_School). Please make sure that the following libraries are installed:
 
 - `deSolve` for integration of differential equations
 - `tidyverse` for data manipulation and plotting
@@ -37,8 +37,4 @@ All the figures are generate at runtime, using `R` code that can be found in [th
 
 ## Questions and answers {-}
 
-If you have a question that prevents you from following the lecture, please unmute yourself and ask the question---other students are likely to have the same problem! If you are asking a question out of curiosity, or that can be discussed later, please put it in the chat. I will keep the last few minutes of the lecture for Q&A.
-
-
-
-
+If you have a question that prevents you from following the lecture, please unmute yourself and ask the question---other students are likely to have the same problem! If you are asking a question out of curiosity, or that can be discussed later, please put it in the chat. I will keep the last few minutes of each lecture for Q&A.
