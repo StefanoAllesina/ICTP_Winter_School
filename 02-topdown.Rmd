@@ -141,6 +141,19 @@ eigen(D_1 %*% A %*% D_1)$values
 
 We can repeat the operation several times, connecting each possible starting point to the feasible solution. Therefore, the probability of all species coexisting amounts to the probability of having chosen the "right" sequence of $D_k$, which happens with probability $1 / 2^n$. Notice that the same proof holds when the coefficients of $A$ are sampled in pairs from a bivariate distribution (rather than having symmetric matrices), as long as the distribution is centered at zero, and the matrix is Lyapunov-Diagonally stable (@servan2018coexistence). Using the same argument, one can prove that, under this parametrization, the probability of observing $k$ species coexisting and $n -k$ not being able to invade is exactly $\binom{n}{k} \frac{1}{2^n}$ (@servan2018coexistence).
 
+We can complicate the model substantially, but the results are qualitatively unchanged: the more species ones put in, the more species one finds after dynamics have elapsed. The proportion of species surviving depends on the choice of the distributions for the growth rates and interactions.
+
+## A random zoo in the wild
+
+One might object that the derivations above have no parallel in reality. However, I think that they can be seen as a simplified version of an experiment done routinely by ecologists. Take for example the work of @bittleston2020context. They sampled bacterial communities from ten different pitcher plants, and cultured them in the laboratory on a synthetic medium. They tracked the change of richness in time. This is their Figure 2 (look at panel b):
+
+```{r, echo=FALSE}
+url <- "https://media.springernature.com/full/springer-static/image/art%3A10.1038%2Fs41467-020-15169-0/MediaObjects/41467_2020_15169_Fig2_HTML.png"
+```
+<center><img src="`r url`"></center>
+
+The more the species present at day 3 (i.e., once those with a negative growth rate had disappeared), the more one would find after two months---and the relationship is linear!
+
 ## Assembly and saturated equilibrium
 
 Now let's make it more complicated: we assemble an ecological community from the ground up. At each step, we introduce a species at low abundance, starting from an empty community. We then compute the new equilibrium, completing a step of the assembly:

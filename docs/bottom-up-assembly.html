@@ -24,7 +24,7 @@
 <meta name="author" content="Stefano Allesina" />
 
 
-<meta name="date" content="2020-12-01" />
+<meta name="date" content="2020-12-03" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -53,9 +53,9 @@
 
 
 <style type="text/css">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode { white-space: pre; position: relative; }
 pre.sourceCode { margin: 0; }
@@ -64,14 +64,16 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
-pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
-pre.numberSource a.sourceLine::before
-  { content: attr(data-line-number);
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
+    border: none; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -80,9 +82,9 @@ pre.numberSource a.sourceLine::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {  }
+  {   }
 @media screen {
-a.sourceLine::before { text-decoration: underline; }
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -154,8 +156,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="2.1" data-path="top-down-assembly.html"><a href="top-down-assembly.html#a-trivial-case"><i class="fa fa-check"></i><b>2.1</b> A trivial case</a></li>
 <li class="chapter" data-level="2.2" data-path="top-down-assembly.html"><a href="top-down-assembly.html#simulating-final-composition"><i class="fa fa-check"></i><b>2.2</b> Simulating final composition</a></li>
 <li class="chapter" data-level="2.3" data-path="top-down-assembly.html"><a href="top-down-assembly.html#a-random-zoo"><i class="fa fa-check"></i><b>2.3</b> A random zoo</a></li>
-<li class="chapter" data-level="2.4" data-path="top-down-assembly.html"><a href="top-down-assembly.html#assembly-and-saturated-equilibrium"><i class="fa fa-check"></i><b>2.4</b> Assembly and saturated equilibrium</a></li>
-<li class="chapter" data-level="2.5" data-path="top-down-assembly.html"><a href="top-down-assembly.html#network-spandrels"><i class="fa fa-check"></i><b>2.5</b> Network spandrels</a></li>
+<li class="chapter" data-level="2.4" data-path="top-down-assembly.html"><a href="top-down-assembly.html#a-random-zoo-in-the-wild"><i class="fa fa-check"></i><b>2.4</b> A random zoo in the wild</a></li>
+<li class="chapter" data-level="2.5" data-path="top-down-assembly.html"><a href="top-down-assembly.html#assembly-and-saturated-equilibrium"><i class="fa fa-check"></i><b>2.5</b> Assembly and saturated equilibrium</a></li>
+<li class="chapter" data-level="2.6" data-path="top-down-assembly.html"><a href="top-down-assembly.html#network-spandrels"><i class="fa fa-check"></i><b>2.6</b> Network spandrels</a></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="bottom-up-assembly.html"><a href="bottom-up-assembly.html"><i class="fa fa-check"></i><b>3</b> Bottom-up assembly</a><ul>
 <li class="chapter" data-level="3.1" data-path="bottom-up-assembly.html"><a href="bottom-up-assembly.html#how-many-invasions"><i class="fa fa-check"></i><b>3.1</b> How many invasions?</a></li>
@@ -189,7 +192,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h1><span class="header-section-number">Lecture 3</span> Bottom-up assembly</h1>
 <blockquote>
 <p>Mother Nature, of course, does not assemble her networks by throwing <em>n</em> species together in one go. It makes more sense to assume that she adds one species after another through successive invasions.</p>
-<p><span class="citation">Sigmund (<a href="#ref-sigmuiud1995darwin">1995</a>)</span></p>
+<p><span class="citation">Sigmund (<a href="#ref-sigmuiud1995darwin" role="doc-biblioref">1995</a>)</span></p>
 </blockquote>
 <p>Having considered the case in which all species are thrown into the habitat at the same time (<strong>top-down</strong> assembly), we consider a process in which we start from the “bare ground” and build our community from the <strong>bottom-up</strong>.</p>
 <p>Note that in <strong>top-down</strong> assembly, any feasible equilibrium can be achieved by starting with the appropriate initial conditions; being slightly less generous, we can think of being able to assemble any “persistent” (e.g., stable), feasible community we can form from the pool. It makes therefore sense to ask whether these same states can or cannot be accessed when assembling the community from the ground up.</p>
@@ -202,7 +205,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>In GLV, a given (sub-)community has at most one feasible equilibrium; that is, there is <strong>no true multi-stability in GLV</strong>: we can find the system at different stable states, but <strong>they have to differ in composition</strong>. Because of this fact, we can devise a clever scheme to label the possible states our community can be in.</p>
 <p>We call <span class="math inline">\(0\)</span> the state in which no species are present, <span class="math inline">\(1\)</span> the state in which only species 1 is present, <span class="math inline">\(2\)</span> the state in which only species 2 is present, <span class="math inline">\(3\)</span> the state in which species 1 and 2 are both present, and so on, basically taking composition to be the base-2 representation of the label. For example, label <span class="math inline">\(11\)</span> in a community of 6 species corresponds to <span class="math inline">\(001011\)</span> (i.e., a state in which species 1, 2, and 4 are present). As this notation makes obvious, for a given pool of <span class="math inline">\(n\)</span> species, we can have up to <span class="math inline">\(2^n - 1\)</span> feasible equilibria. As we saw in Lecture 1, the existence of a feasible equilibrium is a necessary (but not sufficient—we should require also some form of stability/permanence) for coexistence.</p>
 <p>We can take these labels/states to be the <strong>nodes</strong> in a directed graph. Then, we take the <strong>edges</strong> of this graph to represent invasions, moving the local community from one state to another. To keep the graph simple, we only consider “successful” invasions (i.e., those for which the initial and final state differ), thereby removing the need for “self-loops”.</p>
-<p>This <strong>assembly graph</strong> was considered several times in the literature (see for example <span class="citation">Law and Morton (<a href="#ref-law1993alternative">1993</a>)</span>, <span class="citation">Hang-Kwang and Pimm (<a href="#ref-hang1993assembly">1993</a>)</span>, <span class="citation">Schreiber and Rittenhouse (<a href="#ref-schreiber2004simple">2004</a>)</span>, <span class="citation">Capitán, Cuesta, and Bascompte (<a href="#ref-capitan2009statistical">2009</a>)</span>). Here, we follow the approach <span class="citation">Serván and Allesina (<a href="#ref-servan2020tractable">2020</a>)</span>, and note that the assembly graph fully describes the assembly process whenever the assumptions that we’ve made at the onset of our exploration (invasions are rare, invasions are small, dynamics converge to equilibria) are satisfied. When this is the case, we can study the assembly process in its full glory by studying a graph (which definitely sounds more fun!).</p>
+<p>This <strong>assembly graph</strong> was considered several times in the literature (see for example <span class="citation">Law and Morton (<a href="#ref-law1993alternative" role="doc-biblioref">1993</a>)</span>, <span class="citation">Hang-Kwang and Pimm (<a href="#ref-hang1993assembly" role="doc-biblioref">1993</a>)</span>, <span class="citation">Schreiber and Rittenhouse (<a href="#ref-schreiber2004simple" role="doc-biblioref">2004</a>)</span>, <span class="citation">Capitán, Cuesta, and Bascompte (<a href="#ref-capitan2009statistical" role="doc-biblioref">2009</a>)</span>). Here, we follow the approach <span class="citation">Serván and Allesina (<a href="#ref-servan2020tractable" role="doc-biblioref">2020</a>)</span>, and note that the assembly graph fully describes the assembly process whenever the assumptions that we’ve made at the onset of our exploration (invasions are rare, invasions are small, dynamics converge to equilibria) are satisfied. When this is the case, we can study the assembly process in its full glory by studying a graph (which definitely sounds more fun!).</p>
 </div>
 <div id="acyclicity-accessibility" class="section level2">
 <h2><span class="header-section-number">3.3</span> Acyclicity, accessibility</h2>
@@ -218,25 +221,34 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <div id="refs" class="references">
 <div>
+<p>Bittleston, Leonora S, Matti Gralka, Gabriel E Leventhal, Itzhak Mizrahi, and Otto X Cordero. 2020. “Context-Dependent Dynamics Lead to the Assembly of Functionally Distinct Microbial Communities.” <em>Nature Communications</em> 11 (1): 1–10.</p>
+</div>
+<div>
 <p>Cadotte, Marc W, and T Jonathan Davies. 2016. <em>Phylogenies in Ecology: A Guide to Concepts and Methods</em>. Princeton University Press.</p>
 </div>
 <div>
-<p>Capitán, José A, José A Cuesta, and Jordi Bascompte. 2009. “Statistical Mechanics of Ecosystem Assembly.” <em>Physical Review Letters</em> 103 (16). APS: 168101.</p>
+<p>Capitán, José A, José A Cuesta, and Jordi Bascompte. 2009. “Statistical Mechanics of Ecosystem Assembly.” <em>Physical Review Letters</em> 103 (16): 168101.</p>
 </div>
 <div>
-<p>Drake, James A. 1991. “Community-Assembly Mechanics and the Structure of an Experimental Species Ensemble.” <em>The American Naturalist</em> 137 (1). University of Chicago Press: 1–26.</p>
+<p>Diamond, Jared M. 1975. “Assembly of Species Communities.” <em>Ecology and Evolution of Communities</em>, 342–444.</p>
 </div>
 <div>
-<p>Gotelli, Nicholas J. 1999. “How Do Communities Come Together?” <em>Science</em> 286 (5445). American Association for the Advancement of Science: 1684–5.</p>
+<p>Drake, James A. 1991. “Community-Assembly Mechanics and the Structure of an Experimental Species Ensemble.” <em>The American Naturalist</em> 137 (1): 1–26.</p>
+</div>
+<div>
+<p>Goh, Bo S. 1977. “Global Stability in Many-Species Systems.” <em>The American Naturalist</em> 111 (977): 135–43.</p>
+</div>
+<div>
+<p>Gotelli, Nicholas J. 1999. “How Do Communities Come Together?” <em>Science</em> 286 (5445): 1684–5.</p>
 </div>
 <div>
 <p>Gotelli, Nicholas J, and Gary R Graves. 1996. <em>Null Models in Ecology</em>.</p>
 </div>
 <div>
-<p>Gould, Stephen Jay, and Richard C Lewontin. 1979. “The Spandrels of San Marco and the Panglossian Paradigm: A Critique of the Adaptationist Programme.” <em>Proceedings of the Royal Society of London. Series B. Biological Sciences</em> 205 (1161). The Royal Society London: 581–98.</p>
+<p>Gould, Stephen Jay, and Richard C Lewontin. 1979. “The Spandrels of San Marco and the Panglossian Paradigm: A Critique of the Adaptationist Programme.” <em>Proceedings of the Royal Society of London. Series B. Biological Sciences</em> 205 (1161): 581–98.</p>
 </div>
 <div>
-<p>Hang-Kwang, Luh, and Stuart L Pimm. 1993. “The Assembly of Ecological Communities: A Minimalist Approach.” <em>Journal of Animal Ecology</em>. JSTOR, 749–65.</p>
+<p>Hang-Kwang, Luh, and Stuart L Pimm. 1993. “The Assembly of Ecological Communities: A Minimalist Approach.” <em>Journal of Animal Ecology</em>, 749–65.</p>
 </div>
 <div>
 <p>Hofbauer, Josef, and Karl Sigmund. 1998. <em>Evolutionary Games and Population Dynamics</em>. Cambridge University Press.</p>
@@ -245,31 +257,31 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Hubbell, Stephen P. 2001. <em>The Unified Neutral Theory of Biodiversity and Biogeography</em>. Vol. 32. Princeton University Press.</p>
 </div>
 <div>
-<p>Law, Richard, and R Daniel Morton. 1993. “Alternative Permanent States of Ecological Communities.” <em>Ecology</em> 74 (5). Wiley Online Library: 1347–61.</p>
+<p>Law, Richard, and R Daniel Morton. 1993. “Alternative Permanent States of Ecological Communities.” <em>Ecology</em> 74 (5): 1347–61.</p>
 </div>
 <div>
-<p>———. 1996. “Permanence and the Assembly of Ecological Communities.” <em>Ecology</em> 77 (3). Wiley Online Library: 762–75.</p>
+<p>———. 1996. “Permanence and the Assembly of Ecological Communities.” <em>Ecology</em> 77 (3): 762–75.</p>
 </div>
 <div>
-<p>Maynard, Daniel S, Carlos A Serván, and Stefano Allesina. 2018. “Network Spandrels Reflect Ecological Assembly.” <em>Ecology Letters</em> 21 (3). Wiley Online Library: 324–34.</p>
+<p>Maynard, Daniel S, Carlos A Serván, and Stefano Allesina. 2018. “Network Spandrels Reflect Ecological Assembly.” <em>Ecology Letters</em> 21 (3): 324–34.</p>
 </div>
 <div>
-<p>Morton, R Daniel, Richard Law, Stuart L Pimm, and James A Drake. 1996. “On Models for Assembling Ecological Communities.” <em>Oikos</em>. JSTOR, 493–99.</p>
+<p>Morton, R Daniel, Richard Law, Stuart L Pimm, and James A Drake. 1996. “On Models for Assembling Ecological Communities.” <em>Oikos</em>, 493–99.</p>
 </div>
 <div>
-<p>Schreiber, Sebastian J, and Seth Rittenhouse. 2004. “From Simple Rules to Cycling in Community Assembly.” <em>Oikos</em> 105 (2). Wiley Online Library: 349–58.</p>
+<p>Schreiber, Sebastian J, and Seth Rittenhouse. 2004. “From Simple Rules to Cycling in Community Assembly.” <em>Oikos</em> 105 (2): 349–58.</p>
 </div>
 <div>
-<p>Serván, Carlos A, and Stefano Allesina. 2020. “Tractable Models of Ecological Assembly.” <em>bioRxiv</em>. Cold Spring Harbor Laboratory.</p>
+<p>Serván, Carlos A, and Stefano Allesina. 2020. “Tractable Models of Ecological Assembly.” <em>bioRxiv</em>.</p>
 </div>
 <div>
-<p>Serván, Carlos A, José A Capitán, Jacopo Grilli, Kent E Morrison, and Stefano Allesina. 2018. “Coexistence of Many Species in Random Ecosystems.” <em>Nature Ecology &amp; Evolution</em> 2 (8). Nature Publishing Group: 1237.</p>
+<p>Serván, Carlos A, José A Capitán, Jacopo Grilli, Kent E Morrison, and Stefano Allesina. 2018. “Coexistence of Many Species in Random Ecosystems.” <em>Nature Ecology &amp; Evolution</em> 2 (8): 1237.</p>
 </div>
 <div>
-<p>Sigmund, Karl. 1995. “Darwin’s &quot;Circles of Complexity&quot;: Assembling Ecological Communities.” <em>Complexity</em> 1 (1). Wiley Online Library: 40–44.</p>
+<p>Sigmund, Karl. 1995. “Darwin’s "Circles of Complexity": Assembling Ecological Communities.” <em>Complexity</em> 1 (1): 40–44.</p>
 </div>
 <div>
-<p>Solé, Ricard V, and Sergi Valverde. 2006. “Are Network Motifs the Spandrels of Cellular Complexity?” <em>Trends in Ecology &amp; Evolution</em> 21 (8). Elsevier: 419–22.</p>
+<p>Solé, Ricard V, and Sergi Valverde. 2006. “Are Network Motifs the Spandrels of Cellular Complexity?” <em>Trends in Ecology &amp; Evolution</em> 21 (8): 419–22.</p>
 </div>
 <div>
 <p>Weiher, Evan, and Paul Keddy. 2001. <em>Ecological Assembly Rules: Perspectives, Advances, Retreats</em>. Cambridge University Press.</p>
@@ -280,22 +292,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h3>References</h3>
 <div id="refs" class="references">
 <div id="ref-capitan2009statistical">
-<p>Capitán, José A, José A Cuesta, and Jordi Bascompte. 2009. “Statistical Mechanics of Ecosystem Assembly.” <em>Physical Review Letters</em> 103 (16). APS: 168101.</p>
+<p>Capitán, José A, José A Cuesta, and Jordi Bascompte. 2009. “Statistical Mechanics of Ecosystem Assembly.” <em>Physical Review Letters</em> 103 (16): 168101.</p>
 </div>
 <div id="ref-hang1993assembly">
-<p>Hang-Kwang, Luh, and Stuart L Pimm. 1993. “The Assembly of Ecological Communities: A Minimalist Approach.” <em>Journal of Animal Ecology</em>. JSTOR, 749–65.</p>
+<p>Hang-Kwang, Luh, and Stuart L Pimm. 1993. “The Assembly of Ecological Communities: A Minimalist Approach.” <em>Journal of Animal Ecology</em>, 749–65.</p>
 </div>
 <div id="ref-law1993alternative">
-<p>Law, Richard, and R Daniel Morton. 1993. “Alternative Permanent States of Ecological Communities.” <em>Ecology</em> 74 (5). Wiley Online Library: 1347–61.</p>
+<p>Law, Richard, and R Daniel Morton. 1993. “Alternative Permanent States of Ecological Communities.” <em>Ecology</em> 74 (5): 1347–61.</p>
 </div>
 <div id="ref-schreiber2004simple">
-<p>Schreiber, Sebastian J, and Seth Rittenhouse. 2004. “From Simple Rules to Cycling in Community Assembly.” <em>Oikos</em> 105 (2). Wiley Online Library: 349–58.</p>
+<p>Schreiber, Sebastian J, and Seth Rittenhouse. 2004. “From Simple Rules to Cycling in Community Assembly.” <em>Oikos</em> 105 (2): 349–58.</p>
 </div>
 <div id="ref-servan2020tractable">
-<p>Serván, Carlos A, and Stefano Allesina. 2020. “Tractable Models of Ecological Assembly.” <em>bioRxiv</em>. Cold Spring Harbor Laboratory.</p>
+<p>Serván, Carlos A, and Stefano Allesina. 2020. “Tractable Models of Ecological Assembly.” <em>bioRxiv</em>.</p>
 </div>
 <div id="ref-sigmuiud1995darwin">
-<p>Sigmund, Karl. 1995. “Darwin’s &quot;Circles of Complexity&quot;: Assembling Ecological Communities.” <em>Complexity</em> 1 (1). Wiley Online Library: 40–44.</p>
+<p>Sigmund, Karl. 1995. “Darwin’s "Circles of Complexity": Assembling Ecological Communities.” <em>Complexity</em> 1 (1): 40–44.</p>
 </div>
 </div>
             </section>

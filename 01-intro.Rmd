@@ -6,7 +6,7 @@ Historically, this type of island-mainland models (based on species) have been c
 
 The idea of assembly was first introduced in ecology by the pioneers of "succession". For example, in 1899 Henry Chandler Cowles studied the vegetation development in the Indiana Dunes---sand dunes are first colonized by "pioneer" species of plants, which are then overgrown by different vegetation in older dunes. Because dunes are regularly disrupted by wind, one could make a "space-for-time" substitution and reconstruct the development of the vegetation as a "chronosequence". Importantly, Cowles (and then Clements) held the view that succession would be a strongly ordered, "determinisitc" process by which communities tended to a certain "climax" state. In the 1920s, Henry Gleason challenged this view, advocating for a much greater role for chance.
 
-Another important piece of the puzzle was provided by the work of Jared Diamond who, while studying avian assemblages in New Guinea, proposed that certain species assemblages would be "forbidden" (due to competition)---by observing several instances of assembly (in the different islands), one could guess the rules of the assembly game. Diamond's work sparked decades of intense debate, bringing a focus on the role of null models in ecology (are the observed patterns due to chance or necessity?), with especially cogent critiques brought forward by Simberloff, Connor and Gotelli (see for example @gotelli1996null). 
+Another important piece of the puzzle was provided by the work of Jared Diamond who, while studying avian assemblages in New Guinea, proposed that certain species assemblages would be "forbidden" (due to competition)---by observing several instances of assembly (in the different islands), one could guess the rules of the assembly game (@diamond1975assembly). Diamond's work sparked decades of intense debate, bringing a focus on the role of null models in ecology (are the observed patterns due to chance or necessity?), with especially cogent critiques brought forward by Simberloff, Connor and Gotelli (see for example @gotelli1996null). 
 
 In the early 2000s, the focus changed decisively and became centered on the difference between "neutrality" (i.e., where species distribution are driven by stochastic fluctuations, @hubbell2001unified) and "niche" (i.e., driven by species interactions---or rather their avoidance). 
 
@@ -144,7 +144,7 @@ $$
 V(x(t)) = 1^T C \left( x(t) -x^\star -x^\star \cdot \log (x(t) / x^\star)\right)
 $$
 
-is a Lyapunov function for the GLV system. It is clear that $V(x(t))$ is positive everywhere in the positive orthant besides at equilibrium. Then, we need to show that the function decreases along the trajectories of the system.
+is a Lyapunov function for the GLV system. It is clear that $V(x(t))$ is positive everywhere in the positive orthant besides at equilibrium. Then, we need to show that the function decreases along the trajectories of the system (@goh1977global).
 
 To prove this point, we start from $r = -A x^\star$. Substituting, we can write the GLV system as $dx(t)/dt = D(x)A(x - x^\star)$; similarly, we can write $d \log x(t)/dt = A(x - x^\star)$. Taking the derivative of $V$ with respect to time:
 
