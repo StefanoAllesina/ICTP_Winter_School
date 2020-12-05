@@ -75,7 +75,7 @@ build_assembly_graph <- function(r, A, num_invasions = 1){
       x_bar[present] <- x_star
       to_state <- sum(sp_base2 * (x_bar > 0))
       if (to_state == i-1){
-        states[i,] <- c(i-1, 1, sum(state), i-1, sum(x_bar))
+        states[i,] <- c(i-1, 1, sum(state), i-1, sum(x_bar * r))
       } else {
         states[i,] <- c(i-1, 0, sum(state), to_state, NA)
       }

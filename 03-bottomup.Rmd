@@ -71,19 +71,54 @@ For GLV with symmetric, competitive interactions (actually, for a slightly more 
 
 - **Every walk on the assembly graph eventually reaches a sink**, and, when $A$ is stable, **the sink is unique**. This means that for this type of species pool, historical contingencies (@fukami2015historical) are impossible---if we wait for long enough, the system will always reach the same state, thereby erasing any trace of the assembly history.
 
+```{r}
+set.seed(5)
+A <- build_competitive_stable(6)
+r <- runif(6)
+ag <- build_assembly_graph(r, A)
+plot_assembly_graph(ag$graph, ag$info)
+```
+
+Community "29" is composed of species 1, 3, 4, 5. We can assemble this state without extinctions starting from the bare ground: first invade with species 3, sending the community to state "8"; then, add species 4, moving the state to "12"; then add species 5, moving to "28", and finally add species 1, reaching "29".
+
 ## Relationship with Lyapunov functions
 
-If a graph has the properties above (acyclic, single source, single sink), then there is a way to order the node such that all edges point in the same direction (topological sorting). In this case, we can devise an "energy" associated with each community state such that assembly "maximizes" the quantity, connecting "low-energy" states to "high-energy ones" via invasion.
+If a graph has the properties above (acyclic, single source, single sink), then there is a way to order the nodes such that all edges point in the same direction (topological sorting). In this case, we can devise an "energy" associated with each community state such that assembly "maximizes" the quantity, connecting "low-energy" states to "high-energy ones" via invasion.
 
-In fact, we can even devise such a function, it is exactly the Lyapunov function devised by @macarthur1970species [Note: the first paper ever in Theoretical Population Biology!]:
+In fact, we can even write down such a function---it is exactly the Lyapunov function devised by @macarthur1970species [Note: the first paper ever in Theoretical Population Biology!] for GLV with symmetric, competitive interactions:
 
 $$
 V(x) = 2 \sum_i r_i x_i + \sum_{i,j} A_{ij} x_i x_j
 $$
 
-MacArthur proved that this quantity is maximized through the dynamics. At equilibrium, we find $V(x^\star) = \sum_i r_i x_i^\star$. During assembly, community composition changes such that $V(\bar{x})$  is maximized through the assembly process. Note that when $r_i = 1$ for all species, then $V(\bar{x})$ is simply the total biomass in the community. As such, through invasions the total biomass in the community is maximized. 
+MacArthur proved that this quantity is maximized through the dynamics when the the equilibrium exists and $A$ is stable. At equilibrium, we find $V(x^\star) = \sum_i r_i x_i^\star$. During assembly, community composition changes such that $V(\bar{x})$  is maximized through the assembly process. Note that when $r_i = 1$ for all species, then $V(\bar{x})$ is simply the total biomass in the community. As such, through invasions the total biomass in the community is maximized. 
 
-This result would have pleased Cowles, Gleason, Odum, and many of the pioneers of succession! For these (restrictive) conditions, assembly is indeed an orderly, predictable process, culminating in a "climax" with a clear ecological interpretation (for a similar result in a completely different context, see @suweis2013emergence).
+```{r}
+plot_assembly_graph(ag$graph, ag$info, TRUE)
+```
+
+Now a case with equal growth rates:
+
+```{r}
+set.seed(10)
+A <- build_competitive_stable(5)
+r <- rep(1, 5) # same growth rates!
+ag <- build_assembly_graph(r, A)
+plot_assembly_graph(ag$graph, ag$info, TRUE)
+```
+
+The community "15" is composed of species 1, 2, 3, and 4, while community "30" of species 2, 3, 4, and 5. Let's compute their biomasses:
+
+```{r}
+# community 15
+biom_15 <- sum(solve(A[1:4, 1:4], -r[1:4]))
+print(paste("Community 15:", biom_15))
+# community 30
+biom_30 <- sum(solve(A[2:5, 2:5], -r[2:5]))
+print(paste("Community 30:", biom_30))
+```
+
+This result would have pleased Cowles, Gleason, Odum, and many of the pioneers of succession! For these (restrictive) conditions, assembly is indeed an orderly, predictable process, culminating in a "climax" with a clear ecological interpretation. (For a similar result in a completely different context, see @suweis2013emergence).
 
 ## How many assembly endpoints?
 
@@ -97,9 +132,9 @@ Building the assembly graph is computationally very expensive, even with all the
 
 Currently, the algorithm can be sketched as:
 
-- for each of the $2^n$ possible sub-communities (ranging from bare ground to all species present), determine whether the sub-community is feasible and stable;
+- for each of the $2^n$ possible sub-communities (ranging from bare ground to all species present), determine whether the sub-community is feasible and stable (this is the most computationally expensive step);
 - now go through all the feasible, stable communities; for each determine the "neighbor" communities that can be reached with (say, one) invasion(s). 
-- call $S$ the feasible, stable community, and add species $j$ (or multiple species), and check that $j$ can invade when rare. If it cannot, move to the next neighbor; If it can, there are two cases:
+- call $S$ the feasible, stable community we are considering, and add species $j$ (or multiple species), and check that $j$ can invade when rare. If it cannot, move to the next neighbor; If it can, there are two cases:
   - if the community $\{S, j\} = S'$ is feasible and stable, draw an edge $S \to S'$
   - if the community $\{S, j\} = S'$ is not feasible and stable, the system will collapse to a smaller sub-community; to determine which sub-community it will collapse to, **check all the possible sub-communities** of $S'$, and take the one with the greatest $V(x^\star)$, $S''$. Draw an an edge $S \to S''$
 
@@ -107,9 +142,9 @@ Can a better (faster, more efficient) algorithm be devised?
 
 ## Conclusions
 
-We have explored the problem of ecological assembly by working with the Generalized Lotka-Volterra model and three main assumptions: 1) invasions are rare, such that invaders always find the local community at the attractor; 2) invasion sizes are small; and 3) dynamics always lead to equilibria--thereby allowing us to  determine the effect of any invasion uniquely. 
+We have explored the problem of ecological assembly by working with the Generalized Lotka-Volterra model and three main assumptions: 1) invasions are rare, such that invaders always find the local community at the attractor; 2) invasion sizes are small; and 3) dynamics always lead to equilibria--thereby allowing us to  determine the unique outcome of any invasion event. 
 
-These three assumptions made the study of assembly **tractable, and yet not trivial**, allowing us to map the complex dynamics of the system into an **assembly graph**, and the properties of this graph translate directly into ecological properties of the assembly process. 
+These three assumptions made the study of assembly **tractable, and yet not trivial**, allowing us to map the complex dynamics of the system into an **assembly graph**: the properties of this graph translate directly into ecological properties of the assembly process. 
 
 For competitive Lotka-Volterra with symmetric interactions, when the interaction matrix is stable, all assembly paths will eventually lead to the same state (the "saturated equilibrium" we've seen in Lectures 1 and 2). In this case, the history that led to the community cannot be reconstructed from the final state. When the matrix of interactions is unstable, on the other hand, the system can end up in different places depending on the history of assembly.
 
