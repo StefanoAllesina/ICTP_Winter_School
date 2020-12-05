@@ -4,7 +4,7 @@ author: "Stefano Allesina"
 date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
 documentclass: book
-bibliography: [book.bib, packages.bib]
+bibliography: book.bib
 biblio-style: apalike
 link-citations: yes
 description: "Lecture notes prepared for the ICTP Winter School on Quantitative Systems Biology: Quantitative Approaches in Ecosystem Ecology."

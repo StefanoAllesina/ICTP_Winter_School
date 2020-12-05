@@ -1,6 +1,7 @@
 library(tidyverse)
 library(knitr)
 library(deSolve)
+library(igraph)
 knitr::opts_chunk$set(
   cache       = TRUE,     # if TRUE knitr will cache the results to reuse in future knits
   fig.width   = 5,       # the width for plots created by code chunk

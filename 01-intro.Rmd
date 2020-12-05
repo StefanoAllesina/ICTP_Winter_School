@@ -38,7 +38,7 @@ set.seed(1) # for reproducibility
 dynamics <- GLV_dynamics(A = A, 
                          r = r,
                          maxtime = 150)
-plot_dynamics(dynamics)
+show(plot_dynamics(dynamics))
 ```
 
 ### Coexistence equilibrium
