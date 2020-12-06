@@ -83,23 +83,39 @@ build_assembly_graph <- function(r, A, num_invasions = 1){
   }
   
   edges <- matrix(0, 0, 2)
-  
   # for each node, determine neighbors
   for (i in 1:nrow(states)){
     my_num_spp <- states$num_species[i]
     my_label <- states$labels[i]
     my_stable <- states$stable[i]
     if (my_stable == 1){
+      # compute x_bar
+      x_bar <- rep(0, n)
+      presence <- (intToBits(my_label)[1:n]) > 0
+      if (sum(presence) > 0){
+        r_comm <- r[presence]  
+        A_comm <- A[presence, presence, drop = FALSE]
+        xstar <- solve(A_comm, -r_comm)
+        x_bar[presence] <- xstar
+      }
       possible_neighbors <- states[states$num_species <= my_num_spp + num_invasions,]
       if (nrow(possible_neighbors) > 0){
         for (j in 1:nrow(possible_neighbors)){
           # check if it is really a neighbor
-          if (bitwAnd(possible_neighbors$labels[j], my_label) == my_label){
-            # check if it is a stable state
-            if (possible_neighbors$stable[j] == 1){
-              edges <- rbind(edges, c(my_label, possible_neighbors$labels[j]))
-            } else {
-              edges <- rbind(edges, c(my_label, possible_neighbors$attractor[j]))
+          if (possible_neighbors$labels[j] != my_label){
+            if (bitwAnd(possible_neighbors$labels[j], my_label) == my_label){
+              # if it can invade
+              # compute per-capita growth rate
+              per_capita <- r + A %*% x_bar
+              to_check <- bitwXor(my_label, possible_neighbors$labels[j])
+              invasion_growth_rates <- per_capita[(intToBits(to_check)[1:n]) > 0]
+              if (all(invasion_growth_rates > 0)) {
+                if (possible_neighbors$stable[j] == 1){
+                  edges <- rbind(edges, c(my_label, possible_neighbors$labels[j]))
+                } else {
+                  edges <- rbind(edges, c(my_label, possible_neighbors$attractor[j]))
+                }
+              }
             }
           }
         }
@@ -114,3 +130,4 @@ build_assembly_graph <- function(r, A, num_invasions = 1){
   info <- states[as.numeric(names(V(gg))) + 1, ]
   return(list(graph = gg, info = info))
 }
+

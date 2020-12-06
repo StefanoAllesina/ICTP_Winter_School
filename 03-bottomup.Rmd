@@ -124,6 +124,40 @@ This result would have pleased Cowles, Gleason, Odum, and many of the pioneers o
 
 What happens when the matrix $A$ is still nonpositive and symmetric, but not stable? In this case, it is Gleason who can laugh---for unstable matrices we can have several assembly endpoints, thereby reinstating the role of chance in determining the ultimate fate of the community.
 
+```{r}
+source("code/general_code.R")
+source("code/build_assembly_graph_unstable.R")
+set.seed(3)
+n <- 5
+A <- build_competitive_unstable(n)
+r <- runif(n)
+tmp <- build_assembly_graph_unstable(r, A)
+plot_assembly_graph(tmp$graph, tmp$info, TRUE)
+```
+
+Note that the Lyapunov function still holds (locally): when moving on the graph, the "energy" is always increased. 
+
+The number of "assembly endpoints" (i.e., saturated equilibria) depends on the stability of the matrix---what if we reduce the stability even further?
+
+```{r}
+# these are the diagonal elements
+diag(A)
+# and these the eigenvalues
+eigen(A, symmetric = TRUE, only.values = TRUE)$values
+```
+
+Let's add $0.3$ to the diagonal (such that the last species has almost no self-regulation)---this shifts all of the eigenvalues:
+
+```{r}
+diag(A) <- diag(A) + 0.3
+eigen(A, symmetric = TRUE, only.values = TRUE)$values
+```
+
+```{r}
+tmp <- build_assembly_graph_unstable(r, A)
+plot_assembly_graph(tmp$graph, tmp$info, TRUE)
+```
+
 Interestingly, how the number of assembly endpoints changes when we change the parameters of the model is an open problem---in fact we haven't even characterized the worse-case scenario. See @biroli2018marginally for a derivation showing that they should be growing exponentially with size.
 
 ## Build your own assembly graph!

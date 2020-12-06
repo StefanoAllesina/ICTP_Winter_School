@@ -2,7 +2,6 @@
 library(igraph) # graph visualization
 library(tidyverse) # data manipulation, plotting
 library(deSolve) # integrate differential equations
-
 # constants
 THRESH <- 10^(-8) # consider a species extinct if it falls below
 
