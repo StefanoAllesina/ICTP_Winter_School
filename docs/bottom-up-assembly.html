@@ -255,6 +255,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb41-5"><a href="bottom-up-assembly.html#cb41-5"></a><span class="kw">plot_assembly_graph</span>(ag<span class="op">$</span>graph, ag<span class="op">$</span>info)</span></code></pre></div>
 <p><img src="ICTP_Winter_School_files/figure-html/unnamed-chunk-11-1.png" width="480" style="display: block; margin: auto;" /></p>
 <p>Community “29” is composed of species 1, 3, 4, 5. We can assemble this state without extinctions starting from the bare ground: first invade with species 3, sending the community to state “8”; then, add species 4, moving the state to “12”; then add species 5, moving to “28”, and finally add species 1, reaching “29”.</p>
+<p>This fact has important consequences: for example, we can assemble the final state without the need for “transient invaders” (or “stepping stone species”, i.e., species that allow the assembly to proceed, but then disappear). Recently <span class="citation">Amor, Ratzke, and Gore (<a href="#ref-amor2020transient" role="doc-biblioref">2020</a>)</span> demonstrated experimentally the occurrence of transient invaders: they co-cultured <em>Corynebacterium ammoniagenes</em> (Ca) and <em>Lactobacillus plantarum</em> (Lp) and showed that one species displaces the other, with the identity of the winner depending on initial conditions (bistability). When the environment is dominated by Lp, Ca cannot invade. However, if first we introduce <em>Pseudomonas chlororaphis</em> (Pc), and then invade with Ca, Lp-dominated environments can be invaded by Ca—and Pc disappears without a trace. This is their Figure 1:</p>
+<center>
+<img src="https://advances.sciencemag.org/content/advances/6/8/eaay8676/F1.large.jpg">
+</center>
 </div>
 <div id="relationship-with-lyapunov-functions" class="section level2">
 <h2><span class="header-section-number">3.4</span> Relationship with Lyapunov functions</h2>
@@ -265,14 +269,14 @@ V(x) = 2 \sum_i r_i x_i + \sum_{i,j} A_{ij} x_i x_j
 \]</span></p>
 <p>MacArthur proved that this quantity is maximized through the dynamics when the the equilibrium exists and <span class="math inline">\(A\)</span> is stable. At equilibrium, we find <span class="math inline">\(V(x^\star) = \sum_i r_i x_i^\star\)</span>. During assembly, community composition changes such that <span class="math inline">\(V(\bar{x})\)</span> is maximized through the assembly process. Note that when <span class="math inline">\(r_i = 1\)</span> for all species, then <span class="math inline">\(V(\bar{x})\)</span> is simply the total biomass in the community. As such, through invasions the total biomass in the community is maximized.</p>
 <div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="bottom-up-assembly.html#cb42-1"></a><span class="kw">plot_assembly_graph</span>(ag<span class="op">$</span>graph, ag<span class="op">$</span>info, <span class="ot">TRUE</span>)</span></code></pre></div>
-<p><img src="ICTP_Winter_School_files/figure-html/unnamed-chunk-12-1.png" width="480" style="display: block; margin: auto;" /></p>
+<p><img src="ICTP_Winter_School_files/figure-html/unnamed-chunk-13-1.png" width="480" style="display: block; margin: auto;" /></p>
 <p>Now a case with equal growth rates:</p>
 <div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="bottom-up-assembly.html#cb43-1"></a><span class="kw">set.seed</span>(<span class="dv">10</span>)</span>
 <span id="cb43-2"><a href="bottom-up-assembly.html#cb43-2"></a>A &lt;-<span class="st"> </span><span class="kw">build_competitive_stable</span>(<span class="dv">5</span>)</span>
 <span id="cb43-3"><a href="bottom-up-assembly.html#cb43-3"></a>r &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="dv">1</span>, <span class="dv">5</span>) <span class="co"># same growth rates!</span></span>
 <span id="cb43-4"><a href="bottom-up-assembly.html#cb43-4"></a>ag &lt;-<span class="st"> </span><span class="kw">build_assembly_graph</span>(r, A)</span>
 <span id="cb43-5"><a href="bottom-up-assembly.html#cb43-5"></a><span class="kw">plot_assembly_graph</span>(ag<span class="op">$</span>graph, ag<span class="op">$</span>info, <span class="ot">TRUE</span>)</span></code></pre></div>
-<p><img src="ICTP_Winter_School_files/figure-html/unnamed-chunk-13-1.png" width="480" style="display: block; margin: auto;" /></p>
+<p><img src="ICTP_Winter_School_files/figure-html/unnamed-chunk-14-1.png" width="480" style="display: block; margin: auto;" /></p>
 <p>The community “15” is composed of species 1, 2, 3, and 4, while community “30” of species 2, 3, 4, and 5. Let’s compute their biomasses:</p>
 <div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="bottom-up-assembly.html#cb44-1"></a><span class="co"># community 15</span></span>
 <span id="cb44-2"><a href="bottom-up-assembly.html#cb44-2"></a>biom_<span class="dv">15</span> &lt;-<span class="st"> </span><span class="kw">sum</span>(<span class="kw">solve</span>(A[<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">4</span>], <span class="op">-</span>r[<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>]))</span>
@@ -295,15 +299,17 @@ V(x) = 2 \sum_i r_i x_i + \sum_{i,j} A_{ij} x_i x_j
 <span id="cb46-6"><a href="bottom-up-assembly.html#cb46-6"></a>r &lt;-<span class="st"> </span><span class="kw">runif</span>(n)</span>
 <span id="cb46-7"><a href="bottom-up-assembly.html#cb46-7"></a>tmp &lt;-<span class="st"> </span><span class="kw">build_assembly_graph_unstable</span>(r, A)</span>
 <span id="cb46-8"><a href="bottom-up-assembly.html#cb46-8"></a><span class="kw">plot_assembly_graph</span>(tmp<span class="op">$</span>graph, tmp<span class="op">$</span>info, <span class="ot">TRUE</span>)</span></code></pre></div>
-<p><img src="ICTP_Winter_School_files/figure-html/unnamed-chunk-15-1.png" width="480" style="display: block; margin: auto;" /></p>
+<p><img src="ICTP_Winter_School_files/figure-html/unnamed-chunk-16-1.png" width="480" style="display: block; margin: auto;" /></p>
 <p>Note that the Lyapunov function still holds (locally): when moving on the graph, the “energy” is always increased.</p>
 <p>The number of “assembly endpoints” (i.e., saturated equilibria) depends on the stability of the matrix—what if we reduce the stability even further?</p>
 <div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="bottom-up-assembly.html#cb47-1"></a><span class="co"># these are the diagonal elements</span></span>
 <span id="cb47-2"><a href="bottom-up-assembly.html#cb47-2"></a><span class="kw">diag</span>(A)</span></code></pre></div>
-<p>[1] -1.13320900 -0.03143891 -0.76611468 -0.09027423 -0.06870381</p>
+<p>[1] -1.1244467 -1.7740170 -0.9204892 -1.4486570 -0.1384223 -2.9264971
+[7] -0.3754522 -2.0440457 -1.1836697 -0.2244013</p>
 <div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="bottom-up-assembly.html#cb48-1"></a><span class="co"># and these the eigenvalues</span></span>
 <span id="cb48-2"><a href="bottom-up-assembly.html#cb48-2"></a><span class="kw">eigen</span>(A, <span class="dt">symmetric =</span> <span class="ot">TRUE</span>, <span class="dt">only.values =</span> <span class="ot">TRUE</span>)<span class="op">$</span>values</span></code></pre></div>
-<p>[1] 5.3615675 1.9256742 0.2787285 -1.1269789 -8.5287319</p>
+<p>[1] 6.6159328 5.3603879 3.1108237 1.1950182 -0.1931400 -0.5697615
+[7] -2.2641869 -3.2814435 -3.5994749 -18.5342540</p>
 <p>Let’s add <span class="math inline">\(0.13\)</span> to the diagonal (such that the fifth species has almost no self-regulation)—this shifts all of the eigenvalues to the right:</p>
 <div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="bottom-up-assembly.html#cb49-1"></a>A2 &lt;-<span class="st"> </span>A</span>
 <span id="cb49-2"><a href="bottom-up-assembly.html#cb49-2"></a><span class="kw">diag</span>(A2) &lt;-<span class="st"> </span><span class="kw">diag</span>(A2) <span class="op">+</span><span class="st"> </span><span class="fl">0.13</span></span>
@@ -312,13 +318,13 @@ V(x) = 2 \sum_i r_i x_i + \sum_{i,j} A_{ij} x_i x_j
 [6] -0.43976150 -2.13418688 -3.15144351 -3.46947493 -18.40425400</p>
 <div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="bottom-up-assembly.html#cb50-1"></a>tmp &lt;-<span class="st"> </span><span class="kw">build_assembly_graph_unstable</span>(r, A2)</span>
 <span id="cb50-2"><a href="bottom-up-assembly.html#cb50-2"></a><span class="kw">plot_assembly_graph</span>(tmp<span class="op">$</span>graph, tmp<span class="op">$</span>info, <span class="ot">TRUE</span>)</span></code></pre></div>
-<p><img src="ICTP_Winter_School_files/figure-html/unnamed-chunk-18-1.png" width="480" style="display: block; margin: auto;" /></p>
+<p><img src="ICTP_Winter_School_files/figure-html/unnamed-chunk-19-1.png" width="480" style="display: block; margin: auto;" /></p>
 <p>Similarly, by shifting the eigenvalues to the left, we can get access larger communities:</p>
 <div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="bottom-up-assembly.html#cb51-1"></a>A3 &lt;-<span class="st"> </span>A</span>
 <span id="cb51-2"><a href="bottom-up-assembly.html#cb51-2"></a><span class="kw">diag</span>(A3) &lt;-<span class="st"> </span><span class="kw">diag</span>(A3) <span class="op">-</span><span class="st"> </span><span class="dv">2</span></span>
 <span id="cb51-3"><a href="bottom-up-assembly.html#cb51-3"></a>tmp &lt;-<span class="st"> </span><span class="kw">build_assembly_graph_unstable</span>(r, A3)</span>
 <span id="cb51-4"><a href="bottom-up-assembly.html#cb51-4"></a><span class="kw">plot_assembly_graph</span>(tmp<span class="op">$</span>graph, tmp<span class="op">$</span>info, <span class="ot">TRUE</span>)</span></code></pre></div>
-<p><img src="ICTP_Winter_School_files/figure-html/unnamed-chunk-19-1.png" width="480" style="display: block; margin: auto;" /></p>
+<p><img src="ICTP_Winter_School_files/figure-html/unnamed-chunk-20-1.png" width="480" style="display: block; margin: auto;" /></p>
 <p>Interestingly, how the number of assembly endpoints changes when we change the parameters of the model is an open problem—in fact we haven’t even characterized the worse-case scenario. See <span class="citation">Biroli, Bunin, and Cammarota (<a href="#ref-biroli2018marginally" role="doc-biblioref">2018</a>)</span> for a derivation showing that they should be growing exponentially with size.</p>
 </div>
 <div id="build-your-own-assembly-graph" class="section level2">
@@ -347,6 +353,9 @@ V(x) = 2 \sum_i r_i x_i + \sum_{i,j} A_{ij} x_i x_j
 </div>
 <h3> References and readings</h3>
 <div id="refs" class="references">
+<div id="ref-amor2020transient">
+<p>Amor, Daniel R, Christoph Ratzke, and Jeff Gore. 2020. “Transient Invaders Can Induce Shifts Between Alternative Stable States of Microbial Communities.” <em>Science Advances</em> 6 (8): eaay8676.</p>
+</div>
 <div id="ref-biroli2018marginally">
 <p>Biroli, Giulio, Guy Bunin, and Chiara Cammarota. 2018. “Marginally Stable Equilibria in Critical Ecosystems.” <em>New Journal of Physics</em> 20 (8): 083051.</p>
 </div>
