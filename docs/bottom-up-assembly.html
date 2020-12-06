@@ -24,7 +24,7 @@
 <meta name="author" content="Stefano Allesina" />
 
 
-<meta name="date" content="2020-12-05" />
+<meta name="date" content="2020-12-06" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -289,8 +289,8 @@ V(x) = 2 \sum_i r_i x_i + \sum_{i,j} A_{ij} x_i x_j
 <p>What happens when the matrix <span class="math inline">\(A\)</span> is still nonpositive and symmetric, but not stable? In this case, it is Gleason who can laugh—for unstable matrices we can have several assembly endpoints, thereby reinstating the role of chance in determining the ultimate fate of the community.</p>
 <div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="bottom-up-assembly.html#cb46-1"></a><span class="kw">source</span>(<span class="st">&quot;code/general_code.R&quot;</span>)</span>
 <span id="cb46-2"><a href="bottom-up-assembly.html#cb46-2"></a><span class="kw">source</span>(<span class="st">&quot;code/build_assembly_graph_unstable.R&quot;</span>)</span>
-<span id="cb46-3"><a href="bottom-up-assembly.html#cb46-3"></a><span class="kw">set.seed</span>(<span class="dv">3</span>)</span>
-<span id="cb46-4"><a href="bottom-up-assembly.html#cb46-4"></a>n &lt;-<span class="st"> </span><span class="dv">5</span></span>
+<span id="cb46-3"><a href="bottom-up-assembly.html#cb46-3"></a><span class="kw">set.seed</span>(<span class="dv">5</span>)</span>
+<span id="cb46-4"><a href="bottom-up-assembly.html#cb46-4"></a>n &lt;-<span class="st"> </span><span class="dv">10</span></span>
 <span id="cb46-5"><a href="bottom-up-assembly.html#cb46-5"></a>A &lt;-<span class="st"> </span><span class="kw">build_competitive_unstable</span>(n)</span>
 <span id="cb46-6"><a href="bottom-up-assembly.html#cb46-6"></a>r &lt;-<span class="st"> </span><span class="kw">runif</span>(n)</span>
 <span id="cb46-7"><a href="bottom-up-assembly.html#cb46-7"></a>tmp &lt;-<span class="st"> </span><span class="kw">build_assembly_graph_unstable</span>(r, A)</span>
@@ -300,17 +300,25 @@ V(x) = 2 \sum_i r_i x_i + \sum_{i,j} A_{ij} x_i x_j
 <p>The number of “assembly endpoints” (i.e., saturated equilibria) depends on the stability of the matrix—what if we reduce the stability even further?</p>
 <div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="bottom-up-assembly.html#cb47-1"></a><span class="co"># these are the diagonal elements</span></span>
 <span id="cb47-2"><a href="bottom-up-assembly.html#cb47-2"></a><span class="kw">diag</span>(A)</span></code></pre></div>
-<p>[1] -1.4895632 -2.2624371 -1.4327170 -0.5053047 -0.3040914</p>
+<p>[1] -1.13320900 -0.03143891 -0.76611468 -0.09027423 -0.06870381</p>
 <div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="bottom-up-assembly.html#cb48-1"></a><span class="co"># and these the eigenvalues</span></span>
 <span id="cb48-2"><a href="bottom-up-assembly.html#cb48-2"></a><span class="kw">eigen</span>(A, <span class="dt">symmetric =</span> <span class="ot">TRUE</span>, <span class="dt">only.values =</span> <span class="ot">TRUE</span>)<span class="op">$</span>values</span></code></pre></div>
-<p>[1] 3.82825949 0.05289105 -1.15039339 -2.12434508 -6.60052554</p>
-<p>Let’s add <span class="math inline">\(0.3\)</span> to the diagonal (such that the last species has almost no self-regulation)—this shifts all of the eigenvalues:</p>
-<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="bottom-up-assembly.html#cb49-1"></a><span class="kw">diag</span>(A) &lt;-<span class="st"> </span><span class="kw">diag</span>(A) <span class="op">+</span><span class="st"> </span><span class="fl">0.3</span></span>
-<span id="cb49-2"><a href="bottom-up-assembly.html#cb49-2"></a><span class="kw">eigen</span>(A, <span class="dt">symmetric =</span> <span class="ot">TRUE</span>, <span class="dt">only.values =</span> <span class="ot">TRUE</span>)<span class="op">$</span>values</span></code></pre></div>
-<p>[1] 4.1282595 0.3528910 -0.8503934 -1.8243451 -6.3005255</p>
-<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="bottom-up-assembly.html#cb50-1"></a>tmp &lt;-<span class="st"> </span><span class="kw">build_assembly_graph_unstable</span>(r, A)</span>
+<p>[1] 5.3615675 1.9256742 0.2787285 -1.1269789 -8.5287319</p>
+<p>Let’s add <span class="math inline">\(0.13\)</span> to the diagonal (such that the fifth species has almost no self-regulation)—this shifts all of the eigenvalues to the right:</p>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="bottom-up-assembly.html#cb49-1"></a>A2 &lt;-<span class="st"> </span>A</span>
+<span id="cb49-2"><a href="bottom-up-assembly.html#cb49-2"></a><span class="kw">diag</span>(A2) &lt;-<span class="st"> </span><span class="kw">diag</span>(A2) <span class="op">+</span><span class="st"> </span><span class="fl">0.13</span></span>
+<span id="cb49-3"><a href="bottom-up-assembly.html#cb49-3"></a><span class="kw">eigen</span>(A2, <span class="dt">symmetric =</span> <span class="ot">TRUE</span>, <span class="dt">only.values =</span> <span class="ot">TRUE</span>)<span class="op">$</span>values</span></code></pre></div>
+<p>[1] 6.74593280 5.49038786 3.24082373 1.32501822 -0.06313999
+[6] -0.43976150 -2.13418688 -3.15144351 -3.46947493 -18.40425400</p>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="bottom-up-assembly.html#cb50-1"></a>tmp &lt;-<span class="st"> </span><span class="kw">build_assembly_graph_unstable</span>(r, A2)</span>
 <span id="cb50-2"><a href="bottom-up-assembly.html#cb50-2"></a><span class="kw">plot_assembly_graph</span>(tmp<span class="op">$</span>graph, tmp<span class="op">$</span>info, <span class="ot">TRUE</span>)</span></code></pre></div>
 <p><img src="ICTP_Winter_School_files/figure-html/unnamed-chunk-18-1.png" width="480" style="display: block; margin: auto;" /></p>
+<p>Similarly, by shifting the eigenvalues to the left, we can get access larger communities:</p>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="bottom-up-assembly.html#cb51-1"></a>A3 &lt;-<span class="st"> </span>A</span>
+<span id="cb51-2"><a href="bottom-up-assembly.html#cb51-2"></a><span class="kw">diag</span>(A3) &lt;-<span class="st"> </span><span class="kw">diag</span>(A3) <span class="op">-</span><span class="st"> </span><span class="dv">2</span></span>
+<span id="cb51-3"><a href="bottom-up-assembly.html#cb51-3"></a>tmp &lt;-<span class="st"> </span><span class="kw">build_assembly_graph_unstable</span>(r, A3)</span>
+<span id="cb51-4"><a href="bottom-up-assembly.html#cb51-4"></a><span class="kw">plot_assembly_graph</span>(tmp<span class="op">$</span>graph, tmp<span class="op">$</span>info, <span class="ot">TRUE</span>)</span></code></pre></div>
+<p><img src="ICTP_Winter_School_files/figure-html/unnamed-chunk-19-1.png" width="480" style="display: block; margin: auto;" /></p>
 <p>Interestingly, how the number of assembly endpoints changes when we change the parameters of the model is an open problem—in fact we haven’t even characterized the worse-case scenario. See <span class="citation">Biroli, Bunin, and Cammarota (<a href="#ref-biroli2018marginally" role="doc-biblioref">2018</a>)</span> for a derivation showing that they should be growing exponentially with size.</p>
 </div>
 <div id="build-your-own-assembly-graph" class="section level2">

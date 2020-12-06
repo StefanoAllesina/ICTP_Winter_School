@@ -127,8 +127,8 @@ What happens when the matrix $A$ is still nonpositive and symmetric, but not sta
 ```{r}
 source("code/general_code.R")
 source("code/build_assembly_graph_unstable.R")
-set.seed(3)
-n <- 5
+set.seed(5)
+n <- 10
 A <- build_competitive_unstable(n)
 r <- runif(n)
 tmp <- build_assembly_graph_unstable(r, A)
@@ -146,15 +146,25 @@ diag(A)
 eigen(A, symmetric = TRUE, only.values = TRUE)$values
 ```
 
-Let's add $0.3$ to the diagonal (such that the last species has almost no self-regulation)---this shifts all of the eigenvalues:
+Let's add $0.13$ to the diagonal (such that the fifth species has almost no self-regulation)---this shifts all of the eigenvalues to the right:
 
 ```{r}
-diag(A) <- diag(A) + 0.3
-eigen(A, symmetric = TRUE, only.values = TRUE)$values
+A2 <- A
+diag(A2) <- diag(A2) + 0.13
+eigen(A2, symmetric = TRUE, only.values = TRUE)$values
 ```
 
 ```{r}
-tmp <- build_assembly_graph_unstable(r, A)
+tmp <- build_assembly_graph_unstable(r, A2)
+plot_assembly_graph(tmp$graph, tmp$info, TRUE)
+```
+
+Similarly, by shifting the eigenvalues to the left, we can get access larger communities:
+
+```{r}
+A3 <- A
+diag(A3) <- diag(A3) - 2
+tmp <- build_assembly_graph_unstable(r, A3)
 plot_assembly_graph(tmp$graph, tmp$info, TRUE)
 ```
 

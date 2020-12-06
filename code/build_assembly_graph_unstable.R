@@ -39,6 +39,9 @@ build_assembly_graph_unstable <- function(r, A, num_invasions = 1){
   # step 1: check if feasible/stable, count species, and determine biomass/energy
   for (i in 1:nrow(states)){
     my_label <- labels[i]
+    my_collapse <- NA
+    my_energy <- NA
+    my_stable <- NA
     presence <- (intToBits(my_label)[1:n]) > 0
     my_num_species <- sum(presence)
     # empty state, treat separately
@@ -70,7 +73,7 @@ build_assembly_graph_unstable <- function(r, A, num_invasions = 1){
         if (all(xstar > 0)){
           # feasible
           is_stable <- (max(eigen(diag(xstar) %*% A_comm, 
-                           symmetric = TRUE, only.values = TRUE)$values) < 0)
+                           only.values = TRUE)$values) < 0)
           if (is_stable){
             # also stable
             my_stable <- 1
@@ -101,7 +104,7 @@ build_assembly_graph_unstable <- function(r, A, num_invasions = 1){
       is_subcomm <- bitwAnd(labels, my_label) == labels
       energy_subcomm <- is_subcomm * states[,5]
       # the subcommunity it collapses to is the one with the highest energy
-      states[i,4] <- labels[which.max(energy_subcomm)]
+      states[i, 4] <- labels[which.max(energy_subcomm)]
     }
   }
   # step 3: build the graph
@@ -123,6 +126,7 @@ build_assembly_graph_unstable <- function(r, A, num_invasions = 1){
         xstar <- solve(A_comm, -r_comm)
         x_bar[presence] <- xstar
       }
+      per_capita <- r + A %*% x_bar
       possible_neighbors <- states[states$num_species <= my_num_spp + num_invasions,]
       if (nrow(possible_neighbors) > 0){
         for (j in 1:nrow(possible_neighbors)){
@@ -131,14 +135,13 @@ build_assembly_graph_unstable <- function(r, A, num_invasions = 1){
             if (bitwAnd(possible_neighbors$labels[j], my_label) == my_label){
               # if it can invade
               # compute per-capita growth rate
-              per_capita <- r + A %*% x_bar
               to_check <- bitwXor(my_label, possible_neighbors$labels[j])
               invasion_growth_rates <- per_capita[(intToBits(to_check)[1:n]) > 0]
               if (all(invasion_growth_rates > 0)) {
                 if (possible_neighbors$stable[j] == 1){
                   edges <- rbind(edges, c(my_label, possible_neighbors$labels[j]))
                 } else {
-                edges <- rbind(edges, c(my_label, possible_neighbors$attractor[j]))
+                  edges <- rbind(edges, c(my_label, possible_neighbors$attractor[j]))
                 }
               }
             }

@@ -98,7 +98,7 @@ build_assembly_graph <- function(r, A, num_invasions = 1){
         xstar <- solve(A_comm, -r_comm)
         x_bar[presence] <- xstar
       }
-      possible_neighbors <- states[states$num_species <= my_num_spp + num_invasions,]
+      possible_neighbors <- states[states$num_species <= my_num_spp + num_invasions, ]
       if (nrow(possible_neighbors) > 0){
         for (j in 1:nrow(possible_neighbors)){
           # check if it is really a neighbor
