@@ -65,7 +65,9 @@ For simplicity, let's stick with the case in which only a single species enter i
 
 For GLV with symmetric, competitive interactions (actually, for a slightly more general case), @servan2020tractable proved that:
 
-- For a species pool of competitors (i.e., a given $r > 0$ and a symmetric matrix $A < 0$), **the bottom-up assembly endpoints are the same as the endpoints for top-down assembly**. This means that all states are accessible, and therefore we can build any feasible, stable sub-community from the ground up. In fact, for each sub-community we can find the "shortest" assembly path, which we can construct without any extinctions.
+- For a species pool of competitors (i.e., a given $r > 0$ and a symmetric matrix $A < 0$), **the bottom-up assembly endpoints are the same as the endpoints for top-down assembly**. 
+
+- Moreover, **the assembly graph is accessible**---therefore we can build any feasible, stable sub-community from the ground up. In fact, for each sub-community we can find the "shortest" assembly path, which we can construct without any extinction.
 
 - **The assembly graph is acyclic**, meaning that we will never observe communities with cyclic compositions.
 
