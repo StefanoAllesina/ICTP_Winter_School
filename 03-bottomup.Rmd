@@ -81,7 +81,7 @@ ag <- build_assembly_graph(r, A)
 plot_assembly_graph(ag$graph, ag$info)
 ```
 
-Community "29" is composed of species 1, 3, 4, 5. We can assemble this state without extinctions starting from the bare ground: first invade with species 3, sending the community to state "8"; then, add species 4, moving the state to "12"; then add species 5, moving to "28", and finally add species 1, reaching "29".
+Community "29" is composed of species 1, 3, 4, 5. We can assemble this state without extinctions starting from the bare ground: first invade with species 4, sending the community to state "8"; then, add species 3, moving the state to "12"; then add species 5, moving to "28", and finally add species 1, reaching "29".
 
 This fact has important consequences: for example, we can assemble the final state without the need for "transient invaders" (or "stepping stone species", i.e., species that allow the assembly to proceed, but then disappear). Recently @amor2020transient demonstrated experimentally the occurrence of transient invaders: they co-cultured  *Corynebacterium ammoniagenes* (Ca) and *Lactobacillus plantarum* (Lp) and showed that one species displaces the other, with the identity of the winner depending on initial conditions (bistability). When the environment is dominated by Lp, Ca cannot invade. However, if first we introduce *Pseudomonas chlororaphis* (Pc), and then invade with Ca, Lp-dominated environments can be invaded by Ca---and Pc disappears without a trace. This is their Figure 1:
 

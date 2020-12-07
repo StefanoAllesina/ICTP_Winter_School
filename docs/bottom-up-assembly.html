@@ -24,7 +24,7 @@
 <meta name="author" content="Stefano Allesina" />
 
 
-<meta name="date" content="2020-12-06" />
+<meta name="date" content="2020-12-07" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -255,7 +255,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb41-4"><a href="bottom-up-assembly.html#cb41-4"></a>ag &lt;-<span class="st"> </span><span class="kw">build_assembly_graph</span>(r, A)</span>
 <span id="cb41-5"><a href="bottom-up-assembly.html#cb41-5"></a><span class="kw">plot_assembly_graph</span>(ag<span class="op">$</span>graph, ag<span class="op">$</span>info)</span></code></pre></div>
 <p><img src="ICTP_Winter_School_files/figure-html/unnamed-chunk-11-1.png" width="480" style="display: block; margin: auto;" /></p>
-<p>Community “29” is composed of species 1, 3, 4, 5. We can assemble this state without extinctions starting from the bare ground: first invade with species 3, sending the community to state “8”; then, add species 4, moving the state to “12”; then add species 5, moving to “28”, and finally add species 1, reaching “29”.</p>
+<p>Community “29” is composed of species 1, 3, 4, 5. We can assemble this state without extinctions starting from the bare ground: first invade with species 4, sending the community to state “8”; then, add species 3, moving the state to “12”; then add species 5, moving to “28”, and finally add species 1, reaching “29”.</p>
 <p>This fact has important consequences: for example, we can assemble the final state without the need for “transient invaders” (or “stepping stone species”, i.e., species that allow the assembly to proceed, but then disappear). Recently <span class="citation">Amor, Ratzke, and Gore (<a href="#ref-amor2020transient" role="doc-biblioref">2020</a>)</span> demonstrated experimentally the occurrence of transient invaders: they co-cultured <em>Corynebacterium ammoniagenes</em> (Ca) and <em>Lactobacillus plantarum</em> (Lp) and showed that one species displaces the other, with the identity of the winner depending on initial conditions (bistability). When the environment is dominated by Lp, Ca cannot invade. However, if first we introduce <em>Pseudomonas chlororaphis</em> (Pc), and then invade with Ca, Lp-dominated environments can be invaded by Ca—and Pc disappears without a trace. This is their Figure 1:</p>
 <center>
 <img src="https://advances.sciencemag.org/content/advances/6/8/eaay8676/F1.large.jpg">
