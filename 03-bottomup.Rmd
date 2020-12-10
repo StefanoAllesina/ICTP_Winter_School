@@ -27,25 +27,26 @@ For example, let's build the assembly graph for a given set of (random) paramete
 ```{r}
 source("code/general_code.R")
 source("code/L-H.R") # Lemke-Howson algorithm to get saturated equilibrium
-source("code/build_assembly_graph.R") # code to build and draw assembly graphs for symmetric matrices
+source("code/build_assembly_graph.R")
+source("code/build_assembly_graph_unstable.R") # code to build and draw assembly graphs for symmetric matrices
 set.seed(4) # for reproducibility
 A <- build_competitive_stable(4)
 r <- runif(4)
-assembly_invasion_1 <- build_assembly_graph(r, A)
+assembly_invasion_1 <- build_assembly_graph_unstable(r, A)
 plot_assembly_graph(assembly_invasion_1$graph, assembly_invasion_1$info)
 ```
 
 What if we allow for two invasions at a time?
 
 ```{r}
-assembly_invasion_2 <- build_assembly_graph(r, A, 2)
+assembly_invasion_2 <- build_assembly_graph_unstable(r, A, 2)
 plot_assembly_graph(assembly_invasion_2$graph, assembly_invasion_2$info)
 ```
 
 And allowing four invasions in one go (as in top-down assembly):
 
 ```{r}
-assembly_invasion_4 <- build_assembly_graph(r, A, 4)
+assembly_invasion_4 <- build_assembly_graph_unstable(r, A, 4)
 plot_assembly_graph(assembly_invasion_4$graph, assembly_invasion_4$info)
 ```
 
@@ -77,7 +78,7 @@ For GLV with symmetric, competitive interactions (actually, for a slightly more 
 set.seed(5)
 A <- build_competitive_stable(6)
 r <- runif(6)
-ag <- build_assembly_graph(r, A)
+ag <- build_assembly_graph_unstable(r, A)
 plot_assembly_graph(ag$graph, ag$info)
 ```
 

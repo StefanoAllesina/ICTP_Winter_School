@@ -24,7 +24,7 @@
 <meta name="author" content="Stefano Allesina" />
 
 
-<meta name="date" content="2020-12-07" />
+<meta name="date" content="2020-12-10" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -212,19 +212,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>For example, let’s build the assembly graph for a given set of (random) parameters: we take <span class="math inline">\(A\)</span> to be a symmetric, <strong>stable</strong> nonpositive matrix (e.g., representing competition between species), and <span class="math inline">\(r\)</span> to be a vector of positive, random growth rates. Let’s build the assembly graph when we consider that species can enter the system only one at a time:</p>
 <div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="bottom-up-assembly.html#cb38-1"></a><span class="kw">source</span>(<span class="st">&quot;code/general_code.R&quot;</span>)</span>
 <span id="cb38-2"><a href="bottom-up-assembly.html#cb38-2"></a><span class="kw">source</span>(<span class="st">&quot;code/L-H.R&quot;</span>) <span class="co"># Lemke-Howson algorithm to get saturated equilibrium</span></span>
-<span id="cb38-3"><a href="bottom-up-assembly.html#cb38-3"></a><span class="kw">source</span>(<span class="st">&quot;code/build_assembly_graph.R&quot;</span>) <span class="co"># code to build and draw assembly graphs for symmetric matrices</span></span>
-<span id="cb38-4"><a href="bottom-up-assembly.html#cb38-4"></a><span class="kw">set.seed</span>(<span class="dv">4</span>) <span class="co"># for reproducibility</span></span>
-<span id="cb38-5"><a href="bottom-up-assembly.html#cb38-5"></a>A &lt;-<span class="st"> </span><span class="kw">build_competitive_stable</span>(<span class="dv">4</span>)</span>
-<span id="cb38-6"><a href="bottom-up-assembly.html#cb38-6"></a>r &lt;-<span class="st"> </span><span class="kw">runif</span>(<span class="dv">4</span>)</span>
-<span id="cb38-7"><a href="bottom-up-assembly.html#cb38-7"></a>assembly_invasion_<span class="dv">1</span> &lt;-<span class="st"> </span><span class="kw">build_assembly_graph</span>(r, A)</span>
-<span id="cb38-8"><a href="bottom-up-assembly.html#cb38-8"></a><span class="kw">plot_assembly_graph</span>(assembly_invasion_<span class="dv">1</span><span class="op">$</span>graph, assembly_invasion_<span class="dv">1</span><span class="op">$</span>info)</span></code></pre></div>
+<span id="cb38-3"><a href="bottom-up-assembly.html#cb38-3"></a><span class="kw">source</span>(<span class="st">&quot;code/build_assembly_graph.R&quot;</span>)</span>
+<span id="cb38-4"><a href="bottom-up-assembly.html#cb38-4"></a><span class="kw">source</span>(<span class="st">&quot;code/build_assembly_graph_unstable.R&quot;</span>) <span class="co"># code to build and draw assembly graphs for symmetric matrices</span></span>
+<span id="cb38-5"><a href="bottom-up-assembly.html#cb38-5"></a><span class="kw">set.seed</span>(<span class="dv">4</span>) <span class="co"># for reproducibility</span></span>
+<span id="cb38-6"><a href="bottom-up-assembly.html#cb38-6"></a>A &lt;-<span class="st"> </span><span class="kw">build_competitive_stable</span>(<span class="dv">4</span>)</span>
+<span id="cb38-7"><a href="bottom-up-assembly.html#cb38-7"></a>r &lt;-<span class="st"> </span><span class="kw">runif</span>(<span class="dv">4</span>)</span>
+<span id="cb38-8"><a href="bottom-up-assembly.html#cb38-8"></a>assembly_invasion_<span class="dv">1</span> &lt;-<span class="st"> </span><span class="kw">build_assembly_graph_unstable</span>(r, A)</span>
+<span id="cb38-9"><a href="bottom-up-assembly.html#cb38-9"></a><span class="kw">plot_assembly_graph</span>(assembly_invasion_<span class="dv">1</span><span class="op">$</span>graph, assembly_invasion_<span class="dv">1</span><span class="op">$</span>info)</span></code></pre></div>
 <p><img src="ICTP_Winter_School_files/figure-html/unnamed-chunk-8-1.png" width="480" style="display: block; margin: auto;" /></p>
 <p>What if we allow for two invasions at a time?</p>
-<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="bottom-up-assembly.html#cb39-1"></a>assembly_invasion_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">build_assembly_graph</span>(r, A, <span class="dv">2</span>)</span>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="bottom-up-assembly.html#cb39-1"></a>assembly_invasion_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">build_assembly_graph_unstable</span>(r, A, <span class="dv">2</span>)</span>
 <span id="cb39-2"><a href="bottom-up-assembly.html#cb39-2"></a><span class="kw">plot_assembly_graph</span>(assembly_invasion_<span class="dv">2</span><span class="op">$</span>graph, assembly_invasion_<span class="dv">2</span><span class="op">$</span>info)</span></code></pre></div>
 <p><img src="ICTP_Winter_School_files/figure-html/unnamed-chunk-9-1.png" width="480" style="display: block; margin: auto;" /></p>
 <p>And allowing four invasions in one go (as in top-down assembly):</p>
-<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="bottom-up-assembly.html#cb40-1"></a>assembly_invasion_<span class="dv">4</span> &lt;-<span class="st"> </span><span class="kw">build_assembly_graph</span>(r, A, <span class="dv">4</span>)</span>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="bottom-up-assembly.html#cb40-1"></a>assembly_invasion_<span class="dv">4</span> &lt;-<span class="st"> </span><span class="kw">build_assembly_graph_unstable</span>(r, A, <span class="dv">4</span>)</span>
 <span id="cb40-2"><a href="bottom-up-assembly.html#cb40-2"></a><span class="kw">plot_assembly_graph</span>(assembly_invasion_<span class="dv">4</span><span class="op">$</span>graph, assembly_invasion_<span class="dv">4</span><span class="op">$</span>info)</span></code></pre></div>
 <p><img src="ICTP_Winter_School_files/figure-html/unnamed-chunk-10-1.png" width="480" style="display: block; margin: auto;" /></p>
 <p>For simplicity, let’s stick with the case in which only a single species enter in the local community at every invasion event.</p>
@@ -252,7 +253,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="bottom-up-assembly.html#cb41-1"></a><span class="kw">set.seed</span>(<span class="dv">5</span>)</span>
 <span id="cb41-2"><a href="bottom-up-assembly.html#cb41-2"></a>A &lt;-<span class="st"> </span><span class="kw">build_competitive_stable</span>(<span class="dv">6</span>)</span>
 <span id="cb41-3"><a href="bottom-up-assembly.html#cb41-3"></a>r &lt;-<span class="st"> </span><span class="kw">runif</span>(<span class="dv">6</span>)</span>
-<span id="cb41-4"><a href="bottom-up-assembly.html#cb41-4"></a>ag &lt;-<span class="st"> </span><span class="kw">build_assembly_graph</span>(r, A)</span>
+<span id="cb41-4"><a href="bottom-up-assembly.html#cb41-4"></a>ag &lt;-<span class="st"> </span><span class="kw">build_assembly_graph_unstable</span>(r, A)</span>
 <span id="cb41-5"><a href="bottom-up-assembly.html#cb41-5"></a><span class="kw">plot_assembly_graph</span>(ag<span class="op">$</span>graph, ag<span class="op">$</span>info)</span></code></pre></div>
 <p><img src="ICTP_Winter_School_files/figure-html/unnamed-chunk-11-1.png" width="480" style="display: block; margin: auto;" /></p>
 <p>Community “29” is composed of species 1, 3, 4, 5. We can assemble this state without extinctions starting from the bare ground: first invade with species 4, sending the community to state “8”; then, add species 3, moving the state to “12”; then add species 5, moving to “28”, and finally add species 1, reaching “29”.</p>
