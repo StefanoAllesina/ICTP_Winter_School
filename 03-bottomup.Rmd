@@ -113,8 +113,8 @@ Now a case with equal growth rates:
 set.seed(10)
 A <- build_competitive_stable(5)
 r <- rep(1, 5) # same growth rates!
-ag <- build_assembly_graph(r, A)
-plot_assembly_graph(ag$graph, ag$info, TRUE)
+ag2 <- build_assembly_graph(r, A)
+plot_assembly_graph(ag2$graph, ag2$info, TRUE)
 ```
 
 The community "15" is composed of species 1, 2, 3, and 4, while community "30" of species 2, 3, 4, and 5. Let's compute their biomasses:

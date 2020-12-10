@@ -276,8 +276,8 @@ V(x) = 2 \sum_i r_i x_i + \sum_{i,j} A_{ij} x_i x_j
 <div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="bottom-up-assembly.html#cb43-1"></a><span class="kw">set.seed</span>(<span class="dv">10</span>)</span>
 <span id="cb43-2"><a href="bottom-up-assembly.html#cb43-2"></a>A &lt;-<span class="st"> </span><span class="kw">build_competitive_stable</span>(<span class="dv">5</span>)</span>
 <span id="cb43-3"><a href="bottom-up-assembly.html#cb43-3"></a>r &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="dv">1</span>, <span class="dv">5</span>) <span class="co"># same growth rates!</span></span>
-<span id="cb43-4"><a href="bottom-up-assembly.html#cb43-4"></a>ag &lt;-<span class="st"> </span><span class="kw">build_assembly_graph</span>(r, A)</span>
-<span id="cb43-5"><a href="bottom-up-assembly.html#cb43-5"></a><span class="kw">plot_assembly_graph</span>(ag<span class="op">$</span>graph, ag<span class="op">$</span>info, <span class="ot">TRUE</span>)</span></code></pre></div>
+<span id="cb43-4"><a href="bottom-up-assembly.html#cb43-4"></a>ag2 &lt;-<span class="st"> </span><span class="kw">build_assembly_graph</span>(r, A)</span>
+<span id="cb43-5"><a href="bottom-up-assembly.html#cb43-5"></a><span class="kw">plot_assembly_graph</span>(ag2<span class="op">$</span>graph, ag2<span class="op">$</span>info, <span class="ot">TRUE</span>)</span></code></pre></div>
 <p><img src="ICTP_Winter_School_files/figure-html/unnamed-chunk-14-1.png" width="480" style="display: block; margin: auto;" /></p>
 <p>The community “15” is composed of species 1, 2, 3, and 4, while community “30” of species 2, 3, 4, and 5. Let’s compute their biomasses:</p>
 <div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="bottom-up-assembly.html#cb44-1"></a><span class="co"># community 15</span></span>
